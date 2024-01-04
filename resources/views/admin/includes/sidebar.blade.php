@@ -16,6 +16,12 @@
 					<a href="{{route('categories.index')}}"><i class="fe fe-layout"></i> <span>Categories</span></a>
 				</li>
 				@endcan
+
+				@can('view-modalite')
+				<li class="{{ route_is('modalites.*') ? 'active' : '' }}"> 
+					<a href="{{route('modalites.index')}}"><i class="fe fe-layout"></i> <span>Modalites</span></a>
+				</li>
+				@endcan
 				
 				@can('view-products')
 				<li class="submenu">
@@ -58,6 +64,17 @@
 					<ul style="display: none;">
 						<li><a class="{{ route_is('suppliers.*') ? 'active' : '' }}" href="{{route('suppliers.index')}}">Supplier</a></li>
 						@can('create-supplier')<li><a class="{{ route_is('suppliers.create') ? 'active' : '' }}" href="{{route('suppliers.create')}}">Add Supplier</a></li>@endcan
+					</ul>
+				</li>
+				@endcan
+
+				<!-- clients --> 
+				@can('view-client')
+				<li class="submenu">
+					<a href="#"><i class="fe fe-user"></i> <span> Client</span> <span class="menu-arrow"></span></a>
+					<ul style="display: none;">
+						<li><a class="{{ route_is('clients.*') ? 'active' : '' }}" href="{{route('clients.index')}}">Client</a></li>
+						@can('create-client')<li><a class="{{ route_is('clients.create') ? 'active' : '' }}" href="{{route('clients.create')}}">Ajout Client</a></li>@endcan
 					</ul>
 				</li>
 				@endcan

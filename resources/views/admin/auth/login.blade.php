@@ -1,8 +1,8 @@
 @extends('admin.layouts.plain')
 
 @section('content')
-<h1>Login</h1>
-<p class="account-subtitle">Access to our dashboard</p>
+<h1>GMAO STIET</h1>
+<p class="account-subtitle">Bonjour !</p>
 @if (session('login_error'))
 <x-alerts.danger :error="session('login_error')" />
 @endif
@@ -16,11 +16,11 @@
 		<input class="form-control" name="password" type="password" placeholder="Password">
 	</div>
 	<div class="form-group">
-		<button class="btn btn-primary btn-block" type="submit">Login</button>
+		<button class="btn btn-primary btn-block" type="submit">Connecter</button>
 	</div>
 </form>
 <!-- /Form -->
 
-<div class="text-center forgotpass"><a href="{{route('password.request')}}">Forgot Password?</a></div>
-<div class="text-center dont-have">Don’t have an account? <a href="{{route('register')}}">Register</a></div>
+<div class="text-center forgotpass"><a href="{{route('password.request')}}">Mot de passe oublié?</a></div>
+<div class="text-center dont-have"><a href="{{route('register')}}">Créer un compte</a></div>
 @endsection

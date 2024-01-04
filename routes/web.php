@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\ModalitesController;
+use App\Http\Controllers\Admin\ClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +64,12 @@ Route::middleware(['auth'])->group(function(){
     Route::delete('backup/delete/{file_name?}', [BackupController::class,'destroy'])->where('file_name', '(.*)')->name('backup.destroy');
 
     Route::get('settings',[SettingController::class,'index'])->name('settings');
+    
+    /*clients routes*/ 
+    Route::resource('clients',ClientController::class);
+    /*modalites routes*/ 
+    Route::resource('modalites',ModalitesController::class)->only(['index','store','destroy']);
+    Route::put('modalites',[ModalitesController::class,'update'])->name('modalites.update');
 });
 
 Route::middleware(['guest'])->group(function () {
@@ -79,4 +87,8 @@ Route::middleware(['guest'])->group(function () {
     Route::post('forgot-password',[ForgotPasswordController::class,'requestEmail']);
     Route::get('reset-password/{token}',[ResetPasswordController::class,'index'])->name('password.reset');
     Route::post('reset-password',[ResetPasswordController::class,'resetPassword'])->name('password.update');
+
+    
+  
+
 });
