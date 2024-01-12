@@ -8,14 +8,14 @@
 
 @push('page-header')
 <div class="col-sm-7 col-auto">
-	<h3 class="page-title">User</h3>
+	<h3 class="page-title">Gestion Utilisateurs</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-		<li class="breadcrumb-item active">Users</li>
+		<li class="breadcrumb-item active">Utilisateurs</li>
 	</ul>
 </div>
 <div class="col-sm-5 col">
-	<a href="{{route('users.create')}}" class="btn btn-primary float-right mt-2">Add User</a>
+	<a href="{{route('users.create')}}" class="btn btn-primary float-right mt-2">Ajouter</a>
 </div>
 
 @endpush
@@ -29,11 +29,14 @@
 					<table id="user-table" class="datatable table table-striped table-bordered table-hover table-center mb-0">
 						<thead>
 							<tr style="boder:1px solid black;">
+							    <th>Avatar</th>
 								<th>Name</th>
+								<th>Matricule</th>
 								<th>Email</th>
-								<th>Role</th>
-								<th>Avatar</th>
-								<th>Created date</th>
+								<th>Rôle</th>
+								<th>Modalité</th>
+								<th>Département</th>
+								<th>Mobile</th>
 								<th class="text-center action-btn">Actions</th>
 							</tr>
 						</thead>
@@ -56,11 +59,14 @@ $(document).ready(function() {
         serverSide: true,
         ajax: "{{route('users.index')}}",
         columns: [
+			{data: 'avatar', name: 'avatar', orderable: false, searchable: false},
             {data: 'name', name: 'name'},
+			{data: 'matricule', name: 'matricule'},
             {data: 'email', name: 'email'},
             {data: 'role', name: 'role'},
-			{data: 'avatar', name: 'avatar', orderable: false, searchable: false},
-            {data: 'created_at',name: 'created_at'},
+			{data: 'modalite', name: 'modalite'},
+			{data: 'departement', name: 'departement'},
+			{data: 'phone', name: 'phone'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });

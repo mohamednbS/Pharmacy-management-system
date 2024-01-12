@@ -13,4 +13,14 @@ class Modalite extends Model
 
     protected $fillable = ['name'];
 
+    /**
+     * Get all of the comments for the Modalite
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function equipements(): HasMany
+    {
+        return $this->hasMany(Equipement::class);  
+    }
+
 }

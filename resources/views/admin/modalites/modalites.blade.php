@@ -8,14 +8,14 @@
 
 @push('page-header')
 <div class="col-sm-7 col-auto">
-	<h3 class="page-title">Gestion Modalites</h3>
+	<h3 class="page-title">Gestion Modalités</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
 		<li class="breadcrumb-item active">Modalites</li>
 	</ul>
 </div>
 <div class="col-sm-5 col">
-	<a href="#add_modalites" data-toggle="modal" class="btn btn-primary float-right mt-2">Ajouter Modalite</a>
+	<a href="#add_modalites" data-toggle="modal" class="btn btn-primary float-right mt-2">Ajouter</a>
 </div>
 @endpush
 

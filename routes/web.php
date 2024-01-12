@@ -20,6 +20,11 @@ use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\ModalitesController;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\EquipementController;
+use App\Http\Controllers\Admin\DepartementController;
+use App\Http\Controllers\Admin\SousequipementController;
+use App\Http\Controllers\Admin\AccessoireController;
+use App\Http\Controllers\Admin\InterventionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,9 +72,30 @@ Route::middleware(['auth'])->group(function(){
     
     /*clients routes*/ 
     Route::resource('clients',ClientController::class);
+    
     /*modalites routes*/ 
     Route::resource('modalites',ModalitesController::class)->only(['index','store','destroy']);
     Route::put('modalites',[ModalitesController::class,'update'])->name('modalites.update');
+    
+    /*departements routes*/ 
+    Route::resource('departements',DepartementController::class)->only(['index','store','destroy']);
+    Route::put('departements',[DepartementController::class,'update'])->name('departements.update');
+    
+    /*Equipement routes*/
+    Route::resource('equipements',EquipementController::class);
+    
+    /*Accessoires routes*/
+    Route::resource('accessoires',AccessoireController::class);
+    Route::get('/equipements/{equipement_id}/accessoires/create', [AccessoireController::class,'create']);
+    Route::post('/equipements/{equipement_id}/store', [AccessoireController::class,'store'])->name('accessoires.store');
+
+    /*Sous Equipements routes*/
+    Route::resource('sousequipements',SousequipementController::class);
+    Route::get('/equipements/{equipement_id}/sousequipements/create', [SousequipementController::class,'create']);
+    Route::post('/equipements/{equipement_id}/store', [SousequipementController::class,'store'])->name('sousequipements.store');
+   
+    /*Interventions routes*/ 
+    Route::resource('interventions',InterventionController::class);
 });
 
 Route::middleware(['guest'])->group(function () {

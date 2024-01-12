@@ -7,10 +7,10 @@
 
 @push('page-header')
 <div class="col-sm-12">
-	<h3 class="page-title">Gestion Clients</h3>
+	<h3 class="page-title">Gestion Accessoires</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-		<li class="breadcrumb-item active">Ajouter Client</li>
+		<li class="breadcrumb-item active">Ajouter Accessoire</li>
 	</ul>
 </div>
 @endpush
@@ -23,20 +23,21 @@
 				
 		
 			<!-- Add Supplier -->
-			<form method="post" enctype="multipart/form-data" action="{{route('clients.store')}}">
+            <form method="POST" enctype="multipart/form-data" action="{{ route('accessoires.store', ['equipement_id' => $equipement_id]) }}">
+
 				@csrf
 				
 				<div class="service-fields mb-3">
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label>Nom Client/Raison Sociale<span class="text-danger">*</span></label>
-								<input class="form-control" type="text" name="name">
+								<label>Désignation<span class="text-danger">*</span></label>
+								<input class="form-control" type="text" name="designation">
 							</div>
 						</div>
 						<div class="col-lg-6">
-							<label>Email</label>
-							<input class="form-control" type="text" name="email" id="email">
+							<label>Numéro de Série<span class="text-danger">*</span></label>
+							<input class="form-control" type="text" name="identifiant">
 						</div>
 					</div>
 				</div>
@@ -45,28 +46,21 @@
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label>Mobile</label>
-								<input class="form-control" type="text" name="phone">
+								<label>Qunatité<span class="text-danger">*</span></label>
+								<input class="form-control" type="number" name="quantite">
 							</div>
 						</div>
 						<div class="col-lg-6">
-							<label>Fax</label>
-							<input class="form-control" type="text" name="fax">
+							<label>Description</label>
+							<input class="form-control" type="text" name="description">
 						</div>
 					</div>
 				</div>
 			
-				<div class="service-fields mb-3">
-					<div class="row">
-						<div class="col-12">
-							<label>Address</label>
-							<input name="address" class="form-control">
-						</div>
-					</div>
-				</div>
-				
+				<input type="hidden" name="equipement_id" value="{{ $equipement_id }}">
+
 				<div class="submit-section">
-					<button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Ajouter</button>
+					<button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Valider</button>
 				</div>
 			</form>
 			<!-- /Add Medicine -->

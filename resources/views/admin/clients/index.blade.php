@@ -8,14 +8,14 @@
 
 @push('page-header')
 <div class="col-sm-7 col-auto">
-	<h3 class="page-title">Gestion Client</h3>
+	<h3 class="page-title">Gestion Clients</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-		<li class="breadcrumb-item active">client</li>
+		<li class="breadcrumb-item active">Clients</li>
 	</ul>
 </div>
 <div class="col-sm-5 col">
-	<a href="{{route('clients.create')}}" class="btn btn-primary float-right mt-2">Ajouter Client</a>
+	<a href="{{route('clients.create')}}" class="btn btn-primary float-right mt-2">Ajouter</a>
 </div>
 @endpush
 

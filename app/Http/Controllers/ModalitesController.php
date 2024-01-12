@@ -22,16 +22,16 @@ class ModalitesController extends Controller
             $modalites = Modalite::get();
             return DataTables::of($modalites)
                     ->addIndexColumn()
-                    ->addColumn('created_at',function($modalite){
-                        return date_format(date_create($modalite->created_at),"d M,Y");
+                    ->addColumn('created_at',function($Modalite){
+                        return date_format(date_create($Modalite->created_at),"d M,Y");
                     })
                     ->addColumn('action',function ($row){
-                        $editbtn = '<a data-id="'.$row->id.'" data-name="'.$row->name.'" href="javascript:void(0)" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
-                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('modalites.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
-                        if(!auth()->user()->hasPermissionTo('edit-modalite')){
+                        $editbtn = '<a data-id="'.$row->id_modalite.'" data-name="'.$row->name.'" href="javascript:void(0)" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
+                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('modalites.destroy',$row->id_modalite).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+                        if(!auth()->user()->hasPermissionTo('edit-Modalite')){
                             $editbtn = '';
                         }
-                        if(!auth()->user()->hasPermissionTo('destroy-modalite')){
+                        if(!auth()->user()->hasPermissionTo('destroy-Modalite')){
                             $deletebtn = '';
                         }
                         $btn = $editbtn.' '.$deletebtn;
@@ -40,7 +40,7 @@ class ModalitesController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-        return view('admin.modalites.modalites',compact(
+        return view('admin.products.modalites',compact(
             'title'
         ));
     }
@@ -59,8 +59,8 @@ class ModalitesController extends Controller
             'name'=>'required|max:100',
         ]);
         Modalite::create($request->all());
-        $notification=array("Modalité est ajoutée");
-        return back()->with($notification); 
+        $notification=array("Modalite has been added");
+        return back()->with($notification);
     }
 
     
@@ -69,18 +69,18 @@ class ModalitesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request 
+     * @param  \Illuminate\Http\Request  $request
      * 
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         $this->validate($request,['name'=>'required|max:100']);
-        $modalite = Modalite::find($request->id);
-        $modalite->update([
+        $Modalite = Modalite::find($request->id);
+        $Modalite->update([
             'name'=>$request->name,
         ]);
-        $notification = notify("Modalité modifiée avec succès");
+        $notification = notify("Modalite has been updated");
         return back()->with($notification);
     }
 
@@ -94,7 +94,5 @@ class ModalitesController extends Controller
     {
         return Modalite::findOrFail($request->id)->delete();
     }
-
-    
 }
 

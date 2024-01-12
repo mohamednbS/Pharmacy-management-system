@@ -8,6 +8,8 @@ use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use App\Models\Modalite;
+use App\Models\Departement;
 
 class UserController extends Controller
 {
@@ -23,9 +25,7 @@ class UserController extends Controller
             $users = User::get();
             return DataTables::of($users)
                 ->addIndexColumn()
-                ->addColumn('created_at', function ($category) {
-                    return date_format(date_create($category->created_at), "d M,Y");
-                })
+               
                 ->addColumn('avatar', function ($user) {
                     $src = asset('assets/img/avatar.png');
                     if (!empty($user->avatar)) {
@@ -38,6 +38,10 @@ class UserController extends Controller
                         return '<span>'.$role.'</span>';
                     }
                 })
+                ->addColumn('modalite',function($user){
+                    return $user->modalite;
+                })
+          
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("users.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('users.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
@@ -66,8 +70,10 @@ class UserController extends Controller
     public function create()
     {
         $title = 'create user';
-        $roles = Role::get();
-        return view('admin.users.create', compact('title','roles'));
+        $roles = Role::where('name', '!=', 'super-admin')->get();
+        $modalites = Modalite::get();
+        $departements = Departement::get();
+        return view('admin.users.create', compact('title','roles','modalites','departements'));
     }
 
     /**
@@ -83,7 +89,9 @@ class UserController extends Controller
             'email'=>'required|email',
             'role'=>'required',
             'password'=>'required|confirmed|max:200',
-            'avatar'=>'nullable|file|image|mimes:jpg,jpeg,gif,png',
+            'modalite'=>'required',
+            'departement'=>'required',
+          
         ]);
         $imageName = null;
         if ($request->hasFile('avatar')) {
@@ -94,11 +102,17 @@ class UserController extends Controller
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
+            'matricule' => $request->matricule,
+            'phone' => $request->phone,
+            'modalite' => $request->modalite,
+            'departement' => $request->departement,
+            'role' => $request->role,
             'avatar' => $imageName,
             'password' => Hash::make($request->password),
         ]);
         $user->assignRole($request->role);
-        $notifiation = notify('user created successfully');
+     
+        $notifiation = notify('utilisateur crée avec succès');
         return redirect()->route('users.index')->with($notifiation);
     }
 
@@ -112,9 +126,11 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $title = "edit user";
-        $roles = Role::get();
+        $roles = Role::where('name', '!=', 'super-admin')->get();
+        $modalites = Modalite::get();
+        $departements = Departement::get();
         return view('admin.users.edit',compact(
-            'title','roles','user'
+            'title','roles','modalites','departements','user'
         ));
     }
 
@@ -131,8 +147,10 @@ class UserController extends Controller
             'name'=>'required|max:100',
             'email'=>'required|email',
             'role'=>'required',
-            'password'=>'nullable|confirmed|max:200',
-            'avatar'=>'nullable|file|image|mimes:jpg,jpeg,gif,png',
+            'password'=>'required|confirmed|max:200',
+            'modalite'=>'required',
+            'departement'=>'required',
+   
         ]);
         $imageName = $user->avatar;
         $password = $user->password;
@@ -147,8 +165,13 @@ class UserController extends Controller
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
+            'matricule' => $request->matricule,
+            'phone' => $request->phone,
+            'modalite' => $request->modalite,
+            'departement' => $request->departement,
+            'role' => $request->role,
             'avatar' => $imageName,
-            'password' => $password,
+            'password' => Hash::make($request->password),
         ]);
         foreach($user->getRoleNames() as $userRole){
             $user->removeRole($userRole);

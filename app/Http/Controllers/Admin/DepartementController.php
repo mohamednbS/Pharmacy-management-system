@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Modalite;
+use App\Models\Departement;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
 
-class ModalitesController extends Controller
+class DepartementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,21 +18,21 @@ class ModalitesController extends Controller
      */
     public function index(Request $request)
     {
-        $title = 'modalites';
+        $title = 'departements';
         if($request->ajax()){
-            $modalites = Modalite::get();
-            return DataTables::of($modalites)
+            $departements = Departement::get();
+            return DataTables::of($departements)
                     ->addIndexColumn()
-                    ->addColumn('created_at',function($modalite){
-                        return date_format(date_create($modalite->created_at),"d M,Y");
+                    ->addColumn('created_at',function($departement){
+                        return date_format(date_create($departement->created_at),"d M,Y");
                     })
                     ->addColumn('action',function ($row){
                         $editbtn = '<a data-id="'.$row->id.'" data-name="'.$row->name.'" href="javascript:void(0)" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
-                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('modalites.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
-                        if(!auth()->user()->hasPermissionTo('edit-modalite')){
+                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('departements.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+                        if(!auth()->user()->hasPermissionTo('edit-departement')){
                             $editbtn = '';
                         }
-                        if(!auth()->user()->hasPermissionTo('destroy-modalite')){
+                        if(!auth()->user()->hasPermissionTo('destroy-departement')){
                             $deletebtn = '';
                         }
                         $btn = $editbtn.' '.$deletebtn;
@@ -40,7 +41,7 @@ class ModalitesController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-        return view('admin.modalites.modalites',compact(
+        return view('admin.departements.departements',compact(
             'title'
         ));
     }
@@ -58,8 +59,8 @@ class ModalitesController extends Controller
         $this->validate($request,[
             'name'=>'required|max:100',
         ]);
-        Modalite::create($request->all());
-        $notification=array("Modalité est ajoutée");
+        Departement::create($request->all());
+        $notification=array("Département est ajoutée");
         return back()->with($notification); 
     }
 
@@ -76,11 +77,11 @@ class ModalitesController extends Controller
     public function update(Request $request)
     {
         $this->validate($request,['name'=>'required|max:100']);
-        $modalite = Modalite::find($request->id);
-        $modalite->update([
+        $departement = Departement::find($request->id);
+        $departement->update([
             'name'=>$request->name,
         ]);
-        $notification = notify("Modalité modifiée avec succès");
+        $notification = notify("Département modifiée avec succès");
         return back()->with($notification);
     }
 
@@ -92,9 +93,10 @@ class ModalitesController extends Controller
      */
     public function destroy(Request $request)
     {
-        return Modalite::findOrFail($request->id)->delete();
+        return Departement::findOrFail($request->id)->delete();
     }
 
     
 }
+
 

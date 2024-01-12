@@ -53,7 +53,7 @@
                 ajax: "{{route('roles.index')}}",
                 columns: [
                     {data: 'name', name: 'name'},
-                    {data: 'permissions', name: 'permissions'},
+                    {data: 'permissions', name: 'permissions'}, 
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });

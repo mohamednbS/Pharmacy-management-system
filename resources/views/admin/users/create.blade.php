@@ -29,19 +29,54 @@
                         <div class="row form-row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Full Name</label>
+                                    <label>Nom Complet</label>
                                     <input type="text" name="name" class="form-control" placeholder="John Doe">
                                 </div>
                             </div>
+
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Email</label>
+                                    <label>Matricule</label>
+                                    <input type="text" name="matricule" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Adresse mail</label>
                                     <input type="email" name="email" class="form-control" placeholder="example@gmail.com">
                                 </div>
                             </div>
+
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Role</label>
+                                    <label>Département</label>
+                                    <div class="form-group">
+                                        <select class="select2 form-select form-control" name="departement">
+                                            @foreach ($departements as $departement)
+                                                <option value="{{$departement->name}}">{{$departement->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Modalité</label>
+                                    <div class="form-group">
+                                        <select class="select2 form-select form-control"  name="modalite" >
+                                            @foreach ($modalites as $modalite)
+                                                <option value="{{$modalite->name}}">{{$modalite->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Rôle</label>
                                     <div class="form-group">
                                         <select class="select2 form-select form-control" name="role">
                                             @foreach ($roles as $role)
@@ -51,9 +86,17 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Picture</label>
+                                    <label>Mobile</label>
+                                    <input type="text" name="phone" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Avatar</label>
                                     <input type="file" name="avatar" class="form-control" >
                                 </div>
                             </div>
@@ -61,20 +104,20 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label>Password</label>
+                                            <label>Mot de passe</label>
                                             <input type="password" name="password" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label>Confirm Password</label>
+                                            <label>Confirmer Mot de Passe</label>
                                             <input type="password" name="password_confirmation" class="form-control">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                        <button type="submit" class="btn btn-primary btn-block">Ajouter</button>
                     </form>
                 </div>
             </div>
