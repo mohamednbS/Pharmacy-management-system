@@ -26,7 +26,7 @@ class SousequipementController extends Controller
             $sousequipements = Sousequipement::get();
             return DataTables::of($sousequipements)
                 ->addIndexColumn()
-                ->addColumn('designation',function($sousequipement){               
+                ->addColumn('designation',function($sousequipement){
                     return $sousequipement->designation;
                 })
                 ->addColumn('identifiant',function($sousequipement){
@@ -41,7 +41,7 @@ class SousequipementController extends Controller
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("sousequipements.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('sousequipements.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
-                    
+
                     if (!auth()->user()->hasPermissionTo('edit-sousequipement')) {
                         $editbtn = '';
                     }
@@ -49,7 +49,7 @@ class SousequipementController extends Controller
                         $deletebtn = '';
                     }
 
-                    $btn = $editbtn.' '.$deletebtn; 
+                    $btn = $editbtn.' '.$deletebtn;
                     return $btn;
                 })
                 ->rawColumns(['modele','action'])
@@ -83,7 +83,7 @@ class SousequipementController extends Controller
     public function store(Request $request,$equipement_id)
     {
         $this->validate($request,[
-           
+
             'identifiant'=>'required',
             'designation'=>'required|min:1',
 
@@ -95,13 +95,13 @@ class SousequipementController extends Controller
             'modele'=>$request->modele,
             'description'=>$request->description,
             'equipement_id'=>$equipement_id,
-            
+
         ]);
         $notifications = notify("Sousequipement ajouté avec succès");
         return redirect()->route('sousequipements.index')->with($notifications);
     }
 
-    
+
 
     /**
      * Show the form for editing the specified resource.
@@ -112,7 +112,7 @@ class SousequipementController extends Controller
     public function edit(Sousequipement $sousequipement)
     {
         $title = 'edit sousequipement';
-    
+
         return view('admin.sousequipements.edit',compact(
             'title','sousequipement'
         ));
@@ -128,7 +128,7 @@ class SousequipementController extends Controller
     public function update(Request $request, Sousequipement $sousequipement)
     {
         $this->validate($request,[
-           
+
             'identifiant'=>'required',
             'designation'=>'required|min:1',
         ]);
@@ -139,7 +139,7 @@ class SousequipementController extends Controller
             'marque'=>$request->marque,
             'modele'=>$request->modele,
             'description'=>$request->description,
-        
+
         ]);
         $notifications = notify("Sousequipement modifié avec succès");
         return redirect()->route('sousequipements.index')->with($notifications);
@@ -171,6 +171,13 @@ class SousequipementController extends Controller
         return view('admin.soussousequipements.reports',compact(
             'soussousequipements','title'
         ));
+    }
+
+    public function getSousequipements(Request $request)
+    {
+        $equipement_id = $request->input('equipement_id');
+        $sousequipements = Equipement::find($equipement_id)->sousequipements()->get();
+        return response()->json($sousequipements);
     }
 
 }

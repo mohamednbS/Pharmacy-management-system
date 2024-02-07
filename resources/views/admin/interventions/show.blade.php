@@ -14,15 +14,15 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="profile-header">
-			
+
 				<div class="col ml-md-n2 profile-user-info">
-                	
+
 					<h4 class="user-name mb-3">Client : {{$intervention->client_name}}</h4>
 					<h5 class="user-name mb-3">Equipmement : {{$intervention->equipement_name}}</h5>
                     <h5 class="user-name mb-3">Panne: {{$intervention->description_panne}}</h5>
 				</div>
 
-			
+
 		</div>
 		<div class="profile-menu">
 			<ul class="nav nav-tabs nav-tabs-solid">
@@ -34,7 +34,7 @@
 				</li>
 			</ul>
 		</div>
-     
+
 		<div class="tab-content profile-tab-cont">
 
 			<!-- Aperçu intervention Tab -->
@@ -63,7 +63,11 @@
 
 								<div class="row">
 									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Intervenants</p>
-									<p class="col-sm-10">{{$intervention->destinateur}}</p>
+									<p class="col-sm-10">
+                                        @if (is_array($intervention->destinateur))
+                                        {{
+                                           implode(', ', $intervention->destinateur)
+                                         }}@endif</p>
 								</div>
 
                                 <div class="row">
@@ -129,22 +133,30 @@
 												</div>
 												<div class="col-12">
                                                         <div class="form-group">
-                                                            <label>Modèle<span class="text-danger">*</span></label>
-                                                            <input class="form-control" type="text" name="modele" value="{{$intervention->modele}}">
-                                                        </div>    
+                                                            <label>Equipement<span class="text-danger">*</span></label>
+                                                            <select class="form-control" type="text" name="equipement_name">
+															@foreach ($equipements as $equipement)
+																@if ($equipement->modele.'--'.$equipement->numserie == $intervention->equipement_name)
+																	<option selected value="{{$equipement->modele.'--'.$equipement->numserie}}">{{$equipement->modele.'--'.$equipement->numserie }}</option>
+																@else
+																	<option value="{{$equipement->modele.'--'.$equipement->numserie}}">{{$equipement->modele.'--'.$equipement->numserie }}</option>
+																@endif
+																@endforeach
+															</select>
+                                                        </div>
 												</div>
-												
+
 												<div class="col-12">
 													<div class="form-group">
-														<label>Numéro Série</label>
-														<input class="form-control select edit_role" name="numserie" value="{{$intervention->numserie}}">	
+														<label>Description Panne</label>
+														<input class="form-control select edit_role" name="numserie" value="{{$intervention->description_panne}}">
 													</div>
 												</div>
-											
+
 												<div class="col-12">
 													<div class="form-group">
-														<label>Date insatallation</label>
-														<input type="date" value="{{$intervention->date_installation}}" class="form-control" name="date_installation">
+														<label>Date/Heure Début</label>
+														<input type="datetime-local" value="{{$intervention->date_debut}}" class="form-control" name="date_debut">
 													</div>
 												</div>
 

@@ -8,14 +8,14 @@
 
 @push('page-header')
 <div class="col-sm-7 col-auto">
-	<h3 class="page-title">Gestion Départements</h3>
+	<h3 class="page-title">Gestion Etat de Maintenance</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-		<li class="breadcrumb-item active">Départements</li>
+		<li class="breadcrumb-item active">Etat de Maintenance</li>
 	</ul>
 </div>
 <div class="col-sm-5 col">
-	<a href="#add_departements" data-toggle="modal" class="btn btn-primary float-right mt-2">Ajouter Département</a>
+	<a href="#add_etats" data-toggle="modal" class="btn btn-primary float-right mt-2">Ajouter</a>
 </div>
 @endpush
 
@@ -25,7 +25,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
-					<table id="departement-table" class="datatable table table-striped table-bordered table-hover table-center mb-0">
+					<table id="etat-table" class="datatable table table-striped table-bordered table-hover table-center mb-0">
 						<thead>
 							<tr style="boder:1px solid black;">
 								<th>Nom</th>
@@ -44,22 +44,22 @@
 </div>
 
 <!-- Add Modal -->
-<div class="modal fade" id="add_departements" aria-hidden="true" role="dialog">
+<div class="modal fade" id="add_etats" aria-hidden="true" role="dialog">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Ajouter departement</h5>
+				<h5 class="modal-title">Ajouter Etat</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<form method="POST" action="{{route('departements.store')}}">
+				<form method="POST" action="{{route('etats.store')}}">
 					@csrf
 					<div class="row form-row">
 						<div class="col-12">
 							<div class="form-group">
-								<label>departement</label>
+								<label>Etat</label>
 								<input type="text" name="name" class="form-control">
 							</div>
 						</div>
@@ -73,24 +73,24 @@
 <!-- /ADD Modal -->
 
 <!-- Edit Details Modal -->
-<div class="modal fade" id="edit_departement" aria-hidden="true" role="dialog">
+<div class="modal fade" id="edit_etat" aria-hidden="true" role="dialog">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Modifier departement</h5>
+				<h5 class="modal-title">Modifier Etat</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<form method="post" action="{{route('departements.update')}}">
+				<form method="post" action="{{route('etats.update')}}">
 					@csrf
 					@method("PUT")
 					<div class="row form-row">
 						<div class="col-12">
 							<input type="hidden" name="id" id="edit_id">
 							<div class="form-group">
-								<label>département</label>
+								<label>Etat</label>
 								<input type="text" class="form-control edit_name" name="name">
 							</div>
 						</div>
@@ -108,17 +108,17 @@
 @push('page-js')
 <script>
     $(document).ready(function() {
-        var table = $('#departement-table').DataTable({
+        var table = $('#etat-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('departements.index')}}",
+            ajax: "{{route('etats.index')}}",
             columns: [
                 {data: 'name', name: 'name'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });
-        $('#departement-table').on('click','.editbtn',function (){
-            $('#edit_departement').modal('show');
+        $('#etat-table').on('click','.editbtn',function (){
+            $('#edit_etat').modal('show');
             var id = $(this).data('id');
             var name = $(this).data('name');
             $('#edit_id').val(id);

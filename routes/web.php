@@ -23,11 +23,12 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\EquipementController;
 use App\Http\Controllers\Admin\DepartementController;
 use App\Http\Controllers\Admin\SousequipementController;
-use App\Http\Controllers\Admin\AccessoireController;
 use App\Http\Controllers\Admin\InterventionController;
+use App\Http\Controllers\Admin\EtatController;
+use App\Http\Controllers\CalendarController ;
 
 /*
-|--------------------------------------------------------------------------
+|-------------------------------------------------------------------------- 
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -53,6 +54,28 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('suppliers',SupplierController::class);
     Route::resource('categories',CategoryController::class)->only(['index','store','destroy']);
     Route::put('categories',[CategoryController::class,'update'])->name('categories.update');
+
+    Route::get('interventions/reports',[InterventionController::class,'reports'])->name('interventions.report');
+    Route::post('interventions/reports',[InterventionController::class,'generateReport']);
+
+   /*equipments report*/
+    Route::get('equipements/reports',[EquipementController::class,'reports'])->name('equipements.report');
+    Route::post('equipements/reports',[EquipementController::class,'generateReport']);
+    Route::post('/equipements/report/search',[EquipementController::class,'generateReport'])->name('equipements.report.search');
+    Route::get('/getEquipements', [EquipementController::class, 'getEquipements']);
+    /*Calendrier*/
+   Route::get('fullcalendar', [CalendarController::class, 'index']);
+   Route::get('/events', [CalendarController::class, 'getEvents']);
+   Route::delete('/calendar/{id}', [CalendarController::class, 'deleteEvent']);
+   Route::put('/calendar/{id}', [CalendarController::class, 'update']);
+   Route::put('/calendar/{id}/resize', [CalendarController::class, 'resize']);
+   Route::get('/events/search', [CalendarController::class, 'search']);
+   Route::view('add-calendar', 'admin.calendar.add');
+   Route::post('create-calendar', [CalendarController::class, 'create']);
+
+   Route::get('/calender', function () {
+    return view('home');
+});
     Route::resource('purchases',PurchaseController::class)->except('show');
     Route::get('purchases/reports',[PurchaseController::class,'reports'])->name('purchases.report');
     Route::post('purchases/reports',[PurchaseController::class,'generateReport']);
@@ -69,33 +92,35 @@ Route::middleware(['auth'])->group(function(){
     Route::delete('backup/delete/{file_name?}', [BackupController::class,'destroy'])->where('file_name', '(.*)')->name('backup.destroy');
 
     Route::get('settings',[SettingController::class,'index'])->name('settings');
-    
-    /*clients routes*/ 
+
+    /*clients routes*/
     Route::resource('clients',ClientController::class);
-    
-    /*modalites routes*/ 
+
+    /*modalites routes*/
     Route::resource('modalites',ModalitesController::class)->only(['index','store','destroy']);
     Route::put('modalites',[ModalitesController::class,'update'])->name('modalites.update');
-    
-    /*departements routes*/ 
+
+    /*departements routes*/
     Route::resource('departements',DepartementController::class)->only(['index','store','destroy']);
     Route::put('departements',[DepartementController::class,'update'])->name('departements.update');
-    
+
     /*Equipement routes*/
     Route::resource('equipements',EquipementController::class);
-    
-    /*Accessoires routes*/
-    Route::resource('accessoires',AccessoireController::class);
-    Route::get('/equipements/{equipement_id}/accessoires/create', [AccessoireController::class,'create']);
-    Route::post('/equipements/{equipement_id}/store', [AccessoireController::class,'store'])->name('accessoires.store');
+
 
     /*Sous Equipements routes*/
     Route::resource('sousequipements',SousequipementController::class);
     Route::get('/equipements/{equipement_id}/sousequipements/create', [SousequipementController::class,'create']);
     Route::post('/equipements/{equipement_id}/store', [SousequipementController::class,'store'])->name('sousequipements.store');
-   
-    /*Interventions routes*/ 
+    Route::get('/getSousequipements', [SousequipementController::class, 'getSousequipements']);
+    /*etats maintenance routes*/
+    Route::resource('etats',EtatController::class)->only(['index','store','destroy']);
+    Route::put('etats',[EtatController::class,'update'])->name('etats.update');
+
+    /*Interventions routes*/
     Route::resource('interventions',InterventionController::class);
+
+
 });
 
 Route::middleware(['guest'])->group(function () {
@@ -114,7 +139,7 @@ Route::middleware(['guest'])->group(function () {
     Route::get('reset-password/{token}',[ResetPasswordController::class,'index'])->name('password.reset');
     Route::post('reset-password',[ResetPasswordController::class,'resetPassword'])->name('password.update');
 
-    
-  
+
+
 
 });

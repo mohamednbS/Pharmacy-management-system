@@ -36,7 +36,7 @@
 										@foreach ($clients as $client)
 										@if ($client->name == $intervention->client_name)
 											<option selected value="{{$client->name}}">{{$client->name}}</option>
-										@else 
+										@else
 										    <option value="{{$client->name}}">{{$client->name}}</option>
 										@endif
 										@endforeach
@@ -82,18 +82,18 @@
 								<div class="form-group">
 									<label>Etat initial d'equipement<span class="text-danger">*</span></label>
 									<select  class="select2 form-select form-control" name="type_panne">
-                                     		
+
                                         @if ( $intervention->type_panne == "Fonctionnel")
-									
+
 										<option selected value='Fonctionnel'>Fonctionnel</option>
 										<option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
 										<option value="Panne Intermittente">Panne Intermittente</option>
 										<option value="A l'arrêt">A l'arrêt</option>
 
 										@elseif ($intervention->type_panne == "Partiellement Fonctionnel")
-									
+
 										<option selected value='Partiellement Fonctionnel'>Partiellement Fonctionnel</option>
-										<option selected value='Fonctionnel'>Fonctionnel</option>
+										<option value='Fonctionnel'>Fonctionnel</option>
 										<option value="Panne Intermittente">Panne Intermittente</option>
 										<option value="A l'arrêt">A l'arrêt</option>
 
@@ -104,9 +104,9 @@
 										<option value="A l'arrêt">A l'arrêt</option>
 
 										@else
-									
+
 										<option selected value="A l'arrêt">A l'arrêt</option>
-										<option selected value='Panne Intermittente'>Panne Intermittente</option>
+										<option value='Panne Intermittente'>Panne Intermittente</option>
 										<option value='Partiellement Fonctionnel'>Partiellement Fonctionnel</option>
 										<option value='Fonctionnel'>Fonctionnel</option>
                                         @endif
@@ -129,14 +129,14 @@
 									<label>Mode d'appel client<span class="text-danger">*</span></label>
 									<select  class="select2 form-select form-control" name="mode_appel">
                                         @if ( $intervention->etat == "Mail")
-										
+
 										<option selected value='Mail'>Mail</option>
 										<option value="Téléphone">Téléphone</option>
                                         <option value="Fax">Fax</option>
                                         <option value="WhatsApp">WhatsApp</option>
 
 										@elseif ($intervention->etat == "Téléphone")
-										
+
 										<option selected value='Téléphone'>Téléphone</option>
 										<option value='Mail'>Mail</option>
 										<option value="Fax">Fax</option>
@@ -149,7 +149,7 @@
                                         <option value="WhatsApp">WhatsApp</option>
 
 										@else
-										
+
 										<option selected value='Fax'>Fax</option>
 										<option value="Mail">Mail</option>
                                         <option value="Téléphone">Téléphone</option>
@@ -171,17 +171,19 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">
-									<label>Intervenant(s)<span class="text-danger">*</span></label>
-								    <select class="select2 form-select form-control" name="destinateur">
-                                       @foreach($users as $user )
-                                       @if ($user->name == $intervention->destinateur)
-                                           <option selected value='{{ $user->name }}'>{{ $user->name }}</option>
-                                       @else
-                                           <option value='{{ $user->name }}'>{{ $user->name }}</option>
-                                       @endif
-                                       @endforeach
-									</select>
-								</div>
+									<label for="destinateur">Intervenant(s) <span class="text-danger">*</span></label>
+									<select class="select2 form-select form-control" name="destinateur[]" multiple>
+                                        @foreach($users as $user)
+                                            @if(in_array($user->name, $intervention->destinateur))
+                                                <option selected value='{{ $user->name }}'>{{ $user->name }}</option>
+                                            @else
+                                                <option value='{{ $user->name }}'>{{ $user->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                <div>
+							</div>
+
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
@@ -421,7 +423,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>Description de l'intervention</label>
-											<input type="text" name="description_intervention" class="form-control" placeholder="décrire l'intervention" value="{{$intervention->description_intervention ?? old('rapport')}}">{{$intervention->description_intervention}}
+											<input type="text" name="description_intervention" class="form-control" placeholder="décrire l'intervention" value="{{$intervention->description_intervention ?? old('description intervention')}}">{{$intervention->description_intervention}}
 										</div>
 									</div>
 								</div>
@@ -430,11 +432,11 @@
 										<div class="row">
 											<div class="col-12">
 												<label>Rapport d'intervention</label>
-												<input type="file" class="form-control" name='rapport'>
+												<input type="file" class="form-control" name='rapport' value="{{$intervention->rapport ?? old('rapport')}}">{{$intervention->rapport}}
 											</div>
 										</div>
 									</div>
-						
+
 					</div>
 
 

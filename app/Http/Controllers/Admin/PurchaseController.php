@@ -174,7 +174,7 @@ class PurchaseController extends Controller
 
     public function reports(){
         $title ='purchase reports';
-        return view('admin.purchases.reports',compact('title'));
+        return view('admin.purchases.reports',compact('title')); 
     }
 
     public function generateReport(Request $request){

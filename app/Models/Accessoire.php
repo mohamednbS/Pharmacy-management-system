@@ -10,7 +10,7 @@ class Accessoire extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'identifiant','designation','quantite',
+        'identifiant','designation','quantite','description',
         'equipement_id'
     ];
 

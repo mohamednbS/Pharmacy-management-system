@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
-
+use QCod\AppSettings\Setting\AppSettings;
 
 
 class EquipementController extends Controller
@@ -26,10 +26,10 @@ class EquipementController extends Controller
         if($request->ajax()){
             $equipements = Equipement::get();
             return DataTables::of($equipements)
-                ->addColumn('designation',function($equipement){               
+                ->addColumn('designation',function($equipement){
                     return $equipement->designation;
                 })
-                ->addColumn('modele',function($equipement){               
+                ->addColumn('modele',function($equipement){
                     return '<a href="'.route("equipements.show", $equipement->id).'">'. $equipement->modele .'</a>';
                 })
                 ->addColumn('client',function($equipement){
@@ -52,7 +52,7 @@ class EquipementController extends Controller
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("equipements.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('equipements.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
-                    
+
                     if (!auth()->user()->hasPermissionTo('edit-equipement')) {
                         $editbtn = '';
                     }
@@ -60,7 +60,7 @@ class EquipementController extends Controller
                         $deletebtn = '';
                     }
 
-                    $btn = $editbtn.' '.$deletebtn; 
+                    $btn = $editbtn.' '.$deletebtn;
                     return $btn;
                 })
                 ->rawColumns(['modele','action'])
@@ -95,7 +95,7 @@ class EquipementController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-           
+
             'modele'=>'required',
             'marque'=>'required|min:1',
             'designation'=>'required|min:1',
@@ -130,7 +130,7 @@ class EquipementController extends Controller
         return redirect()->route('equipements.index')->with($notifications);
     }
 
-    
+
 
     /**
      * Show the form for editing the specified resource.
@@ -197,12 +197,13 @@ class EquipementController extends Controller
     }
 
     public function generateReport(Request $request){
-        $this->validate($request,[
-            'from_date' => 'required',
-            'to_date' => 'required'
+
+        $this->validate($request, [
+            'search_keyword' => 'required',
         ]);
-        $title = 'equipements reports';
-        $equipements = equipement::whereBetween(DB::raw('DATE(created_at)'), array($request->from_date, $request->to_date))->get();
+
+        $title = 'rapport equipements' .' '.$request->search_keyword;
+        $equipements = Equipement::where('designation', 'like', '%' . $request->search_keyword . '%')->get();
         return view('admin.equipements.reports',compact(
             'equipements','title'
         ));
@@ -227,6 +228,13 @@ class EquipementController extends Controller
         return view('admin.equipements.show',compact(
             'title','modalites','clients','equipement'
         ));
+    }
+
+    public function getEquipements(Request $request)
+    {
+        $client_id = $request->input('client_id');
+        $equipements = Client::find($client_id)->equipements()->get();
+        return response()->json($equipements);
     }
 }
 

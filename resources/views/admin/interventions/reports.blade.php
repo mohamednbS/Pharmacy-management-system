@@ -9,63 +9,55 @@
 
 @push('page-header')
 <div class="col-sm-7 col-auto">
-	<h3 class="page-title">Purchases Reports</h3>  
+	<h3 class="page-title">Rapport Interventions</h3>  
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-		<li class="breadcrumb-item active">Generate Purchase Reports</li>
+		<li class="breadcrumb-item active">Générer rapport interventions</li>
 	</ul>
 </div>
 <div class="col-sm-5 col">
-	<a href="#generate_report" data-toggle="modal" class="btn btn-primary float-right mt-2">Generate Report</a>
+	<a href="#generate_report" data-toggle="modal" class="btn btn-primary float-right mt-2">Générer rapport</a>
 </div>
 @endpush
 
 @section('content')
-    @isset($purchases)
+    @isset($interventions)
     <div class="row">
         <div class="col-md-12">
-            <!-- Purchases reports-->
+            <!-- interventions reports-->
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="purchase-table" class="datatable table table-hover table-center mb-0">
+                        <table id="intervention-table" class="datatable table table-hover table-center mb-0">
                             <thead>
                                 <tr>
-                                    <th>Medicine Name</th>
-                                    <th>Category</th>
-                                    <th>Supplier</th>
-                                    <th>Purchase Cost</th>
-                                    <th>Quantity</th>
-                                    <th>Expire Date</th>                                </tr>
+                                    <th>Client</th>
+                                    <th>Equipement</th>
+                                    <th>Etat</th>
+                                    <th>Intervenant(s)</th>
+                                    <th>Panne</th>
+                                    <th>Heure/Date appel client</th>                                
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach ($purchases as $purchase)
-                                @if(!empty($purchase->supplier) && !empty($purchase->category))
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            @if(!empty($purchase->image))
-                                            <span class="avatar avatar-sm mr-2">
-                                                <img class="avatar-img" src="{{asset('storage/purchases/'.$purchase->image)}}" alt="product image">
-                                            </span>
-                                            @endif
-                                            {{$purchase->product}}
-                                        </h2>
-                                    </td>
-                                    <td>{{$purchase->category->name}}</td>
-                                    <td>{{AppSettings::get('app_currency', '$')}}{{$purchase->price}}</td>
-                                    <td>{{$purchase->quantity}}</td>
-                                    <td>{{$purchase->supplier->name}}</td>
-                                    <td>{{date_format(date_create($purchase->expiry_date),"d M, Y")}}</td>
+                            @foreach ($interventions as $intervention)
+                                <tr> 
+                                    <td>{{$intervention->client_name}}</td>
+                                    <td>{{$intervention->equipement_name}}</td>
+                                    <td>{{$intervention->etat}}</td>
+                                    <td>{{$intervention->destinateur}}</td>
+                                    <td>{{$intervention->description_panne}}</td>
+                                    <td>{{$intervention->appel_client}}</td>
+                         
                                 </tr>
-                                @endif
+                               
                             @endforeach                         
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <!-- /Purchases Report -->
+            <!-- /interventions Report -->
         </div>
     </div>
     @endisset
@@ -76,33 +68,33 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Generate Report</h5>
+                    <h5 class="modal-title">Générer Rapport</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="{{route('purchases.report')}}">
+                    <form method="post" action="{{route('interventions.report')}}">
                         @csrf
                         <div class="row form-row">
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label>From</label>
+                                            <label>DE</label>
                                             <input type="date" name="from_date" class="form-control from_date">
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label>To</label>
+                                            <label>A</label>
                                             <input type="date" name="to_date" class="form-control to_date">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block submit_report">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-block submit_report">Valider</button>
                     </form>
                 </div>
             </div>
@@ -115,12 +107,12 @@
 @push('page-js')
 <script>
     $(document).ready(function(){
-        $('#purchase-table').DataTable({
+        $('#intervention-table').DataTable({
             dom: 'Bfrtip',		
             buttons: [
                 {
                 extend: 'collection',
-                text: 'Export Data',
+                text: 'Exporter',
                 buttons: [
                     {
                         extend: 'pdf',

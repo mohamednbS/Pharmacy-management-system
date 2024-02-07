@@ -22,6 +22,26 @@ class ClientController extends Controller
             $clients = Client::get();
             return DataTables::of($clients)
                 ->addIndexColumn()
+                ->addColumn('name',function($client){
+                    return '<a href="'.route("clients.show", $client->id).'">'. $client->name .'</a>';
+                })
+
+                ->addColumn('email',function($client){
+                    return $client->email;
+                })
+
+                ->addColumn('phone',function($client){
+                    return $client->phone;
+                })
+
+                ->addColumn('fax',function($client){
+                    return $client->fax;
+                })
+
+                ->addColumn('adress',function($client){
+                    return $client->adress;
+                })
+
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("clients.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('clients.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
@@ -34,10 +54,10 @@ class ClientController extends Controller
                     $btn = $editbtn.' '.$deletebtn;
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['name','action'])
                 ->make(true);
         }
-    
+
         return view('admin.clients.index',compact(
             'title'
         ));
@@ -70,8 +90,8 @@ class ClientController extends Controller
             'email'=>'nullable|email|string',
             'phone'=>'nullable|min:8|max:20',
             'fax'=>'nullable|min:8|max:20',
-    
-           
+
+
         ]);
         Client::create([
             'name'=>$request->name,
@@ -79,13 +99,13 @@ class ClientController extends Controller
             'email'=>$request->email,
             'phone'=>$request->phone,
             'fax'=>$request->fax,
-           
+
         ]);
         $notification = notify("Client ajouté avec succès");
         return redirect()->route('clients.index')->with($notification);
     }
 
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -137,6 +157,15 @@ class ClientController extends Controller
     public function destroy(Request $request)
     {
         return Client::findOrFail($request->id)->delete();
+    }
+
+    public function show($id){
+        $title = 'client';
+        $client = Client::findOrFail($id);
+        $equipements = $client->equipements;
+        return view('admin.clients.show',compact(
+            'title','client','equipements'
+        ));
     }
 }
 

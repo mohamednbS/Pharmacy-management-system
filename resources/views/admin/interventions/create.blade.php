@@ -22,44 +22,41 @@
 		<div class="card">
 			<div class="card-body custom-edit-service">
 
-				<!-- Add Medicine -->
+				<!-- Add intervention -->
 				<form method="post" enctype="multipart/form-data" autocomplete="off" action="{{route('interventions.store')}}">
 					@csrf
+					<!--Générer la liste des clients et équipements et sous-equipements-->
 					<div class="service-fields mb-3">
 						<div class="row">
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label>Client<span class="text-danger">*</span></label>
-									<select class="select2 form-select form-control" name="client_name">
-                                    <option>--Sélectionner un client--</option>
-										@foreach ($clients as $client)
-											<option value="{{$client->name}}">{{$client->name}}</option>
-										@endforeach
-									</select>
-								</div>
+								<label for="client">Client<span class="text-danger">*</span></label>
+								<select id="client" onchange="getEquipements(this.value)" class="select2 form-select form-control">
+									<option value="Sélectionner un Client">Sélectionner un Client</option>
+									@foreach ($clients as $client)
+										<option value="{{ $client->id }}">{{ $client->name }}</option>
+									@endforeach
+								</select>
+							    </div>
 							</div>
-							<div class="col-lg-4">
-								<div class="form-group">
-									<label>Equipement<span class="text-danger">*</span></label>
-									<select class="select2 form-select form-control" name="equipement_name">
-                                       <option>--Sélectionner un equipement--</option>
-										@foreach ($equipements as $equipement)
-											<option value="{{$equipement->modele.'--'.$equipement->numserie}}">{{$equipement->modele.'--'.$equipement->numserie }}</option>
-										@endforeach
-									</select>
-								</div>
+
+						<div class="col-lg-4">
+							<div class="form-group">
+								<label for="equipement">Equipment<span class="text-danger">*</span></label>
+								<select id="equipement" onchange="getSousequipements(this.value)" class="select2 form-select form-control">
+									<option value="Sélectionner un equipement">Sélectionner un equipement</option>
+								</select>
 							</div>
-							<div class="col-lg-4">
-								<div class="form-group">
-									<label>Sous equipement</label>
-									<select class="select2 form-select form-control" name="souseq_name">
-                                        <option>--Sélectionner un sous Equipement--</option>
-										@foreach ($sousequipements as $sousequipement)
-											<option value="{{$sousequipement->designation}}">{{$sousequipement->designation}}</option>
-										@endforeach
-									</select>
-								</div>
+						</div>
+
+						<div class="col-lg-4">
+							<div class="form-group">
+								<label for="sousequipment">Sous equipement</label>
+								<select id="sousequipement" class="select2 form-select form-control">
+									<option value="Sélectionner un sous equipment">Sélectionner un sous equipment</option>
+								</select>
 							</div>
+						</div>
 						</div>
 					</div>
 
@@ -113,8 +110,8 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">
-									<label>Intervenant(s)<span class="text-danger">*</span></label>
-								    <select class="select2 form-select form-control" name="destinateur">
+									<label for="destinateur">Intervenant(s)<span class="text-danger">*</span></label>
+								    <select class="select2 form-select form-control"  name="destinateur[]" multiple>
                                        <option>--Sélectionner le/les inetervenant(s)--</option>
 										@foreach ($users as $user)
 											<option value="{{$user->name}}">{{$user->name}}</option>
@@ -136,7 +133,7 @@
 							</div>
 						</div>
 					</div>
-
+ 
                     <div class="service-fields mb-3">
 						<div class="row">
 							<div class="col-lg-6">
@@ -164,18 +161,13 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Etat<span class="text-danger">*</span></label>
-                                    <select  class="select2 form-select form-control" name="etat">
-                                        <option >Sélectionner un etat</option>
-                                        <option value="Demandé">Demandé</option>
-                                        <option value="Diagnostic en Cours">Diagnostic en Cours</option>
-                                        <option value="Reporté">Reporté</option>
-                                        <option value="Attente BC">Attente BC</option>
-                                        <option value="Attente Pièce">Attente Pièce</option>
-                                        <option value="Devis à fournir">Devis à fournir</option>
-                                        <option value="Mise en Attente">Mise en Attente</option>
-                                        <option value="Attente Rapport">Attente Rapport</option>
-                                        <option value="Clôturé Sans Rappport">Clôturé Sans Rappport</option>
-                                        <option value="Cloture">Clôturé</option>
+								    <select  class="select2 form-select form-control" name="etat">
+
+										@foreach($etats as $etat)
+										  <option >Sélectionner un état</option>
+                                          <option value="{{ $etat->name }}">{{ $etat->name }}</option>
+                                         @endforeach
+
                                     </select>
 								</div>
 							</div>
@@ -205,4 +197,38 @@
 	<!-- Datetimepicker JS -->
 	<script src="{{asset('assets/js/moment.min.js')}}"></script>
 	<script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>
+	<script>
+        function getEquipements(clientId) {
+            fetch('/getEquipements?client_id=' + clientId)
+                .then(response => response.json())
+                .then(data => {
+                    const equipementSelect = document.getElementById('equipement');
+                    equipementSelect.innerHTML = '<option value="">Select Equipement</option>';
+                    data.forEach(equipement => {
+                        const option = document.createElement('option');
+                        option.value = equipement.id;
+                        option.text = equipement.modele;
+                        equipementSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching equipements:', error));
+        }
+    </script>
+	<script>
+        function getSousequipements(equipementId) {
+            fetch('/getSousequipements?equipement_id=' + equipementId)
+                .then(response => response.json())
+                .then(data => {
+                    const sousequipementSelect = document.getElementById('sousequipement');
+                    sousequipementSelect.innerHTML = '<option value="">Select Sousequipement</option>';
+                    data.forEach(sousequipement => {
+                        const option = document.createElement('option');
+                        option.value = sousequipement.id;
+                        option.text = sousequipement.designation;
+                        sousequipementSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching sousequipements:', error));
+        }
+    </script>
 @endpush

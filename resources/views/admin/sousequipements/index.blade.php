@@ -14,9 +14,7 @@
 		<li class="breadcrumb-item active">Sous-Equipements</li>
 	</ul>
 </div>
-<div class="col-sm-5 col">
-	<a href="{{route('equipements.create')}}" class="btn btn-primary float-right mt-2">Ajouter</a>
-</div>
+
 @endpush
 
 @section('content')

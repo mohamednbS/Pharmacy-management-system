@@ -3,7 +3,7 @@
 <x-assets.datatables />
 
 @push('page-css')
-    
+
 @endpush
 
 @push('page-header')
@@ -22,7 +22,7 @@
 @section('content')
 <div class="row">
 	<div class="col-md-12">
-	
+
 		<!-- clients -->
 		<div class="card">
 			<div class="card-body">
@@ -35,14 +35,14 @@
 								<th>Mobile</th>
 								<th>Fax</th>
 								<th>Adresse</th>
-							
+
 								<th class="action-btn">Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							{{-- @foreach ($clients as $client)
 							<tr>
-								<td>										
+								<td>
 									{{$client->product}}
 								</td>
 								<td>{{$client->name}}</td>
@@ -68,11 +68,17 @@
 			</div>
 		</div>
 		<!-- /clients-->
-		
+
 	</div>
+    <div class="clearfix"></div>
+    <footer>
+        <div class="container-fluid">
+            <p class="copyright">&copy; 2024 <a href="/" target="_blank">STIET</a>.</p>
+        </div>
+    </footer>
 </div>
 
-@endsection	
+@endsection
 
 @push('page-js')
 <script>
@@ -90,7 +96,7 @@
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });
-        
+
     });
-</script> 
+</script>
 @endpush

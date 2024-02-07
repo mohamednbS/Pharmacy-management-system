@@ -9,9 +9,13 @@ class Intervention extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'destinateur' => 'array',
+    ];
+ 
     protected $fillable = [
         'equipement_name','client_name','souseq_name','type_panne','description_panne','priorite',
-        'mode_appel','destinateur','soustritant_name','appel_client','observation','date_debut',
+        'mode_appel','destinateur','soustritant_name','appel_client','description_intervention','observation','date_debut',
         'date_fin','etat','rapport'
     ];
 }

@@ -6,6 +6,7 @@ use App\Models\Sale;
 use App\Models\Category;
 use App\Models\Purchase;
 use App\Models\Supplier;
+use App\Models\Intervention;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;

@@ -38,12 +38,10 @@
 				<li class="nav-item">
 				    <a href="/equipements/{{ $equipement->id}}/sousequipements/create" class="btn btn-primary float-right mt-2">Ajouter Sous-equipement</a>
 				</li>
-				<li class="nav-item">
-				    <a href="/equipements/{{ $equipement->id}}/accessoires/create" class="btn btn-primary float-right mt-2">Ajouter Accessoires</a>
-				</li>
+
 			</ul>
 		</div>
-     
+
 		<div class="tab-content profile-tab-cont">
 
 			<!-- Aperçu equipement Tab -->
@@ -120,16 +118,16 @@
                                                         <div class="form-group">
                                                             <label>Modèle<span class="text-danger">*</span></label>
                                                             <input class="form-control" type="text" name="modele" value="{{$equipement->modele}}">
-                                                        </div>    
+                                                        </div>
 												</div>
-												
+
 												<div class="col-12">
 													<div class="form-group">
 														<label>Numéro Série</label>
-														<input class="form-control select edit_role" name="numserie" value="{{$equipement->numserie}}">	
+														<input class="form-control select edit_role" name="numserie" value="{{$equipement->numserie}}">
 													</div>
 												</div>
-											
+
 												<div class="col-12">
 													<div class="form-group">
 														<label>Date insatallation</label>

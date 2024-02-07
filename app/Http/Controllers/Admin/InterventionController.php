@@ -7,6 +7,7 @@ use App\Models\Equipement;
 use App\Models\Sousequipement;
 use App\Models\Client;
 use App\Models\User;
+use App\Models\Etat;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -27,7 +28,7 @@ class InterventionController extends Controller
         if($request->ajax()){
             $interventions = Intervention::get();
             return DataTables::of($interventions)
-           
+
                 ->addColumn('etat',function($intervention){
                     return '<a href="'.route("interventions.show", $intervention->id).'">'. $intervention->etat .'</a>';
                 })
@@ -39,9 +40,12 @@ class InterventionController extends Controller
 
                 })
                 ->addColumn('type_panne',function($intervention){
-                    return $intervention->type_name;
+                    return $intervention->type_panne;
                 })
                 ->addColumn('destinateur',function($intervention){
+                    if (is_array($intervention->destinateur)) {
+                        return implode(', ', $intervention->destinateur);
+                    }
                     return $intervention->destinateur;
                 })
                 ->addColumn('description_panne',function($intervention){
@@ -53,7 +57,10 @@ class InterventionController extends Controller
                 ->addColumn('type_contrat',function($intervention){
                     return $intervention->type_contrat;
                 })
-        
+                ->addColumn('etat',function($intervention){
+                    return $intervention->etat;
+                })
+
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("interventions.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('interventions.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
@@ -84,10 +91,11 @@ class InterventionController extends Controller
         $title = 'create intervention';
         $equipements= Equipement::get();
         $clients = Client::get();
+        $etats = Etat::get();
         $users = User::whereIn('role', ['technicien', 'ingenieur'])->get();
         $sousequipements = Sousequipement::get();
         return view('admin.interventions.create',compact(
-            'title','equipements','clients','users','sousequipements'
+            'title','equipements','clients','users','etats','sousequipements'
         ));
     }
 
@@ -116,10 +124,9 @@ class InterventionController extends Controller
             'description_panne'=>$request->description_panne,
             'priorite'=>$request->priorite,
             'mode_appel'=>$request->mode_appel,
-            'destinateur'=>$request->destinateur,
+            'destinateur'=> $request->destinateur,
             'soustraitant_name'=>$request->soustraitant_name,
             'appel_client'=>$request->appel_client,
-            'observation'=>$request->observation,
             'date_debut'=>$request->date_debut,
             'etat'=>$request->etat,
         ]);
@@ -162,7 +169,7 @@ class InterventionController extends Controller
             'mode_appel'=>'required',
             'destinateur'=>'required',
             'appel_client'=>'required',
-            
+
         ]);
         $rapportName = null;
         if($request->hasFile('rapport')){
@@ -177,10 +184,10 @@ class InterventionController extends Controller
             'desciption_panne'=>$request->desciption_panne,
             'priorite'=>$request->priorite,
             'mode_appel'=>$request->mode_appel,
-            'destinateur'=>$request->destinateur,
+            'destinateur'=> $request->destinateur,
             'soustraitant_name'=>$request->soustraitant_name,
             'appel_client'=>$request->appel_client,
-            'observation'=>$request->observation,
+            'description_intervention'=>$request->description_intervention,
             'date_debut'=>$request->date_debut,
             'date_fin'=>$request->date_fin,
             'date_fin'=>$request->date_fin,
@@ -192,7 +199,7 @@ class InterventionController extends Controller
     }
 
     public function reports(){
-        $title ='purchase reports';
+        $title ='interventions reports';
         return view('admin.interventions.reports',compact('title'));
     }
 
@@ -201,8 +208,8 @@ class InterventionController extends Controller
             'from_date' => 'required',
             'to_date' => 'required'
         ]);
-        $title = 'interventions reports';
-        $interventions = Purchase::whereBetween(DB::raw('DATE(created_at)'), array($request->from_date, $request->to_date))->get();
+        $title = 'rapport interventions';
+        $interventions = Intervention::whereBetween(DB::raw('DATE(created_at)'), array($request->from_date, $request->to_date))->get();
         return view('admin.interventions.reports',compact(
             'interventions','title'
         ));

@@ -19,7 +19,7 @@
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body custom-edit-service">
-			
+
 			<!-- Edit Supplier -->
 			<form method="post" enctype="multipart/form-data" autocomplete="off" action="{{route('equipements.update',$equipement)}}">
 				@csrf
@@ -35,7 +35,7 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label>Client <span class="text-danger">*</span></label>
-									<select class="select2 form-select form-control" name="client_id"> 
+									<select class="select2 form-select form-control" name="client_id">
 										@foreach ($clients as $client)
                                             @if ($client->id == $equipement->client_id )
 
@@ -50,12 +50,12 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label>Modalité <span class="text-danger">*</span></label>
-									<select class="select2 form-select form-control" name="modalite_id"> 
+									<select class="select2 form-select form-control" name="modalite_id">
 										@foreach ($modalites as $modalite)
                                             @if($modalite->id == $equipement->modalite_id)
 
 											    <option selected value="{{$modalite->id}}">{{$modalite->name}}</option>
-                                            @else 
+                                            @else
                                                 <option value="{{$modalite->id}}">{{$modalite->name}}</option>
                                             @endif
 										@endforeach
@@ -81,7 +81,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="service-fields mb-3">
 						<div class="row">
 							<div class="col-lg-6">
@@ -133,9 +133,9 @@
 						</div>
 					</div>
 
-                  
-					
-					
+
+
+
 					<div class="submit-section">
 						<button class="btn btn-primary submit-btn" type="submit" >Submit</button>
 					</div>
@@ -144,12 +144,12 @@
 
 			</div>
 		</div>
-	</div>			
+	</div>
 </div>
 @endsection
 
 @push('page-js')
 	<!-- Datetimepicker JS -->
 	<script src="{{asset('assets/js/moment.min.js')}}"></script>
-	<script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>	
+	<script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>
 @endpush
