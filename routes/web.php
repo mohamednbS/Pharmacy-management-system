@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\DepartementController;
 use App\Http\Controllers\Admin\SousequipementController;
 use App\Http\Controllers\Admin\InterventionController;
 use App\Http\Controllers\Admin\EtatController;
+use App\Http\Controllers\Admin\ContratController;
 use App\Http\Controllers\CalendarController ;
 
 /*
@@ -107,6 +108,9 @@ Route::middleware(['auth'])->group(function(){
     /*Equipement routes*/
     Route::resource('equipements',EquipementController::class);
 
+    /*Contrat routes*/
+    Route::resource('contrat',ContratController::class);
+
 
     /*Sous Equipements routes*/
     Route::resource('sousequipements',SousequipementController::class);
@@ -119,6 +123,8 @@ Route::middleware(['auth'])->group(function(){
 
     /*Interventions routes*/
     Route::resource('interventions',InterventionController::class);
+    Route::get('/getClientName', [InterventionController::class, 'getClientName']);
+
 
 
 });

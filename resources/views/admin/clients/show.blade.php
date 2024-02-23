@@ -44,8 +44,6 @@
 								<th>Numéro Série</th>
 								<th>Date Installation</th>
                                 <th>Software</th>
-
-								<th class="action-btn">Action</th>
 							</tr>
 						</thead>
                         <tbody>
@@ -56,12 +54,6 @@
 								<td>{{$equipement->numserie}}</td>
 								<td>{{$equipement->date_installation}}</td>
 								<td>{{$equipement->software}}</td>
-                                @if (Auth::user()->role == "super-admin")
-														<td><a href="/equipement/mod/{{ $equipement->id }}" data-toggle="tooltip" data-placement="top" title="Modifier" class="btn btn-sm bg-success-light"><i class="fe fe-pencil"></i></a>
-															<a  data-toggle="tooltip" data-placement="top" title="supprimer" class="btn btn-sm bg-danger-light"  href="/equipement/del/{{ $equipement->id}}"><i class="fe fe-trash"></i></a>
-
-                                                        </td>
-                             @endif
 							</tr>
 							@endforeach
 						</tbody>

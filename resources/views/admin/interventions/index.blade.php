@@ -35,6 +35,8 @@
 								<th>Equipement</th>
 								<th>Panne Initial</th>
 								<th>Intervenant(s)</th>
+                                <th>Sous-traitant</th>
+                                <th>Sous equipement</th>
 								<th>Description Panne</th>
                                 <th>Heure/Date d'appel client</th>
 								<th class="action-btn">Action</th>
@@ -66,11 +68,14 @@
                 {data: 'equipement_name', name: 'equipement_name'},
                 {data: 'type_panne', name: 'type_panne'},
                 {data: 'destinateur', name: 'destinateur'},
+                {data: 'soustraitant_name', name: 'soustraitant_name'},
+                {data: 'souseq_name', name: 'souseq_name'},
 				{data: 'description_panne', name: 'description_panne'},
                 {data: 'appel_client', name: 'appel_client'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });
 
+    });
 </script>
 @endpush

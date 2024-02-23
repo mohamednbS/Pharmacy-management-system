@@ -31,7 +31,7 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 								<label for="client">Client<span class="text-danger">*</span></label>
-								<select id="client" onchange="getEquipements(this.value)" class="select2 form-select form-control">
+								<select id="client" onchange="getEquipements(this.value)" class="select2 form-select form-control" name="client_name">
 									<option value="Sélectionner un Client">Sélectionner un Client</option>
 									@foreach ($clients as $client)
 										<option value="{{ $client->id }}">{{ $client->name }}</option>
@@ -43,7 +43,7 @@
 						<div class="col-lg-4">
 							<div class="form-group">
 								<label for="equipement">Equipment<span class="text-danger">*</span></label>
-								<select id="equipement" onchange="getSousequipements(this.value)" class="select2 form-select form-control">
+								<select id="equipement" onchange="getSousequipements(this.value)" class="select2 form-select form-control" name="equipement_name">
 									<option value="Sélectionner un equipement">Sélectionner un equipement</option>
 								</select>
 							</div>
@@ -52,7 +52,7 @@
 						<div class="col-lg-4">
 							<div class="form-group">
 								<label for="sousequipment">Sous equipement</label>
-								<select id="sousequipement" class="select2 form-select form-control">
+								<select id="sousequipement" class="select2 form-select form-control" name="souseq_name">
 									<option value="Sélectionner un sous equipment">Sélectionner un sous equipment</option>
 								</select>
 							</div>
@@ -162,11 +162,10 @@
 								<div class="form-group">
 									<label>Etat<span class="text-danger">*</span></label>
 								    <select  class="select2 form-select form-control" name="etat">
-
-										@foreach($etats as $etat)
-										  <option >Sélectionner un état</option>
-                                          <option value="{{ $etat->name }}">{{ $etat->name }}</option>
-                                         @endforeach
+                                       <option >Sélectionner un état</option>
+										@foreach($etats as $etat)		  
+                                            <option value="{{ $etat->name }}">{{ $etat->name }}</option>
+                                        @endforeach
 
                                     </select>
 								</div>
@@ -206,7 +205,7 @@
                     equipementSelect.innerHTML = '<option value="">Select Equipement</option>';
                     data.forEach(equipement => {
                         const option = document.createElement('option');
-                        option.value = equipement.id;
+                        option.value = equipement.modele;
                         option.text = equipement.modele;
                         equipementSelect.appendChild(option);
                     });

@@ -48,6 +48,12 @@ class InterventionController extends Controller
                     }
                     return $intervention->destinateur;
                 })
+                ->addColumn('soustraitant_name',function($intervention){
+                    return $intervention->soustraitant_name;
+                })
+                ->addColumn('souseq_name',function($intervention){
+                    return $intervention->souseq_name;
+                })
                 ->addColumn('description_panne',function($intervention){
                     return $intervention->description_panne;
                 })
@@ -57,9 +63,7 @@ class InterventionController extends Controller
                 ->addColumn('type_contrat',function($intervention){
                     return $intervention->type_contrat;
                 })
-                ->addColumn('etat',function($intervention){
-                    return $intervention->etat;
-                })
+
 
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("interventions.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
@@ -111,7 +115,6 @@ class InterventionController extends Controller
             'equipement_name'=>'required',
             'client_name'=>'required',
             'mode_appel'=>'required',
-            'destinateur'=>'required',
             'appel_client'=>'required',
 
         ]);
@@ -167,7 +170,6 @@ class InterventionController extends Controller
             'equipement_name'=>'required',
             'client_name'=>'required',
             'mode_appel'=>'required',
-            'destinateur'=>'required',
             'appel_client'=>'required',
 
         ]);

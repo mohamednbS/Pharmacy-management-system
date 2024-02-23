@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Intervention extends Model
 {
@@ -18,4 +19,8 @@ class Intervention extends Model
         'mode_appel','destinateur','soustritant_name','appel_client','description_intervention','observation','date_debut',
         'date_fin','etat','rapport'
     ];
+    public function clients(): MorphToMany
+    {
+        return $this->morphToMany(Client::class);
+    }
 }

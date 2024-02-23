@@ -34,4 +34,5 @@ class Equipement extends Model
     {
         return $this->hasMany(Accessoire::class); 
     }
+
 }

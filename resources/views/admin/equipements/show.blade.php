@@ -150,8 +150,6 @@
                 </div>
                 <!-- /Personal Details Tab -->
 
-                <!-- Change Password Tab -->
-                <div id="password_tab" class="tab-pane fade">
 
                     <div class="card">
                         <div class="card-body">

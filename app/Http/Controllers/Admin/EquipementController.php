@@ -40,7 +40,7 @@ class EquipementController extends Controller
                 ->addColumn('numserie',function($equipement){
                     return $equipement->numserie;
                 })
-                ->addColumn('modalite',function($equipement){
+                ->addColumn('modalite',function($equipement){ 
                     return $equipement->modalite->name;
                 })
                 ->addColumn('date_installation',function($equipement){
@@ -121,7 +121,6 @@ class EquipementController extends Controller
             'modalite_id'=>$request->modalite_id,
             'client_id'=>$request->client_id,
             'software'=>$request->software,
-            'tyoe_contrat'=>$request->type_contrat,
             'date_installation'=>$request->date_installation,
             'plan_prev'=>$request->plan_prev,
             'document'=>$documentName,
@@ -182,7 +181,6 @@ class EquipementController extends Controller
             'modalite_id'=>$request->modalite_id,
             'client_id'=>$request->client_id,
             'software'=>$request->software,
-            'tyoe_contrat'=>$request->type_contrat,
             'date_installation'=>$request->date_installation,
             'plan_prev'=>$request->plan_prev,
             'document'=>$documentName,
