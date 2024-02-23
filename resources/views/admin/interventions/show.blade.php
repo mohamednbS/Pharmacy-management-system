@@ -17,9 +17,12 @@
 
 				<div class="col ml-md-n2 profile-user-info">
 
-					<h4 class="user-name mb-3">Client : {{$intervention->client_name}}</h4>
-					<h5 class="user-name mb-3">Equipmement : {{$intervention->equipement_name}}</h5>
-                    <h5 class="user-name mb-3">Panne: {{$intervention->description_panne}}</h5>
+					<h4 class="user-name mb-3">Client : {{$intervention->client->name}}</h4>
+					<h5 class="user-name mb-3">Equipmement : {{$intervention->equipement->modele.'-'.$intervention->equipement->numserie}}</h5>
+                    <h5 class="user-name mb-3">Sous equipement:
+                                @if($intervention->sousequipement)
+                                {{$intervention->sousequipement->designation}}@endif
+                    </h5>
 				</div>
 
 
@@ -48,26 +51,19 @@
 								<h5 class="card-title d-flex justify-content-between">
 									<span>Aperçu</span>
 									<a class="edit-link" data-toggle="modal" href="#edit_intervention_details"><i class="fa fa-edit mr-1"></i>Modifier</a>
+                                  <span class="label label-primary"></span>
+
 								</h5>
 
 
 								<div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Client</p>
-									<p class="col-sm-10">	{{$intervention->client_name}}</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Etat intial d'equipement</p>
+									<p class="col-sm-10">	{{$intervention->type_panne}}</p>
 								</div>
 
 								<div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Etat</p>
-									<p class="col-sm-10">{{$intervention->etat}}</p>
-								</div>
-
-								<div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Intervenants</p>
-									<p class="col-sm-10">
-                                        @if (is_array($intervention->destinateur))
-                                        {{
-                                           implode(', ', $intervention->destinateur)
-                                         }}@endif</p>
+									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Description Panne</p>
+									<p class="col-sm-10">{{$intervention->description_panne}}</p>
 								</div>
 
                                 <div class="row">
@@ -80,9 +76,19 @@
 									<p class="col-sm-10">	{{$intervention->mode_appel}}</p>
 								</div>
 
-                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Description panne</p>
-									<p class="col-sm-10">	{{$intervention->description_panne}}</p>
+								<div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Intervenant(s)</p>
+									<p class="col-sm-10">
+                                        @if (is_array($intervention->destinateur))
+                                        {{
+                                           implode(', ', $intervention->destinateur)
+                                         }}@endif</p>
+								</div>
+
+                                <div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Sous traitant</p>
+                                    @if($intervention->soustraitant)
+                                    <p class="col-sm-10">{{$intervention->soustraitant->name}}@endif</p>
 								</div>
 
                                 <div class="row">
@@ -180,25 +186,26 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Change Password</h5>
+                            <h5 class="card-title">Historique intervention</h5>
                             <div class="row">
                                 <div class="col-md-10 col-lg-12">
                                     <form method="POST" action="{{route('update-password',auth()->user())}}">
                                         @csrf
                                         @method("PUT")
                                         <div class="form-group">
-                                            <label>Current Password</label>
-                                            <input type="password" name="current_password" class="form-control" placeholder="enter your current password">
+                                            <label>Date 1ère intervention</label>
+                                            <input type="date-time" name="current_password" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            <label>New Password</label>
-                                            <input type="password" name="password" class="form-control" placeholder="enter your new password">
+                                            <label>Date 2ère intervention</label>
+                                            <input type="date-time" name="password" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            <label>Confirm Password</label>
-                                            <input type="password" name="password_confirmation" class="form-control" placeholder="repeat your new password">
+                                            <label>Date 3ère intervention</label>
+                                            <input type="date-time" name="password_confirmation" class="form-control">
                                         </div>
-                                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                                        <!--
+                                       <button class="btn btn-primary" type="submit">Valider</button> -->
                                     </form>
                                 </div>
                             </div>

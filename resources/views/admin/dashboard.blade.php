@@ -25,7 +25,7 @@
                         <i class="fe fe-money"></i>
                     </span>
                     <div class="dash-count">
-                        <h3>{{AppSettings::get('app_currency', '$')}} {{$today_sales}}</h3>
+                        <h3>{{$all_contrats}}</h3>
                     </div>
                 </div>
                 <div class="dash-widget-info">
@@ -45,12 +45,12 @@
                         <i class="fe fe-credit-card"></i>
                     </span>
                     <div class="dash-count">
-                        <h3>{{$total_categories}}</h3>
+                        <h3>{{$all_modalites}}</h3> 
                     </div>
                 </div>
                 <div class="dash-widget-info">
-                    
-                    <h6 class="text-muted">Interventions</h6>
+
+                    <h6 class="text-muted">Modalités</h6>
                     <div class="progress progress-sm">
                         <div class="progress-bar bg-success w-50"></div>
                     </div>
@@ -66,11 +66,11 @@
                         <i class="fe fe-folder"></i>
                     </span>
                     <div class="dash-count">
-                        <h3>{{$total_expired_products}}</h3>
+                        <h3>{{$all_equipements}}</h3>
                     </div>
                 </div>
                 <div class="dash-widget-info">
-                    
+
                     <h6 class="text-muted">Equipements</h6>
                     <div class="progress progress-sm">
                         <div class="progress-bar bg-danger w-50"></div>
@@ -91,8 +91,8 @@
                     </div>
                 </div>
                 <div class="dash-widget-info">
-                    
-                    <h6 class="text-muted">Clients</h6>
+
+                    <h6 class="text-muted">Techniciens</h6>
                     <div class="progress progress-sm">
                         <div class="progress-bar bg-warning w-50"></div>
                     </div>
@@ -105,21 +105,22 @@
     <div class="col-md-12 col-lg-6">
         <div class="card card-table p-3">
             <div class="card-header">
-                <h4 class="card-title ">Interventions d'aujoud'hui</h4>
+                <h4 class="card-title ">Etats Interventions</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="sales-table" class="datatable table table-hover table-center mb-0">
+                    <table id="intervention-table" class="datatable table table-hover table-center mb-0">
                         <thead>
                             <tr>
                                 <th>Client</th>
                                 <th>Equipement</th>
-                                <th>Panne</th>
                                 <th>Interveant(s)</th>
+                                <th>Panne</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                                                                                      
+
                         </tbody>
                     </table>
                 </div>
@@ -128,11 +129,11 @@
     </div>
 
     <div class="col-md-12 col-lg-6">
-                    
+
         <!-- Pie Chart -->
         <div class="card card-chart">
             <div class="card-header">
-                <h4 class="card-title text-center">Maintenances</h4>
+                <h4 class="card-title text-center">Instances Interventions</h4>
             </div>
             <div class="card-body">
                 <div style="">
@@ -141,10 +142,10 @@
             </div>
         </div>
         <!-- /Pie Chart -->
-        
-    </div>	
-    
-    
+
+    </div>
+
+
 </div>
 
 @endsection
@@ -152,19 +153,20 @@
 @push('page-js')
 <script>
     $(document).ready(function() {
-        var table = $('#interventions-table').DataTable({
+        var table = $('#intervention-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{route('interventions.index')}}",
             columns: [
-                {data: 'client_name', name: 'client_name'},
-                {data: 'equipement_name', name: 'equipement_name'},
+                {data: 'client', name: 'client'},
+                {data: 'equipement', name: 'equipement'},
+                 {data: 'destinateur', name: 'destinateur'},
                 {data: 'description_panne', name: 'description_panne'},
-				{data: 'destinateur', name: 'destinateur'},
+
             ]
         });
-        
+
     });
-</script> 
+</script>
 <script src="{{asset('assets/plugins/chart.js/Chart.bundle.min.js')}}"></script>
 @endpush

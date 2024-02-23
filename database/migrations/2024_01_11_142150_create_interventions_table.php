@@ -15,15 +15,15 @@ class CreateInterventionsTable extends Migration
     {
         Schema::create('interventions', function (Blueprint $table) {
             $table->id();
-            $table->string('equipement_name');
-            $table->string('souseq_name')->nullable();
-            $table->string('client_name');
+            $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->foreignId('equipement_id')->constrained()->onDelete('cascade');
+            $table->foreignId('sousequipement_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('type_panne');
             $table->string('description_panne')->nullable();
             $table->string('priorite');
             $table->string('mode_appel');
             $table->string('destinateur');
-            $table->string('soustraitant_name')->nullable();
+            $table->string('soustraitant_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('appel_client');
             $table->text('description_intervention')->nullable();
             $table->text('observation')->nullable();

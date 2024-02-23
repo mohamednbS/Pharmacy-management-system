@@ -15,14 +15,11 @@
 	<div class="col-md-12">
 		<div class="profile-header">
 			<div class="row align-items-center">
-				<div class="col-auto profile-image">
-					<a href="#">
-						<img class="rounded-circle" alt="User Image" src="{{!empty(auth()->user()->avatar) ? asset('storage/users/'.auth()->user()->avatar): asset('assets/img/avatar.png')}}">
-					</a>
-				</div>
+
 				<div class="col ml-md-n2 profile-user-info">
-					<h1 class="user-name mb-0">{{$equipement->designation}}</h1>
-					<h5 class="text-muted">{{$equipement->code}}</h5>
+					<h4 class="user-name mb-0">Modèle : {{$equipement->modele}}</h4>
+                    <h5 class="user-name mb-0">Marque : {{$equipement->marque}}</h5>
+					<h6 class="text-muted">{{$equipement->code}}</h6>
 				</div>
 
 			</div>
@@ -33,10 +30,10 @@
 					<a class="nav-link active" data-toggle="tab" href="#per_details_tab">Aperçu</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-toggle="tab" href="#password_tab">Historique</a>
+					<a class="nav-link" data-toggle="tab" href="#password_tab">Pièces remplacées</a>
 				</li>
 				<li class="nav-item">
-				    <a href="/equipements/{{ $equipement->id}}/sousequipements/create" class="btn btn-primary float-right mt-2">Ajouter Sous-equipement</a>
+				    <a class="nav-link" href="/equipements/{{ $equipement->id}}/sousequipements/create" class="btn btn-primary float-right mt-2 text-light">Ajouter Sous-equipement</a>
 				</li>
 
 			</ul>
@@ -64,8 +61,8 @@
 								</div>
 
 								<div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Modèle</p>
-									<p class="col-sm-10">{{$equipement->modele}}</p>
+									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Modalité</p>
+									<p class="col-sm-10">{{$equipement->designation}}</p>
 								</div>
 
 								<div class="row">
@@ -79,11 +76,49 @@
 								</div>
 
                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Type Contrat</p>
-									<p class="col-sm-10">	{{$equipement->type_contrat}}</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Software</p>
+									<p class="col-sm-10">	{{$equipement->software}}</p>
+								</div>
+
+                                <div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Nombre planning préventif/an</p>
+									<p class="col-sm-10">	{{$equipement->plan_prev}}</p>
 								</div>
 
 							</div>
+							<!-- Details contrats -->
+							@if($equipement->contrat)
+							<div class="card-body">
+								<h5 class="card-title d-flex justify-content-between">
+									<span>Détails du contrat</span>
+							    </h5>
+                                <div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Type contrat</p>
+									<p class="col-sm-10">	{{$equipement->contrat->type_contrat}}</p>
+								</div>
+								<div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date de début</p>
+									<p class="col-sm-10">	{{$equipement->contrat->date_debut}}</p>
+								</div>
+
+								<div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date de fin</p>
+									<p class="col-sm-10">	{{$equipement->contrat->date_fin}}</p>
+								</div>
+
+								<div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Garantie</p>
+								</div>
+							</div>
+							@else
+							<div class="p-3 mb-2 bg-primary text-light">
+                    			<p>Cet équipement est hors contrat.</p>
+							</div>
+							@endif
+							<!-- /Details contrats -->
+
+
+
                         <!-- Edit Details Modal -->
 						<div class="modal fade" id="edit_equipement_details" aria-hidden="true" role="dialog">
 							<div class="modal-dialog modal-dialog-centered" role="document">
@@ -128,6 +163,22 @@
 													</div>
 												</div>
 
+
+												<div class="col-12">
+													<div class="form-group">
+														<label>software</label>
+														<input class="form-control select edit_role" name="software" value="{{$equipement->software}}">
+													</div>
+												</div>
+
+
+												<div class="col-12">
+													<div class="form-group">
+														<label>Nombre planning préventif/an</label>
+														<input class="form-control select edit_role" type="number" name="plan_prev" value="{{$equipement->plan_prev}}">
+													</div>
+												</div>
+
 												<div class="col-12">
 													<div class="form-group">
 														<label>Date insatallation</label>
@@ -147,31 +198,91 @@
                     </div>
                     <!-- /Personal Details -->
 
-                </div>
-                <!-- /Personal Details Tab -->
 
+
+                 <!-- Liste des sous equipements -->
+                 @if($equipement->sousequipements)
+                 <div class="card-body">
+                     <h5 class="card-title d-flex justify-content-between">
+                         <span>Liste des sous-équipement</span>
+                     </h5>
+                     <div class="card">
+                         <div class="card-body">
+                             <div class="table-responsive">
+                                 <table id="equipementsousequipement-table" class="datatable table table-hover table-center mb-0">
+                                     <thead>
+                                         <tr>
+
+                                             <th>Designation</th>
+                                             <th>Numéro Série</th>
+                                             <th>Modèle</th>
+                                             <th>Marque</th>
+
+                                         </tr>
+                                     </thead>
+                                     <tbody>
+                                        @foreach ($sousequipements as $sousequipement)
+                                        <tr>
+                                            <td>{{$sousequipement->designation}}</td>
+                                            <td>{{$sousequipement->identifiant}}</td>
+                                            <td>{{$sousequipement->modele}}</td>
+                                            <td>{{$sousequipement->marque}}</td>
+                                        </tr>
+                                        @endforeach
+                                     </tbody>
+                                 </table>
+                             </div>
+                         </div>
+
+                 @endif
+                </div>
+                 <!-- Change Password Tab -->
+                <div id="password_tab" class="tab-pane fade">
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Change Password</h5>
+                            <h5 class="card-title">Pièces remplacées</h5>
                             <div class="row">
                                 <div class="col-md-10 col-lg-12">
-                                    <form method="POST" action="{{route('update-password',auth()->user())}}">
+                                    <form action="{{ route('equipements.addPiece', $equipement->id) }}" method="POST">
                                         @csrf
-                                        @method("PUT")
-                                        <div class="form-group">
-                                            <label>Current Password</label>
-                                            <input type="password" name="current_password" class="form-control" placeholder="enter your current password">
+                                        <div class="row form-row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label>Désignation<span class="text-danger">*</span></label>
+                                                    <input type="text" name="designation"  class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label>Numéro de série<span class="text-danger">*</span></label>
+                                                      <input type="text" name="identifiant" class="form-control">
+                                                    </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label>Modèle</label>
+                                                    <input class="form-control" type="text" name="modele">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label>Marque</label>
+                                                    <input class="form-control" type="text" name="marque">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label>Date de remplacement</label>
+                                                    <input type="date" class="form-control" name="date_remplacement">
+                                                </div>
+                                            </div>
+
                                         </div>
-                                        <div class="form-group">
-                                            <label>New Password</label>
-                                            <input type="password" name="password" class="form-control" placeholder="enter your new password">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Confirm Password</label>
-                                            <input type="password" name="password_confirmation" class="form-control" placeholder="repeat your new password">
-                                        </div>
-                                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                                        <button type="submit" class="btn btn-primary btn-block">Ajouter</button>
                                     </form>
                                 </div>
                             </div>
@@ -180,7 +291,13 @@
                 </div>
                 <!-- /Change Password Tab -->
 
+
+
+
             </div>
         </div>
     </div>
     @endsection
+    @push('page-js')
+
+@endpush

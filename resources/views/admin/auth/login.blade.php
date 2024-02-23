@@ -22,5 +22,6 @@
 <!-- /Form -->
 
 <div class="text-center forgotpass"><a href="{{route('password.request')}}">Mot de passe oublié?</a></div>
-<div class="text-center dont-have"><a href="{{route('register')}}">Créer un compte</a></div>
+<!--
+<div class="text-center dont-have"><a href="{{route('register')}}">Créer un compte</a></div> -->
 @endsection

@@ -14,7 +14,7 @@ class Equipement extends Model
     protected $fillable = [
         'code','modele','marque',
         'designation','numserie','modalite_id','client_id',
-        'software','type_contrat','date_installation','plan_prev','document'
+        'software','date_installation','plan_prev','document'
     ];
 
     public function modalite(){
@@ -22,17 +22,20 @@ class Equipement extends Model
     }
 
     public function client(){
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Client::class);  
     }
 
     public function sousequipements(): HasMany
     {
-        return $this->hasMany(Sousequipement::class); 
+        return $this->hasMany(Sousequipement::class);
     }
 
     public function accessoires(): HasMany
     {
-        return $this->hasMany(Accessoire::class); 
+        return $this->hasMany(Accessoire::class);
     }
-
+    public function contrat()
+    {
+        return $this->hasOne(Contrat::class);
+    }
 }

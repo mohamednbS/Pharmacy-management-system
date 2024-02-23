@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Sale;
-use App\Models\Category;
-use App\Models\Purchase;
-use App\Models\Supplier;
+use App\Models\Contrat;
+use App\Models\Equipement;
+use App\Models\Client;
+use App\Models\Modalite;
 use App\Models\Intervention;
+use App\Models\Etat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
@@ -15,31 +16,30 @@ class DashboardController extends Controller
 {
     public function index(){
         $title = 'dashboard';
-        $total_purchases = Purchase::where('expiry_date','!=',Carbon::now())->count();
-        $total_categories = Category::count();
-        $total_suppliers = Supplier::count();
-        $total_sales = Sale::count();
-        
+        $intervention_cloture = Intervention::whereIn('etat', ['Clôturé', 'Clôturé à distance'])->count();
+        $intervention_non_cloture = Intervention::where('etat','!=','Clôturé')->count();
+        $all_contrats = Contrat::count();
+        $all_equipements = Equipement::count();
+
+
+
         $pieChart = app()->chartjs
                 ->name('pieChart')
                 ->type('pie')
                 ->size(['width' => 400, 'height' => 200])
-                ->labels(['Total Purchases', 'Total Suppliers','Total Sales'])
+                ->labels(['Intervention Clôturé', 'Intervention non Clôturé'])
                 ->datasets([
                     [
                         'backgroundColor' => ['#FF6384', '#36A2EB','#7bb13c'],
                         'hoverBackgroundColor' => ['#FF6384', '#36A2EB','#7bb13c'],
-                        'data' => [$total_purchases, $total_suppliers,$total_sales]
+                        'data' => [$intervention_cloture, $intervention_non_cloture]
                     ]
                 ])
                 ->options([]);
-        
-        $total_expired_products = Purchase::whereDate('expiry_date', '=', Carbon::now())->count();
-        $latest_sales = Sale::whereDate('created_at','=',Carbon::now())->get();
-        $today_sales = Sale::whereDate('created_at','=',Carbon::now())->sum('total_price');
+
+                $all_modalites = Modalite::count();
         return view('admin.dashboard',compact(
-            'title','pieChart','total_expired_products',
-            'latest_sales','today_sales','total_categories'
+            'title','pieChart','all_contrats','all_equipements','all_modalites'
         ));
     }
 }

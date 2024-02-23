@@ -8,14 +8,14 @@
 
 @push('page-header')
 <div class="col-sm-7 col-auto">
-	<h3 class="page-title">Gestion Clients</h3>
+	<h3 class="page-title">Gestion Sous-traitants</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-		<li class="breadcrumb-item active">Clients</li>
+		<li class="breadcrumb-item active">Sous-traitants</li>
 	</ul>
 </div>
 <div class="col-sm-5 col">
-	<a href="{{route('clients.create')}}" class="btn btn-primary float-right mt-2">Ajouter</a>
+	<a href="{{route('soustraitants.create')}}" class="btn btn-primary float-right mt-2">Ajouter</a>
 </div>
 @endpush
 
@@ -23,14 +23,14 @@
 <div class="row">
 	<div class="col-md-12">
 
-		<!-- clients -->
+		<!-- Sous-traitants -->
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
-					<table id="client-table" class="datatable table table-hover table-center mb-0">
+					<table id="soustraitant-table" class="datatable table table-hover table-center mb-0">
 						<thead>
 							<tr>
-								<th>Nom Client/Raison Sociale</th>
+								<th>Nom Sous-taitant</th>
 								<th>Email</th>
 								<th>Mobile</th>
 								<th>Fax</th>
@@ -40,10 +40,10 @@
 							</tr>
 						</thead>
 						<tbody>
-							{{-- @foreach ($clients as $client)
+							{{-- @foreach ($Sous-traitants as $client)
 							<tr>
 								<td>
-								{{$client->product}}
+									{{$client->product}}
 								</td>
 								<td>{{$client->name}}</td>
 								<td>{{$client->phone}}</td>
@@ -67,7 +67,7 @@
 				</div>
 			</div>
 		</div>
-		<!-- /clients-->
+		<!-- /Sous-traitants-->
 
 	</div>
     <div class="clearfix"></div>
@@ -83,10 +83,10 @@
 @push('page-js')
 <script>
     $(document).ready(function() {
-        var table = $('#client-table').DataTable({
+        var table = $('#soustraitant-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('clients.index')}}",
+            ajax: "{{route('soustraitants.index')}}",
             columns: [
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},

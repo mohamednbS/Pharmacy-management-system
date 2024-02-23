@@ -16,8 +16,9 @@ class CreateContratsTable extends Migration
         Schema::create('contrats', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
-            $table->datetime('date_debut');
-            $table->datetime('date_fin');
+            $table->foreignId('equipement_id')->constrained()->onDelete('cascade');
+            $table->date('date_debut');
+            $table->date('date_fin');
             $table->string('type_contrat');
             $table->string('status');
             $table->string('note');

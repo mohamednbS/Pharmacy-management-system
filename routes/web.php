@@ -26,10 +26,11 @@ use App\Http\Controllers\Admin\SousequipementController;
 use App\Http\Controllers\Admin\InterventionController;
 use App\Http\Controllers\Admin\EtatController;
 use App\Http\Controllers\Admin\ContratController;
-use App\Http\Controllers\CalendarController ;
+use App\Http\Controllers\Admin\SoustraitantController;
+use App\Http\livewire\Calendar ;
 
 /*
-|-------------------------------------------------------------------------- 
+|--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -59,11 +60,17 @@ Route::middleware(['auth'])->group(function(){
     Route::get('interventions/reports',[InterventionController::class,'reports'])->name('interventions.report');
     Route::post('interventions/reports',[InterventionController::class,'generateReport']);
 
-   /*equipments report*/
+   /*equipments*/
     Route::get('equipements/reports',[EquipementController::class,'reports'])->name('equipements.report');
     Route::post('equipements/reports',[EquipementController::class,'generateReport']);
     Route::post('/equipements/report/search',[EquipementController::class,'generateReport'])->name('equipements.report.search');
     Route::get('/getEquipements', [EquipementController::class, 'getEquipements']);
+    Route::post('/UpdategetEquipements', [EquipementController::class, 'UpdategetEquipements']);
+
+
+
+
+
     /*Calendrier*/
    Route::get('fullcalendar', [CalendarController::class, 'index']);
    Route::get('/events', [CalendarController::class, 'getEvents']);
@@ -93,23 +100,29 @@ Route::middleware(['auth'])->group(function(){
     Route::delete('backup/delete/{file_name?}', [BackupController::class,'destroy'])->where('file_name', '(.*)')->name('backup.destroy');
 
     Route::get('settings',[SettingController::class,'index'])->name('settings');
+    /*sous traitants routes*/
+    Route::resource('soustraitants',SoustraitantController::class);
 
     /*clients routes*/
     Route::resource('clients',ClientController::class);
 
+
     /*modalites routes*/
-    Route::resource('modalites',ModalitesController::class)->only(['index','store','destroy']);
+    Route::resource('modalites',ModalitesController::class);
     Route::put('modalites',[ModalitesController::class,'update'])->name('modalites.update');
 
     /*departements routes*/
     Route::resource('departements',DepartementController::class)->only(['index','store','destroy']);
     Route::put('departements',[DepartementController::class,'update'])->name('departements.update');
 
-    /*Equipement routes*/
+    /*equipements routes */
     Route::resource('equipements',EquipementController::class);
+    Route::post('/equipements/{id}/addPiece', [EquipementController::class, 'addPiece'])->name('equipements.addPiece');
 
     /*Contrat routes*/
-    Route::resource('contrat',ContratController::class);
+    Route::resource('contrats',ContratController::class)->except('show');
+    Route::get('contrats/reports',[ContratController::class,'reports'])->name('contrats.report');
+    Route::post('contrats/reports',[ContratController::class,'generateReport']);
 
 
     /*Sous Equipements routes*/
@@ -117,6 +130,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/equipements/{equipement_id}/sousequipements/create', [SousequipementController::class,'create']);
     Route::post('/equipements/{equipement_id}/store', [SousequipementController::class,'store'])->name('sousequipements.store');
     Route::get('/getSousequipements', [SousequipementController::class, 'getSousequipements']);
+
     /*etats maintenance routes*/
     Route::resource('etats',EtatController::class)->only(['index','store','destroy']);
     Route::put('etats',[EtatController::class,'update'])->name('etats.update');
@@ -129,7 +143,7 @@ Route::middleware(['auth'])->group(function(){
 
 });
 
-Route::middleware(['guest'])->group(function () {
+    Route::middleware(['guest'])->group(function () {
     Route::get('',function(){
         return redirect()->route('dashboard');
     });

@@ -8,6 +8,7 @@ use App\Models\Sousequipement;
 use App\Models\Client;
 use App\Models\User;
 use App\Models\Etat;
+use App\Models\Soustraitant;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -32,12 +33,15 @@ class InterventionController extends Controller
                 ->addColumn('etat',function($intervention){
                     return '<a href="'.route("interventions.show", $intervention->id).'">'. $intervention->etat .'</a>';
                 })
-                ->addColumn('client_name',function($intervention){
-                    return $intervention->client_name;
+                ->addColumn('client',function($intervention){
+                    if(!empty($intervention->client)){
+                        return $intervention->client->name;
+                    }
                 })
-                ->addColumn('equipement_name',function($intervention){
-                    return $intervention->equipement_name;
-
+                ->addColumn('equipement',function($intervention){
+                    if(!empty($intervention->equipement)){
+                        return $intervention->equipement->modele;
+                    }
                 })
                 ->addColumn('type_panne',function($intervention){
                     return $intervention->type_panne;
@@ -48,33 +52,38 @@ class InterventionController extends Controller
                     }
                     return $intervention->destinateur;
                 })
-                ->addColumn('soustraitant_name',function($intervention){
-                    return $intervention->soustraitant_name;
+                ->addColumn('soustraitant',function($intervention){
+                    if(!empty($intervention->soustraitant)){
+                        return $intervention->soustraitant->name;
+                    }
                 })
-                ->addColumn('souseq_name',function($intervention){
-                    return $intervention->souseq_name;
-                })
-                ->addColumn('description_panne',function($intervention){
-                    return $intervention->description_panne;
+                ->addColumn('sousequipement',function($intervention){
+                    if(!empty($intervention->sousequipement)){
+                        return $intervention->sousequipement->designation;
+                    }
                 })
                 ->addColumn('appel_client',function($intervention){
                     return $intervention->appel_client;
                 })
-                ->addColumn('type_contrat',function($intervention){
-                    return $intervention->type_contrat;
+                ->addColumn('type_intervention',function($intervention){
+                    return $intervention->type_intervention;
                 })
 
 
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("interventions.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('interventions.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+                    $viewbtn = '<a href="'.route("interventions.show", $row->id).'" class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye"></i></button></a>';
                     if (!auth()->user()->hasPermissionTo('edit-intervention')) {
                         $editbtn = '';
                     }
                     if (!auth()->user()->hasPermissionTo('destroy-intervention')) {
                         $deletebtn = '';
                     }
-                    $btn = $editbtn.' '.$deletebtn;
+                    if (!auth()->user()->hasPermissionTo('view-intervention')) {
+                        $viewbtn = '';
+                    }
+                    $btn = $editbtn.' '.$deletebtn.' '.$viewbtn;
                     return $btn;
                 })
                 ->rawColumns(['etat','action'])
@@ -92,14 +101,15 @@ class InterventionController extends Controller
      */
     public function create()
     {
-        $title = 'create intervention';
+        $title = 'ajouter intervention';
         $equipements= Equipement::get();
         $clients = Client::get();
         $etats = Etat::get();
-        $users = User::whereIn('role', ['technicien', 'ingenieur'])->get();
+        $soustraitants = Soustraitant::get();
+        $users = User::whereIn('role', ['technicien', 'ingenieur','administrateur'])->get();
         $sousequipements = Sousequipement::get();
         return view('admin.interventions.create',compact(
-            'title','equipements','clients','users','etats','sousequipements'
+            'title','equipements','clients','users','etats','sousequipements','soustraitants'
         ));
     }
 
@@ -112,23 +122,25 @@ class InterventionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'equipement_name'=>'required',
-            'client_name'=>'required',
+            'client'=>'required',
+            'equipement'=>'required',
             'mode_appel'=>'required',
             'appel_client'=>'required',
+            'sousequipement_id' => 'nullable|integer',
+            'soutraitant_id' => 'nullable|integer',
 
         ]);
 
         Intervention::create([
-            'equipement_name'=>$request->equipement_name,
-            'souseq_name'=>$request->souseq_name,
-            'client_name'=>$request->client_name,
+            'client_id'=>$request->client,
+            'equipement_id'=>$request->equipement,
+            'sousequipement_id'=>$request->equipement,
             'type_panne'=>$request->type_panne,
             'description_panne'=>$request->description_panne,
             'priorite'=>$request->priorite,
             'mode_appel'=>$request->mode_appel,
             'destinateur'=> $request->destinateur,
-            'soustraitant_name'=>$request->soustraitant_name,
+            'soustraitant_id'=>$request->soustraitant_id,
             'appel_client'=>$request->appel_client,
             'date_debut'=>$request->date_debut,
             'etat'=>$request->etat,
@@ -151,9 +163,11 @@ class InterventionController extends Controller
         $equipements= Equipement::get();
         $clients = Client::get();
         $users = User::whereIn('role', ['technicien', 'ingenieur'])->get();
+        $etats = Etat::get();
+        $soustraitants = Soustraitant::get();
         $sousequipements = Sousequipement::get();
         return view('admin.interventions.edit',compact(
-            'title','equipements','clients','users','sousequipements','intervention'
+            'title','equipements','clients','users','etats','sousequipements','intervention','soustraitants'
         ));
     }
 
@@ -167,10 +181,12 @@ class InterventionController extends Controller
     public function update(Request $request, Intervention $intervention)
     {
         $this->validate($request,[
-            'equipement_name'=>'required',
-            'client_name'=>'required',
+            'equipement'=>'required',
+            'client'=>'required',
             'mode_appel'=>'required',
             'appel_client'=>'required',
+            'sousequipement_id' => 'nullable|integer',
+            'soutraitant_id' => 'nullable|integer',
 
         ]);
         $rapportName = null;
@@ -179,15 +195,15 @@ class InterventionController extends Controller
             $request->rapport->move(public_path('storage/interventions'), $rapportName);
         }
         $intervention->update([
-            'equipement_name'=>$request->equipement_name,
-            'souseq_name'=>$request->souseq_name,
-            'client_name'=>$request->client_name,
+            'client_id'=>$request->client,
+            'equipement_id'=>$request->equipement,
+            'sousequipement_id'=>$request->equipement,
             'type_panne'=>$request->type_panne,
             'desciption_panne'=>$request->desciption_panne,
             'priorite'=>$request->priorite,
             'mode_appel'=>$request->mode_appel,
             'destinateur'=> $request->destinateur,
-            'soustraitant_name'=>$request->soustraitant_name,
+            'soustraitant_id'=>$request->soustraitant_id,
             'appel_client'=>$request->appel_client,
             'description_intervention'=>$request->description_intervention,
             'date_debut'=>$request->date_debut,
@@ -224,9 +240,10 @@ class InterventionController extends Controller
         $equipements= Equipement::get();
         $sousequipements= Sousequipement::get();
         $users= User::get();
+        $soustraitants = Soustraitant::get();
         return view('admin.interventions.show',compact(
             'title','clients','sousequipements','intervention',
-            'users','equipements'
+            'users','equipements','soustraitants'
 
         ));
     }

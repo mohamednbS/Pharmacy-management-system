@@ -3,7 +3,7 @@
 <x-assets.datatables />
 
 @push('page-css')
-    
+
 @endpush
 
 @push('page-header')
@@ -29,18 +29,17 @@
 						<thead>
 							<tr style="boder:1px solid black;">
 								<th>Nom</th>
-								<th>Created date</th>
-								<th class="text-center action-btn">Actions</th>
+								<th>Actions</th>
 							</tr>
 						</thead>
 						<tbody>
-												
+
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-	</div>			
+	</div>
 </div>
 
 <!-- Add Modal -->
@@ -94,7 +93,7 @@
 								<input type="text" class="form-control edit_name" name="name">
 							</div>
 						</div>
-						
+
 					</div>
 					<button type="submit" class="btn btn-primary btn-block">Modifier</button>
 				</form>
@@ -102,7 +101,7 @@
 		</div>
 	</div>
 </div>
-<!-- /Edit Details Modal --> 
+<!-- /Edit Details Modal -->
 @endsection
 
 @push('page-js')
@@ -114,8 +113,7 @@
             ajax: "{{route('modalites.index')}}",
             columns: [
                 {data: 'name', name: 'name'},
-                {data: 'created_at',name: 'created_at'},
-                {data: 'action', name: 'action', orderable: false, searchable: false},
+                {data: 'action', name: 'action', orderable: true, searchable: false},
             ]
         });
         $('#modalite-table').on('click','.editbtn',function (){
@@ -127,5 +125,5 @@
         });
         //
     });
-</script> 
+</script>
 @endpush

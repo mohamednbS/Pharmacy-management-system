@@ -30,47 +30,46 @@
 						<div class="row">
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label>Client<span class="text-danger">*</span></label>
-									<select class="select2 form-select form-control" name="client_name">
-                                    <option>--Sélectionner un client--</option>
+									<label for="client">Client<span class="text-danger">*</span></label>
+								    <select id="client" onchange="getEquipements(this.value)" class="select2 form-select form-control" name="client">
+										<option value="Sélectionner un Client">Sélectionner un Client</option>
 										@foreach ($clients as $client)
-										@if ($client->name == $intervention->client_name)
-											<option selected value="{{$client->name}}">{{$client->name}}</option>
-										@else
-										    <option value="{{$client->name}}">{{$client->name}}</option>
-										@endif
-										@endforeach
-									</select>
+											<option value="{{ $client->id }}"
+												{{ ($intervention->client_id ?? null) === $client->id ? 'selected' : '' }}>
+												{{ $client->name }}
+											</option>
+									    @endforeach
+								    </select>
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label>Equipement<span class="text-danger">*</span></label>
-									<select class="select2 form-select form-control" name="equipement_name">
-
+									<label for="equipement">Equipement<span class="text-danger">*</span></label>
+								    <select id="equipement" onchange="getSousequipements(this.value)" class="select2 form-select form-control" name="equipement">
+									    <option value="Sélectionner un equipement">Sélectionner un equipement</option>
 										@foreach ($equipements as $equipement)
-										@if ($equipement->modele.'--'.$equipement->numserie == $intervention->equipement_name)
-											<option selected value="{{$equipement->modele.'--'.$equipement->numserie}}">{{$equipement->modele.'--'.$equipement->numserie }}</option>
-										@else
-											<option value="{{$equipement->modele.'--'.$equipement->numserie}}">{{$equipement->modele.'--'.$equipement->numserie }}</option>
-										@endif
-										@endforeach
-									</select>
+										<option value="{{ $equipement->id }}"
+											{{ ($intervention->equipement_id ?? null) === $equipement->id ? 'selected' : '' }}>
+											{{ $equipement->modele }}
+										</option>
+									    @endforeach
+
+								    </select>
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label>Sous equipement</label>
-									<select class="select2 form-select form-control" name="souseq_name">
+								<label for="sousequipement">Sous equipement</label>
+								<select id="sousequipement" class="select2 form-select form-control" name="sousequipement">
+									<option value="Sélectionner un sous equipement">Sélectionner un sous equipement</option>
+									@foreach ($sousequipements as $sousequipement)
+										<option value="{{ $sousequipement->id }}"
+											{{ ($intervention->sousequipement_id ?? null) === $sousequipement->id ? 'selected' : '' }}>
+											{{ $sousequipement->designation }}
+										</option>
+									@endforeach
 
-                                            @foreach($sousequipements as $sousequipement )
-                                            @if ($sousequipement->name == $intervention->souseq_name)
-                                                <option selected value='{{ $sousequipement->name }}'>{{ $sousequipement->name }}</option>
-                                            @else
-                                                <option value='{{ $sousequipement->name }}'>{{ $sousequipement->name }}</option>
-                                            @endif
-                                            @endforeach
-									</select>
+								</select>
 								</div>
 							</div>
 						</div>
@@ -181,19 +180,21 @@
                                             @endif
                                         @endforeach
                                     </select>
-                                <div>
+                                </div>
 							</div>
 
-							</div>
+
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Sous-traitant</label>
-									<select  class="select2 form-select form-control" name="soustraitant_name">
+									<select  class="select2 form-select form-control" name="soustraitant">
                                     <option >Sélectionner le sous-traitant</option>
-                                        <option value="CMI">CMI</option>
-                                        <option value="Tiamed">Tiamed</option>
-                                        <option value="Fax">Fax</option>
-                                        <option value="WhatsApp">WhatsApp</option>
+                                        @foreach ($soustraitants as $soustraitant)
+                                                <option value="{{ $soustraitant->id }}"
+                                                {{ ($intervention->soustraitant_id ?? null) === $soustraitant->id ? 'selected' : '' }}>
+                                                {{ $soustraitant->name }}
+                                                </option>
+                                        @endforeach
                                     </select>
 								</div>
 							</div>
@@ -220,27 +221,21 @@
 									<label>Priorité</label>
                                     <select  class="select2 form-select form-control" name="priorite">
                                         @if ( $intervention->etat == "Tres urgent")
-
                                         <option >Selectionner une priorité</option>
                                         <option selected value='Tres urgent'>Tres urgent</option>
                                         <option value="Urgent">Urgent</option>
                                         <option value="Normale">Normale</option>
-
                                         @elseif ($intervention->etat == "Urgent")
-
                                         <option>-- Sélectionner une priorité--</option>
                                         <option selected value='Urgent'>Urgent</option>
                                         <option value='Normale'>Normale</option>
                                         <option value='Tres urgent'>Tres urgent</option>
-
                                         @else
-
                                         <option>-- Sélectionner une priorité --</option>
                                         <option selected value='Normale'>Normale</option>
                                         <option value='Tres urgent'>Tres urgent</option>
                                         <option value='Urgent'>Urgent</option>
-
-                                    @endif
+                                        @endif
                                     </select>
 								</div>
 							</div>
@@ -253,170 +248,10 @@
 										<div class="form-group">
 											<label>Etat<span class="text-danger">*</span></label>
 											<select  class="select2 form-select form-control" name="etat">
-											@if ( $intervention->etat == "Demandé")
-											<option>-- Sélectionner un Etat --</option>
-											<option selected value='Demandé'>Demandé</option>
-											<option value="Diagnostic en Cours">Diagnostic en Cours</option>
-											<option value="Reporté">Reporté</option>
-											<option value="Attente BC">Attente BC</option>
-											<option value="Attente Pièce">Attente Pièce</option>
-											<option value="Devis à fournir">Devis à fournir</option>
-											<option value="Mise en Attente">Mise en Attente</option>
-											<option value="Attente Rapport">Attente Rapport</option>
-											<option value="Clôturé Sans Rappport">Clôturé Sans Rappport</option>
-											<option value="Poursuivre le Diagnostic">Poursuivre le Diagnostic</option>
-											<option value="Clôturé par Téléphone">Clôturé par Téléphone</option>
-											<option value="Clôturé à Distance">Clôturé à Distance</option>
-											<option value="Cloture">Clôturé </option>
-
-										    @elseif ($intervention->etat == "Diagnostic en Cours")
-											<option>-- Sélectionner un Etat --</option>
-											<option selected value='Diagnostic en Cours'>Diagnostic en Cours</option>
-											<option value='Demandé'>Demandé</option>
-											<option value="Reporté">Reporté</option>
-											<option value="Attente BC">Attente BC</option>
-											<option value="Attente Pièce">Attente Pièce</option>
-											<option value="Devis à fournir">Devis à fournir</option>
-											<option value="Mise en Attente">Mise en Attente</option>
-											<option value="Attente Rapport">Attente Rapport</option>
-											<option value="Clôturé Sans Rappport">Clôturé Sans Rappport</option>
-											<option value="Poursuivre le Diagnostic">Poursuivre le Diagnostic</option>
-											<option value="Clôturé par Téléphone">Clôturé par Téléphone</option>
-											<option value="Clôturé à Distance">Clôturé à Distance</option>
-											<option value="Cloture">Clôturé </option>
-
-										    @elseif ($intervention->etat == "Reporté")
-											<option>-- Sélectionner un Etat --</option>
-											<option selected value='Reporté'>Reporté</option>
-											<option value='Demandé'>Demandé</option>
-											<option value="Diagnostic en Cours">Diagnostic en Cours</option>
-											<option value="Attente BC">Attente BC</option>
-											<option value="Attente Pièce">Attente Pièce</option>
-											<option value="Devis à fournir">Devis à fournir</option>
-											<option value="Mise en Attente">Mise en Attente</option>
-											<option value="Attente Rapport">Attente Rapport</option>
-											<option value="Clôturé Sans Rappport">Clôturé Sans Rappport</option>
-											<option value="Poursuivre le Diagnostic">Poursuivre le Diagnostic</option>
-											<option value="Clôturé par Téléphone">Clôturé par Téléphone</option>
-											<option value="Clôturé à Distance">Clôturé à Distance</option>
-											<option value="Cloture">Clôturé </option>
-
-										    @elseif ($intervention->etat == "Attente BC")
-											<option>-- Sélectionner un Etat --</option>
-											<option selected value='Attente BC'>Attente BC</option>
-											<option value='Demandé'>Demandé</option>
-											<option value="Diagnostic en Cours">Diagnostic en Cours</option>
-											<option value="Reporté">Reporté</option>
-											<option value="Reporté">Reporté</option>
-											<option value="Attente BC">Attente BC</option>
-											<option value="Attente Pièce">Attente Pièce</option>
-											<option value="Devis à fournir">Devis à fournir</option>
-											<option value="Mise en Attente">Mise en Attente</option>
-											<option value="Attente Rapport">Attente Rapport</option>
-											<option value="Clôturé Sans Rappport">Clôturé Sans Rappport</option>
-											<option value="Poursuivre le Diagnostic">Poursuivre le Diagnostic</option>
-											<option value="Clôturé par Téléphone">Clôturé par Téléphone</option>
-											<option value="Clôturé à Distance">Clôturé à Distance</option>
-											<option value="Cloture">Clôturé </option>
-
-										    @elseif ($intervention->etat == "Attente Pièce")
-											<option>-- Sélectionner un Etat --</option>
-											<option selected value='Attente Pièce'>Attente Pièce</option>
-											<option value='Demandé'>Demandé</option>
-											<option value="Diagnostic en Cours">Diagnostic en Cours</option>
-											<option value="Reporté">Reporté</option>
-											<option value="Attente BC">Attente BC</option>
-											<option value="Devis à fournir">Devis à fournir</option>
-											<option value="Mise en Attente">Mise en Attente</option>
-											<option value="Attente Rapport">Attente Rapport</option>
-											<option value="Clôturé Sans Rappport">Clôturé Sans Rappport</option>
-											<option value="Poursuivre le Diagnostic">Poursuivre le Diagnostic</option>
-											<option value="Clôturé par Téléphone">Clôturé par Téléphone</option>
-											<option value="Clôturé à Distance">Clôturé à Distance</option>
-											<option value="Cloture">Clôturé </option>
-
-										    @elseif ($intervention->etat == "Devis à fournir")
-											<option>-- Sélectionner un Etat --</option>
-											<option selected value='Devis à fournir'>Devis à fournir</option>
-											<option value='Demandé'>Demandé</option>
-											<option value="Diagnostic en Cours">Diagnostic en Cours</option>
-											<option value="Reporté">Reporté</option>
-											<option value="Attente BC">Attente BC</option>
-											<option value="Attente Pièce">Attente Pièce</option>
-											<option value="Mise en Attente">Mise en Attente</option>
-											<option value="Attente Rapport">Attente Rapport</option>
-											<option value="Clôturé Sans Rappport">Clôturé Sans Rappport</option>
-											<option value="Poursuivre le Diagnostic">Poursuivre le Diagnostic</option>
-											<option value="Clôturé par Téléphone">Clôturé par Téléphone</option>
-											<option value="Clôturé à Distance">Clôturé à Distance</option>
-											<option value="Cloture">Clôturé </option>
-
-										    @elseif ($intervention->etat == "Mise en Attente")
-											<option>-- Sélectionner un Etat --</option>
-											<option selected value='Mise en Attente'>Mise en Attente</option>
-											<option value='Demandé'>Demandé</option>
-											<option value="Diagnostic en Cours">Diagnostic en Cours</option>
-											<option value="Reporté">Reporté</option>
-											<option value="Attente BC">Attente BC</option>
-											<option value="Attente Pièce">Attente Pièce</option>
-											<option value="Devis à fournir">Devis à fournir</option>
-											<option value="Attente Rapport">Attente Rapport</option>
-											<option value="Clôturé Sans Rappport">Clôturé Sans Rappport</option>
-											<option value="Poursuivre le Diagnostic">Poursuivre le Diagnostic</option>
-											<option value="Clôturé par Téléphone">Clôturé par Téléphone</option>
-											<option value="Clôturé à Distance">Clôturé à Distance</option>
-											<option value="Cloture">Clôturé </option>
-
-										    @elseif ($intervention->etat == "Attente Rapport")
-											<option>-- Sélectionner un Etat --</option>
-											<option selected value='Attente Rapport'>Attente Rapport</option>
-											<option value='Demandé'>Demandé</option>
-											<option value="Diagnostic en Cours">Diagnostic en Cours</option>
-											<option value="Reporté">Reporté</option>
-											<option value="Attente BC">Attente BC</option>
-											<option value="Attente Pièce">Attente Pièce</option>
-											<option value="Devis à fournir">Devis à fournir</option>
-											<option value="Mise en Attente">Mise en Attente</option>
-											<option value="Clôturé Sans Rappport">Clôturé Sans Rappport</option>
-											<option value="Poursuivre le Diagnostic">Poursuivre le Diagnostic</option>
-											<option value="Clôturé par Téléphone">Clôturé par Téléphone</option>
-											<option value="Clôturé à Distance">Clôturé à Distance</option>
-											<option value="Cloture">Clôturé </option>
-
-										    @elseif ($intervention->etat == "Clôturé Sans Rappport")
-											<option>-- Sélectionner un Etat --</option>
-											<option selected value='Clôturé Sans Rappport'>Clôturé Sans Rappport</option>
-											<option value='Demandé'>Demandé</option>
-											<option value="Diagnostic en Cours">Diagnostic en Cours</option>
-											<option value="Reporté">Reporté</option>
-											<option value="Attente BC">Attente BC</option>
-											<option value="Attente Pièce">Attente Pièce</option>
-											<option value="Devis à fournir">Devis à fournir</option>
-											<option value="Mise en Attente">Mise en Attente</option>
-											<option value="Attente Rapport">Attente Rapport</option>
-											<option value="Poursuivre le Diagnostic">Poursuivre le Diagnostic</option>
-											<option value="Clôturé par Téléphone">Clôturé par Téléphone</option>
-											<option value="Clôturé à Distance">Clôturé à Distance</option>
-											<option value="Cloture">Clôturé </option>
-											<option value='Terminé'>Terminé</option>
-
-										    @else
-											<option>-- Sélectionner un Etat --</option>
-											<option selected value='Clôturé'>Clôturé</option>
-											<option value='Demandé'>Demandé</option>
-											<option value="Diagnostic en Cours">Diagnostic en Cours</option>
-											<option value="Reporté">Reporté</option>
-											<option value="Attente BC">Attente BC</option>
-											<option value="Attente Pièce">Attente Pièce</option>
-											<option value="Devis à fournir">Devis à fournir</option>
-											<option value="Mise en Attente">Mise en Attente</option>
-											<option value="Attente Rapport">Attente Rapport</option>
-											<option value="Cloture">En Cours</option>
-											<option value="Poursuivre le Diagnostic">Poursuivre le Diagnostic</option>
-											<option value="Clôturé par Téléphone">Clôturé par Téléphone</option>
-											<option value="Clôturé à Distance">Clôturé à Distance</option>
-											<option value="Clôturé Sans Rappport">Clôturé Sans Rappport</option>
-										    @endif
+											<option >Sélectionner un état</option>
+										        @foreach ($etats as $etat)
+										    		<option @if($intervention->etat == $etat->name) selected @endif value="{{$etat->name}}">{{$etat->name}}</option>
+								                @endforeach
 											</select>
 										</div>
 									</div>
@@ -456,4 +291,38 @@
 	<!-- Datetimepicker JS -->
 	<script src="{{asset('assets/js/moment.min.js')}}"></script>
 	<script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>
+	<script>
+        function getEquipements(clientId) {
+            fetch('/getEquipements?client_id=' + clientId)
+                .then(response => response.json())
+                .then(data => {
+                    const equipementSelect = document.getElementById('equipement');
+                    equipementSelect.innerHTML = '<option value="">Select Equipement</option>';
+                    data.forEach(equipement => {
+                        const option = document.createElement('option');
+                        option.value = equipement.id;
+                        option.text = equipement.modele;
+                        equipementSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching equipements:', error));
+        }
+    </script>
+	<script>
+        function getSousequipements(equipementId) {
+            fetch('/getSousequipements?equipement_id=' + equipementId)
+                .then(response => response.json())
+                .then(data => {
+                    const sousequipementSelect = document.getElementById('sousequipement');
+                    sousequipementSelect.innerHTML = '<option value="">Select Sousequipement</option>';
+                    data.forEach(sousequipement => {
+                        const option = document.createElement('option');
+                        option.value = sousequipement.id;
+                        option.text = sousequipement.designation;
+                        sousequipementSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching sousequipements:', error));
+        }
+    </script>
 @endpush

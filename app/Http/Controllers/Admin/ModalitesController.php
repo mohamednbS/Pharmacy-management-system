@@ -22,19 +22,21 @@ class ModalitesController extends Controller
             $modalites = Modalite::get();
             return DataTables::of($modalites)
                     ->addIndexColumn()
-                    ->addColumn('created_at',function($modalite){
-                        return date_format(date_create($modalite->created_at),"d M,Y");
-                    })
+
                     ->addColumn('action',function ($row){
-                        $editbtn = '<a data-id="'.$row->id.'" data-name="'.$row->name.'" href="javascript:void(0)" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
-                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('modalites.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+                        $editbtn = '<a data-id="'.$row->id.'" data-name="'.$row->name.'" href="javascript:void(0)" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit" class="text-center action-btn"></i></button></a>';
+                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('modalites.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger" class="text-center action-btn"><i class="fas fa-trash"></i></button></a>';
+                        $viewbtn = '<a href="'.route("modalites.show", $row->id).'"class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye" class="text-center action-btn"></i></button></a>';
                         if(!auth()->user()->hasPermissionTo('edit-modalite')){
                             $editbtn = '';
                         }
                         if(!auth()->user()->hasPermissionTo('destroy-modalite')){
                             $deletebtn = '';
                         }
-                        $btn = $editbtn.' '.$deletebtn;
+                        if(!auth()->user()->hasPermissionTo('view-modalite')){
+                            $viewbtn = '';
+                        }
+                        $btn = $editbtn.' '.$deletebtn.' '.$viewbtn;
                         return $btn;
                     })
                     ->rawColumns(['action'])
@@ -45,7 +47,7 @@ class ModalitesController extends Controller
         ));
     }
 
-   
+
 
     /**
      * Store a newly created resource in storage.
@@ -60,17 +62,17 @@ class ModalitesController extends Controller
         ]);
         Modalite::create($request->all());
         $notification=array("Modalité est ajoutée");
-        return back()->with($notification); 
+        return back()->with($notification);
     }
 
-    
 
-    
+
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request 
-     * 
+     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -95,6 +97,15 @@ class ModalitesController extends Controller
         return Modalite::findOrFail($request->id)->delete();
     }
 
-    
+    public function show($id){
+        $title = 'modalite';
+        $modalite = Modalite::findOrFail($id);
+        $equipements = $modalite->equipements;
+        return view('admin.modalites.show',compact(
+            'title','modalite','equipements'
+        ));
+    }
+
+
 }
 

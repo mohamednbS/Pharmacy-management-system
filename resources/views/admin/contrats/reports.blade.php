@@ -9,10 +9,10 @@
 
 @push('page-header')
 <div class="col-sm-7 col-auto">
-	<h3 class="page-title">Rapport Interventions</h3>
+	<h3 class="page-title">Rapport Contrats</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-		<li class="breadcrumb-item active">Générer rapport interventions</li>
+		<li class="breadcrumb-item active">Générer rapport des contrats</li>
 	</ul>
 </div>
 <div class="col-sm-5 col">
@@ -28,29 +28,25 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="intervention-table" class="datatable table table-hover table-center mb-0">
+                        <table id="contrat-table" class="datatable table table-hover table-center mb-0">
                             <thead>
                                 <tr>
                                     <th>Client</th>
                                     <th>Equipement</th>
-                                    <th>Heure/Date appel client</th>
-                                    <th>Mode appel</th>
-                                    <th>Panne</th>
-                                    <th>Etat</th>
-
+                                    <th>Date de début </th>
+                                    <th>Date de fin</th>
+                                    <th>Type contrat</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($interventions as $intervention)
+                            @foreach ($contrats as $contrat)
                                 <tr>
-                                    <td>{{$intervention->client->name}}</td>
-                                    <td>{{$intervention->equipement->modele}}</td>
-                                    <td>{{$intervention->appel_client}}</td>
-                                    <td>{{$intervention->mode_appel}}</td>
-                                    <td>{{$intervention->description_panne}}</td>
-                                    <td>{{$intervention->etat}}</td>
-
+                                    <td>{{$contrat->client->name}}</td>
+                                    <td>{{$contrat->equipement->modele}}</td>
+                                    <td>{{$contrat->date_debut}}</td>
+                                    <td>{{$contrat->date_fin}}</td>
+                                    <td>{{$contrat->type_contrat}}</td>
 
                                 </tr>
 
@@ -60,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <!-- /interventions Report -->
+            <!-- /contrats Report -->
         </div>
     </div>
     @endisset
@@ -77,7 +73,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="{{route('interventions.report')}}">
+                    <form method="post" action="{{route('contrats.report')}}">
                         @csrf
                         <div class="row form-row">
                             <div class="col-12">
@@ -110,7 +106,7 @@
 @push('page-js')
 <script>
     $(document).ready(function(){
-        $('#intervention-table').DataTable({
+        $('#contrat-table').DataTable({
             dom: 'Bfrtip',
             buttons: [
                 {

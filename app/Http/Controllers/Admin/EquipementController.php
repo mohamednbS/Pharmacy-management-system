@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Equipement;
 use App\Models\Client;
 use App\Models\Modalite;
+use App\Models\Contrat;
+use App\Models\Sousequipement;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -40,27 +42,28 @@ class EquipementController extends Controller
                 ->addColumn('numserie',function($equipement){
                     return $equipement->numserie;
                 })
-                ->addColumn('modalite',function($equipement){ 
+                ->addColumn('modalite',function($equipement){
                     return $equipement->modalite->name;
                 })
                 ->addColumn('date_installation',function($equipement){
                     return date_format(date_create($equipement->date_installation),'d M, Y');
                 })
-                ->addColumn('type_contrat',function($equipement){
-                    return $equipement->type_contrat;
-                })
+
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("equipements.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('equipements.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
-
+                    $viewbtn = '<a href="'.route("equipements.show", $row->id).'" class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye"></i></button></a>';
                     if (!auth()->user()->hasPermissionTo('edit-equipement')) {
                         $editbtn = '';
                     }
                     if (!auth()->user()->hasPermissionTo('destroy-equipement')) {
                         $deletebtn = '';
                     }
+                    if (!auth()->user()->hasPermissionTo('view-equipement')) {
+                        $viewbtn = '';
+                    }
 
-                    $btn = $editbtn.' '.$deletebtn;
+                    $btn = $editbtn.' '.$deletebtn.' '.$viewbtn;
                     return $btn;
                 })
                 ->rawColumns(['modele','action'])
@@ -223,8 +226,10 @@ class EquipementController extends Controller
         $equipement = Equipement::findOrFail($id);
         $clients = Client::get();
         $modalites = Modalite::get();
+        $contrat = $equipement->contrat;
+        $sousequipements = $equipement->sousequipements;
         return view('admin.equipements.show',compact(
-            'title','modalites','clients','equipement'
+            'title','modalites','clients','equipement','contrat','sousequipements'
         ));
     }
 
@@ -234,6 +239,35 @@ class EquipementController extends Controller
         $equipements = Client::find($client_id)->equipements()->get();
         return response()->json($equipements);
     }
+
+    public function UpdategetEquipements(Request $request)
+    {
+        $client_id = $request->input('client_id');
+        // Vous devez implémenter la logique pour récupérer les équipements en fonction du client
+        // Par exemple :
+        $equipements = Equipement::where('client_id', $client_id)->get(['id', 'modele']);
+        return response()->json($equipements);
+    }
+    public function addPiece(Request $request, $id)
+    {
+        $request->validate([
+            'designation' => 'required',
+
+        ]);
+
+        $equipement = Equipement::findOrFail($id);
+
+        $sousequipement = new Sousequipement();
+        $sousequipement->identifiant = $request->identifiant;
+        $sousequipement->designation = $request->designation;
+        $sousequipement->marque = $request->marque;
+        $sousequipement->modele = $request->modele;
+        $sousequipement->equipement_id = $equipement->id;
+        $sousequipement->save();
+
+        return redirect()->route('equipements.show', $equipement->id)->with('success', 'Pièce ajoutée avec succès.');
+    }
+
 }
 
 

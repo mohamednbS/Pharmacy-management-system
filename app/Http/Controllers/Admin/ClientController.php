@@ -23,7 +23,7 @@ class ClientController extends Controller
             return DataTables::of($clients)
                 ->addIndexColumn()
                 ->addColumn('name',function($client){
-                    return '<a href="'.route("clients.show", $client->id).'">'. $client->name .'</a>';
+                    return $client->name ;
                 })
 
                 ->addColumn('email',function($client){
@@ -45,13 +45,17 @@ class ClientController extends Controller
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("clients.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('clients.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+                    $viewbtn = '<a href="'.route("clients.show", $row->id).'" class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye"></i></button></a>';
                     if (!auth()->user()->hasPermissionTo('edit-client')) {
                         $editbtn = '';
                     }
                     if (!auth()->user()->hasPermissionTo('destroy-client')) {
                         $deletebtn = '';
                     }
-                    $btn = $editbtn.' '.$deletebtn;
+                    if (!auth()->user()->hasPermissionTo('view-client')) {
+                        $viewbtn = '';
+                    }
+                    $btn = $editbtn.' '.$deletebtn.' '.$viewbtn;
                     return $btn;
                 })
                 ->rawColumns(['name','action'])

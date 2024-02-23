@@ -3,7 +3,7 @@
 <x-assets.datatables />
 
 @push('page-css')
-    
+
 @endpush
 
 @push('page-header')
@@ -20,7 +20,7 @@
 @section('content')
 <div class="row">
 	<div class="col-md-12">
-	
+
 		<!-- Recent Orders -->
 		<div class="card">
 			<div class="card-body">
@@ -28,7 +28,7 @@
 					<table id="sousequipement-table" class="datatable table table-hover table-center mb-0">
 						<thead>
 							<tr>
-							
+
 								<th>Designation</th>
 								<th>Numéro Série</th>
 								<th>Marque</th>
@@ -38,17 +38,17 @@
 							</tr>
 						</thead>
 						<tbody>
-														
+
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
 		<!-- /Recent Orders -->
-		
+
 	</div>
 </div>
-@endsection	
+@endsection
 
 @push('page-js')
 <script>
@@ -65,9 +65,9 @@
                 {data: 'description', name: 'description'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
-            
+
         });
-        
+
     });
-</script> 
+</script>
 @endpush

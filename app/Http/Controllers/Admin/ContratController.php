@@ -31,6 +31,9 @@ class ContratController extends Controller
                         return $contrat->client->name;
                     }
                 })
+                ->addColumn('equipement',function($contrat){
+                    return $contrat->equipement->modele;
+                })
                 ->addColumn('date_debut',function($contrat){
                     return $contrat->date_debut;
                 })
@@ -75,8 +78,9 @@ class ContratController extends Controller
     {
         $title = 'create contrat';
         $clients = Client::get();
+        $equipements = Equipement::get();
         return view('admin.contrats.create',compact(
-            'title','clients'
+            'title','clients','equipements'
         ));
     }
 
@@ -89,12 +93,13 @@ class ContratController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'date_debut'=>'required',
+            'client'=>'required',
             'date_fin'=>'required',
         ]);
-      
+
         Contrat::create([
             'client_id'=>$request->client,
+            'equipement_id'=>$request->equipement,
             'date_debut'=>$request->date_debut,
             'date_fin'=>$request->date_fin,
             'type_contrat'=>$request->type_contrat,
@@ -105,21 +110,21 @@ class ContratController extends Controller
         return redirect()->route('contrats.index')->with($notifications);
     }
 
-    
+
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \app\Models\contrat $contrat
+     * @param  \app\Models\Contrat $contrat
      * @return \Illuminate\Http\Response
      */
-    public function edit(contrat $contrat)
+    public function edit(Contrat $contrat)
     {
         $title = 'edit contrat';
-        $categories = Category::get();
-        $date_fins = date_fin::get();
+        $clients = Client::get();
+        $equipements = Equipement::get();
         return view('admin.contrats.edit',compact(
-            'title','contrat','categories','date_fins'
+            'title','contrat','clients','equipements'
         ));
     }
 
@@ -127,40 +132,32 @@ class ContratController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \app\Models\contrat $contrat
+     * @param  \app\Models\Contrat $contrat
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, contrat $contrat)
+    public function update(Request $request, Contrat $contrat)
     {
         $this->validate($request,[
-            'product'=>'required|max:200',
-            'category'=>'required',
-            'date_debut'=>'required|min:1',
-            'quantity'=>'required|min:1',
-            'expiry_date'=>'required',
+            'client'=>'required',
             'date_fin'=>'required',
         ]);
-        $imageName = $contrat->image;
-        if($request->hasFile('image')){
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('storage/contrats'), $imageName);
-        }
+
         $contrat->update([
-            'product'=>$request->product,
-            'category_id'=>$request->category,
-            'date_fin_id'=>$request->date_fin,
-            'date_debut'=>$request->cost_price,
-            'quantity'=>$request->quantity,
-            'expiry_date'=>$request->expiry_date,
-            'image'=>$imageName,
+            'client_id'=>$request->client,
+            'equipement_id'=>$request->equipement,
+            'date_debut'=>$request->date_debut,
+            'date_fin'=>$request->date_fin,
+            'type_contrat'=>$request->type_contrat,
+            'status'=>$request->status,
+            'note'=>$request->note,
         ]);
-        $notifications = notify("contrat has been updated");
+        $notifications = notify("contrat modifié avec succès");
         return redirect()->route('contrats.index')->with($notifications);
     }
 
     public function reports(){
         $title ='contrat reports';
-        return view('admin.contrats.reports',compact('title')); 
+        return view('admin.contrats.reports',compact('title'));
     }
 
     public function generateReport(Request $request){
@@ -169,7 +166,7 @@ class ContratController extends Controller
             'to_date' => 'required'
         ]);
         $title = 'contrats reports';
-        $contrats = contrat::whereBetween(DB::raw('DATE(created_at)'), array($request->from_date, $request->to_date))->get();
+        $contrats = Contrat::whereBetween(DB::raw('DATE(created_at)'), array($request->from_date, $request->to_date))->get();
         return view('admin.contrats.reports',compact(
             'contrats','title'
         ));
@@ -183,6 +180,6 @@ class ContratController extends Controller
      */
     public function destroy(Request $request)
     {
-        return contrat::findOrFail($request->id)->delete();
+        return Contrat::findOrFail($request->id)->delete();
     }
 }

@@ -4,7 +4,7 @@
 
 
 @push('page-css')
-    
+
 @endpush
 
 @push('page-header')
@@ -21,9 +21,9 @@
 @endpush
 
 @section('content')
-<div class="row">
+<div class="row"> 
 	<div class="col-md-12">
-	
+
 		@isset($sales)
             <!--  Sales Report -->
             <div class="card">
@@ -53,7 +53,7 @@
                                             <td>{{$sale->quantity}}</td>
                                             <td>{{AppSettings::get('app_currency', '$')}} {{($sale->total_price)}}</td>
                                             <td>{{date_format(date_create($sale->created_at),"d M, Y")}}</td>
-                                            
+
                                         </tr>
                                     @endif
                                 @endforeach
@@ -64,8 +64,8 @@
             </div>
             <!-- / sales Report -->
         @endisset
-       
-		
+
+
 	</div>
 </div>
 
@@ -113,7 +113,7 @@
 <script>
     $(document).ready(function(){
         $('#sales-table').DataTable({
-			dom: 'Bfrtip',		
+			dom: 'Bfrtip',
 			buttons: [
 				{
 				extend: 'collection',

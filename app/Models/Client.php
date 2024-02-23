@@ -35,13 +35,9 @@ class Client extends Model
 		return $this->hasManyThrough('App\Models\Sousequipement', 'App\Models\Equipement');
 	}
 
-    public function interventions(): MorphToMany
-    {
-        return $this->morphedByMany(Intervention::class);
-    }
 
     public function contrats(): HasMany
     {
-        return $this->hasMany(Contrat::class); 
+        return $this->hasMany(Contrat::class);
     }
 }

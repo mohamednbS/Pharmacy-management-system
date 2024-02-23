@@ -3,7 +3,7 @@
 <x-assets.datatables />
 
 @push('page-css')
-    
+
 @endpush
 
 @push('page-header')
@@ -22,11 +22,11 @@
 @section('content')
 <div class="row">
 	<div class="col-md-12">
-	
+
 		<!-- Recent Orders -->
 		<div class="card">
 			<div class="card-body">
-				<div class="table-responsive">
+				<div class="table-responsive" >
 					<table id="equipement-table" class="datatable table table-hover table-center mb-0">
 						<thead>
 							<tr>
@@ -37,22 +37,22 @@
 								<th>Client</th>
 								<th>Date Installation</th>
                                 <th>Software</th>
-                                <th>Type Contrat</th>
+
 								<th class="action-btn">Action</th>
 							</tr>
 						</thead>
 						<tbody>
-														
+
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
 		<!-- /Recent Orders -->
-		
+
 	</div>
 </div>
-@endsection	
+@endsection
 
 @push('page-js')
 <script>
@@ -69,12 +69,12 @@
                 {data: 'client', name: 'client'},
                 {data: 'date_installation', name: 'date_installation'},
                 {data: 'software', name: 'software'},
-                {data: 'type_contrat', name: 'type_contrat'},
+
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
-            
+
         });
-        
+
     });
-</script> 
+</script>
 @endpush
