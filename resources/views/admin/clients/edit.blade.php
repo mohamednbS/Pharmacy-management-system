@@ -8,7 +8,7 @@
 <div class="col-sm-12">
 	<h3 class="page-title">Gestion Client</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Modifier Client</li>
 	</ul>
 </div>
@@ -19,7 +19,7 @@
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body custom-edit-service">
-			
+
 			<!-- Edit client -->
 			<form method="post" enctype="multipart/form-data" action="{{route('clients.update',$client)}}">
 				@csrf
@@ -58,12 +58,12 @@
 					<div class="row">
 						<div class="col-12">
 							<label>Adresse</label>
-							<input name="comment" class="form-control" value="{{$client->address ?? old('address')}}">{{$client->address}}
+							<input name="address" class="form-control" value="{{$client->address ?? old('address')}}">{{$client->address}}
 						</div>
 					</div>
-				</div>		
-				
-				
+				</div>
+
+
 				<div class="submit-section">
 					<button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Modifier</button>
 				</div>
@@ -73,9 +73,9 @@
 
 			</div>
 		</div>
-	</div>			
+	</div>
 </div>
-@endsection	
+@endsection
 
 
 

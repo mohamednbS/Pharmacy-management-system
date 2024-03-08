@@ -29,6 +29,9 @@ class DepartementController extends Controller
                     ->addColumn('action',function ($row){
                         $editbtn = '<a data-id="'.$row->id.'" data-name="'.$row->name.'" href="javascript:void(0)" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                         $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('departements.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+                        if ($row->trashed()) {
+                            $deletebtn = ''; // Or you can show a restore button
+                        }
                         if(!auth()->user()->hasPermissionTo('edit-departement')){
                             $editbtn = '';
                         }
@@ -46,7 +49,7 @@ class DepartementController extends Controller
         ));
     }
 
-   
+
 
     /**
      * Store a newly created resource in storage.
@@ -60,18 +63,18 @@ class DepartementController extends Controller
             'name'=>'required|max:100',
         ]);
         Departement::create($request->all());
-        $notification=array("Département est ajoutée");
-        return back()->with($notification); 
+        $notification=array("Département est ajouté avec succès");
+        return back()->with($notification);
     }
 
-    
 
-    
+
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request 
-     * 
+     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -81,7 +84,7 @@ class DepartementController extends Controller
         $departement->update([
             'name'=>$request->name,
         ]);
-        $notification = notify("Département modifiée avec succès");
+        $notification = notify("Département modifié avec succès");
         return back()->with($notification);
     }
 
@@ -96,7 +99,7 @@ class DepartementController extends Controller
         return Departement::findOrFail($request->id)->delete();
     }
 
-    
+
 }
 
 

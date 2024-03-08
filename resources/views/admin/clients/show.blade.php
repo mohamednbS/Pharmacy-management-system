@@ -10,7 +10,7 @@
 <div class="col-sm-7 col-auto">
 	<h3 class="page-title">Gestion Clients</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Clients-Equipements</li>
 	</ul>
 </div>

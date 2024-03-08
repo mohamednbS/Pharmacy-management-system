@@ -4,14 +4,14 @@
 
 
 @push('page-css')
-    
+
 @endpush
 
 @push('page-header')
 <div class="col-sm-7 col-auto">
-	<h3 class="page-title">Rapport Equipements</h3>  
+	<h3 class="page-title">Rapport Equipements</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Générer rapport equipements</li>
 	</ul>
 </div>
@@ -37,7 +37,7 @@
                                     <th>Numéro Série</th>
                                     <th>Client</th>
                                     <th>Date Installation</th>
-                                    <th>Software</th>                              
+                                    <th>Software</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,10 +53,10 @@
                                     <td>{{$equipement->client->name}}</td>
                                     <td>{{$equipement->date_installation}}</td>
                                     <td>{{$equipement->software}}</td>
-                  
+
                                 </tr>
                                 @endif
-                            @endforeach                         
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -104,7 +104,7 @@
 <script>
     $(document).ready(function(){
         $('#equipement-table').DataTable({
-            dom: 'Bfrtip',		
+            dom: 'Bfrtip',
             buttons: [
                 {
                 extend: 'collection',

@@ -20,6 +20,7 @@ class CreateAccessoiresTable extends Migration
             $table->string('quantite');
             $table->string('description');
             $table->foreignId('equipement_id')->constrained()->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

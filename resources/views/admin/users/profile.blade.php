@@ -4,7 +4,7 @@
 <div class="col">
 	<h3 class="page-title">Profile</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Profile</li>
 	</ul>
 </div>

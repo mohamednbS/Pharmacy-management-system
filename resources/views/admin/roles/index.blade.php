@@ -1,17 +1,17 @@
 @extends('admin.layouts.app')
 
-<x-assets.datatables />  
+<x-assets.datatables />
 
 @push('page-header')
 <div class="col-sm-7 col-auto">
 	<h3 class="page-title">Roles</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-		<li class="breadcrumb-item active">Roles</li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
+		<li class="breadcrumb-item active">Rôles</li>
 	</ul>
 </div>
 <div class="col-sm-5 col">
-	<a href="{{route('roles.create')}}" class="btn btn-primary float-right mt-2">Add Role</a>
+	<a href="{{route('roles.create')}}" class="btn btn-primary float-right mt-2">Ajouter</a>
 </div>
 
 @endpush
@@ -26,19 +26,19 @@
 					<table id="role-table" class="datatable table table-striped table-bordered table-hover table-center mb-0">
 						<thead>
 							<tr style="boder:1px solid black;">
-								<th>Name</th>
+								<th>Nom</th>
 								<th>Permissions</th>
 								<th class="text-center action-btn">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
-													
+
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-	</div>			
+	</div>
 </div>
 
 @endsection
@@ -53,13 +53,13 @@
                 ajax: "{{route('roles.index')}}",
                 columns: [
                     {data: 'name', name: 'name'},
-                    {data: 'permissions', name: 'permissions'}, 
+                    {data: 'permissions', name: 'permissions'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
-			
+
 			//
 		});
 	</script>
-	
+
 @endpush

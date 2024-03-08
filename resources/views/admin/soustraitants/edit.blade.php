@@ -8,7 +8,7 @@
 <div class="col-sm-12">
 	<h3 class="page-title">Gestion Sous-traitants</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Modifier Sous-traitant</li>
 	</ul>
 </div>

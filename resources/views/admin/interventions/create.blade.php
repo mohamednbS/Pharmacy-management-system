@@ -9,7 +9,7 @@
 <div class="col-sm-12">
 	<h3 class="page-title">Gestion Interventions</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Ajouter Intervention</li>
 	</ul>
 </div>
@@ -65,7 +65,7 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Etat initial d'equipement<span class="text-danger">*</span></label>
-									<select  class="select2 form-select form-control" name="type_panne">
+									<select  class="select2 form-select form-control" name="etat_initial">
                                      <option >Sélectionner l'etat initial</option>
                                             <option value="Fonctionnel">Fonctionnel</option>
                                             <option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
@@ -201,7 +201,7 @@
                 .then(response => response.json())
                 .then(data => {
                     const equipementSelect = document.getElementById('equipement');
-                    equipementSelect.innerHTML = '<option value="">Select Equipement</option>';
+                    equipementSelect.innerHTML = '<option value="">Selectionner Equipement</option>';
                     data.forEach(equipement => {
                         const option = document.createElement('option');
                         option.value = equipement.id;
@@ -218,7 +218,7 @@
                 .then(response => response.json())
                 .then(data => {
                     const sousequipementSelect = document.getElementById('sousequipement');
-                    sousequipementSelect.innerHTML = '<option value="">Select Sousequipement</option>';
+                    sousequipementSelect.innerHTML = '<option value="">Selectionner Sousequipement</option>';
                     data.forEach(sousequipement => {
                         const option = document.createElement('option');
                         option.value = sousequipement.id;

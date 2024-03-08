@@ -5,10 +5,10 @@
 
 			<ul>
 				<li class="menu-title">
-					<span>Main</span>
+					<span>Menu</span>
 				</li>
 				<li class="{{ route_is('dashboard') ? 'active' : '' }}">
-					<a href="{{route('dashboard')}}"><i class="fe fe-home"></i> <span>Dashboard</span></a>
+					<a href="{{route('dashboard')}}"><i class="fe fe-home"></i> <span>Tableau de bord</span></a>
 				</li>
 
 				@can('view-category')
@@ -19,13 +19,13 @@
 
 				@can('view-modalite')
 				<li class="{{ route_is('modalites.*') ? 'active' : '' }}">
-					<a href="{{route('modalites.index')}}"><i class="fe fe-layout"></i> <span>Modalité</span></a>
+					<a href="{{route('modalites.index')}}"><i class="fe fe-layout"></i> <span>Modalités</span></a>
 				</li>
 				@endcan
 
 				@can('view-departement')
 				<li class="{{ route_is('departements.*') ? 'active' : '' }}">
-					<a href="{{route('departements.index')}}"><i class="fe fe-layout"></i> <span>Département</span></a>
+					<a href="{{route('departements.index')}}"><i class="fe fe-layout"></i> <span>Départements</span></a>
 				</li>
 				@endcan
 
@@ -55,7 +55,7 @@
 
 				@can('view-equipement')
 				<li class="submenu">
-					<a href="#"><i class="fe fe-star-o"></i> <span> Equipement</span> <span class="menu-arrow"></span></a>
+					<a href="#"><i class="fe fe-star-o"></i> <span> Equipements</span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a class="{{ route_is('equipements.*') ? 'active' : '' }}" href="{{route('equipements.index')}}">Equipements</a></li>
 						@can('create-equipement')
@@ -67,7 +67,7 @@
 
 				@can('view-sousequipement')
 				<li class="submenu">
-					<a href="#"><i class="fe fe-star-o"></i> <span> Sous Equipement</span> <span class="menu-arrow"></span></a>
+					<a href="#"><i class="fe fe-star-o"></i> <span> Sous Equipements</span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a class="{{ route_is('sousequipements.*') ? 'active' : '' }}" href="{{route('sousequipements.index')}}">Sous Equipements</a></li>
 					</ul>
@@ -76,9 +76,10 @@
 
 				@can('view-intervention')
 				<li class="submenu">
-					<a href="#"><i class="fe fe-document"></i> <span> Intervention</span> <span class="menu-arrow"></span></a>
+					<a href="#"><i class="fe fe-document"></i> <span> Interventions</span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a class="{{ route_is('interventions.*') ? 'active' : '' }}" href="{{route('interventions.index')}}">Interventions</a></li>
+                        <li><a class="{{ route_is('interventions.*') ? 'active' : '' }}" href="{{route('interventions.archive')}}">Clôturées</a></li>
 						@can('create-intervention')
 						<li><a class="{{ route_is('interventions.create') ? 'active' : '' }}" href="{{route('interventions.create')}}">Ajouter Intervention</a></li>
 						@endcan
@@ -128,7 +129,7 @@
 				<!-- clients -->
 				@can('view-client')
 				<li class="submenu">
-					<a href="#"><i class="fe fe-user"></i> <span> Client</span> <span class="menu-arrow"></span></a>
+					<a href="#"><i class="fe fe-user"></i> <span> Clients</span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a class="{{ route_is('clients.*') ? 'active' : '' }}" href="{{route('clients.index')}}">Clients</a></li>
 						@can('create-client')<li><a class="{{ route_is('clients.create') ? 'active' : '' }}" href="{{route('clients.create')}}">Ajout Client</a></li>@endcan
@@ -164,13 +165,13 @@
 
 				@can('view-access-control')
 				<li class="submenu">
-					<a href="#"><i class="fe fe-lock"></i> <span> Access Control</span> <span class="menu-arrow"></span></a>
+					<a href="#"><i class="fe fe-lock"></i> <span>Contrôle d'Accès</span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						@can('view-permission')
 						<li><a class="{{ route_is('permissions.index') ? 'active' : '' }}" href="{{route('permissions.index')}}">Permissions</a></li>
 						@endcan
 						@can('view-role')
-						<li><a class="{{ route_is('roles.*') ? 'active' : '' }}" href="{{route('roles.index')}}">Roles</a></li>
+						<li><a class="{{ route_is('roles.*') ? 'active' : '' }}" href="{{route('roles.index')}}">Rôles</a></li>
 						@endcan
 					</ul>
 				</li>

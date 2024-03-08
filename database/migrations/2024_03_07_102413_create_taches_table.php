@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEtatsTable extends Migration
+class CreateTachesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class CreateEtatsTable extends Migration
      */
     public function up()
     {
-        Schema::create('etats', function (Blueprint $table) {
+        Schema::create('taches', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->datetime('date');
+            $table->string('type');
+            $table->string('fournisseur');
+            $table->string('commentaire');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +32,6 @@ class CreateEtatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('etats');
+        Schema::dropIfExists('taches');
     }
 }

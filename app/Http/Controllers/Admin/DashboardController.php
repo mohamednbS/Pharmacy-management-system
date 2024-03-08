@@ -15,7 +15,7 @@ use App\Http\Controllers\Controller;
 class DashboardController extends Controller
 {
     public function index(){
-        $title = 'dashboard';
+        $title = 'Tableau de Bord';
         $intervention_cloture = Intervention::whereIn('etat', ['Clôturé', 'Clôturé à distance'])->count();
         $intervention_non_cloture = Intervention::where('etat','!=','Clôturé')->count();
         $all_contrats = Contrat::count();
@@ -37,9 +37,9 @@ class DashboardController extends Controller
                 ])
                 ->options([]);
 
-                $all_modalites = Modalite::count();
+                $all_clients = Client::count();
         return view('admin.dashboard',compact(
-            'title','pieChart','all_contrats','all_equipements','all_modalites'
+            'title','pieChart','all_contrats','all_equipements','all_clients'
         ));
     }
 }

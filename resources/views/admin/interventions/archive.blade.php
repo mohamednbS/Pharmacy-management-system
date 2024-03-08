@@ -10,7 +10,7 @@
 <div class="col-sm-7 col-auto">
 	<h3 class="page-title">Gestion Interventions</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
 		<li class="breadcrumb-item active">Interventions</li>
 	</ul>
 </div>
@@ -27,7 +27,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
-					<table id="intervention-table" class="datatable table table-hover table-center mb-0">
+					<table id="intervention-archive-table" class="datatable table table-hover table-center mb-0">
 						<thead>
 							<tr>
 							    <th>Etat</th>
@@ -58,15 +58,15 @@
 @push('page-js')
 <script>
     $(document).ready(function() {
-        var table = $('#intervention-table').DataTable({
+        var table = $('#intervention-archive-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('interventions.index')}}",
+            ajax: "{{route('interventions.archive')}}",
             columns: [
 				{data: 'etat', name: 'etat'},
                 {data: 'client', name: 'client'},
                 {data: 'equipement', name: 'equipement'},
-                {data: 'etat_initial', name: 'etat_initial'},
+                {data: 'type_panne', name: 'type_panne'},
                 {data: 'destinateur', name: 'destinateur'},
                 {data: 'soustraitant', name: 'soustraitant'},
                 {data: 'sousequipement', name: 'sousequipement'},

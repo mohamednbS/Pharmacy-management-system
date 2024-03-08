@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Contrat;
 use App\Models\Client;
 use App\Models\Equipement;
-
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use QCod\AppSettings\Setting\AppSettings;
-use Illuminate\Http\Request;
 
 class ContratController extends Controller
 {
@@ -32,7 +31,9 @@ class ContratController extends Controller
                     }
                 })
                 ->addColumn('equipement',function($contrat){
-                    return $contrat->equipement->modele;
+                    if(!empty($contrat->equipement)){
+                        return $contrat->equipement->modele;
+                    }
                 })
                 ->addColumn('date_debut',function($contrat){
                     return $contrat->date_debut;
@@ -52,6 +53,10 @@ class ContratController extends Controller
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("contrats.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('contrats.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+                    if ($row->trashed()) {
+                        $deletebtn = ''; // Or you can show a restore button
+
+                    }
                     if (!auth()->user()->hasPermissionTo('edit-contrat')) {
                         $editbtn = '';
                     }
@@ -64,8 +69,9 @@ class ContratController extends Controller
                 ->rawColumns(['client','action'])
                 ->make(true);
         }
+
         return view('admin.contrats.index',compact(
-            'title'
+            'title',
         ));
     }
 
@@ -76,7 +82,7 @@ class ContratController extends Controller
      */
     public function create()
     {
-        $title = 'create contrat';
+        $title = 'ajouter contrat';
         $clients = Client::get();
         $equipements = Equipement::get();
         return view('admin.contrats.create',compact(
@@ -106,7 +112,7 @@ class ContratController extends Controller
             'status'=>$request->status,
             'note'=>$request->note,
         ]);
-        $notifications = notify("Contrat ajouté avec succés");
+        $notifications = notify("Contrat ajouté avec succès");
         return redirect()->route('contrats.index')->with($notifications);
     }
 
@@ -120,7 +126,7 @@ class ContratController extends Controller
      */
     public function edit(Contrat $contrat)
     {
-        $title = 'edit contrat';
+        $title = 'modifier contrat';
         $clients = Client::get();
         $equipements = Equipement::get();
         return view('admin.contrats.edit',compact(
@@ -156,7 +162,7 @@ class ContratController extends Controller
     }
 
     public function reports(){
-        $title ='contrat reports';
+        $title ='rapport contrat';
         return view('admin.contrats.reports',compact('title'));
     }
 
@@ -165,7 +171,7 @@ class ContratController extends Controller
             'from_date' => 'required',
             'to_date' => 'required'
         ]);
-        $title = 'contrats reports';
+        $title = 'rapport contrat';
         $contrats = Contrat::whereBetween(DB::raw('DATE(created_at)'), array($request->from_date, $request->to_date))->get();
         return view('admin.contrats.reports',compact(
             'contrats','title'

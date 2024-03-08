@@ -46,8 +46,8 @@ class ClientController extends Controller
                     $editbtn = '<a href="'.route("clients.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('clients.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
                     $viewbtn = '<a href="'.route("clients.show", $row->id).'" class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye"></i></button></a>';
-                    if (!auth()->user()->hasPermissionTo('edit-client')) {
-                        $editbtn = '';
+                    if ($row->trashed()) {
+                        $deletebtn = ''; // Or you can show a restore button
                     }
                     if (!auth()->user()->hasPermissionTo('destroy-client')) {
                         $deletebtn = '';
@@ -74,7 +74,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        $title = 'create client';
+        $title = 'ajouter client';
         return view('admin.clients.create',compact(
             'title'
         ));
@@ -93,7 +93,7 @@ class ClientController extends Controller
             'address'=>'nullable|max:200',
             'email'=>'nullable|email|string',
             'phone'=>'nullable|min:8|max:20',
-            'fax'=>'nullable|min:8|max:20',
+
 
 
         ]);
@@ -118,7 +118,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        $title = 'edit Client';
+        $title = 'modifier Client';
         return view('admin.clients.edit',compact(
             'title','client'
         ));
@@ -134,11 +134,8 @@ class ClientController extends Controller
     public function update(Request $request, Client $client)
     {
         $this->validate($request,[
-            'name'=>'required|min:4|max:255',
-            'address'=>'nullable|max:200',
-            'email'=>'nullable|email|string',
-            'phone'=>'nullable|min:8|max:20',
-            'fax'=>'nullable|min:8|max:20',
+            'name'=>'required',
+
         ]);
 
         $client->update([

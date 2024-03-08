@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes; 
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Modalite extends Model
-{   use HasFactory;
+{
+    use HasFactory;
+    use softDeletes; 
 
 
     protected $fillable = ['name'];
@@ -20,7 +22,7 @@ class Modalite extends Model
     */
     public function equipements(): HasMany
     {
-        return $this->hasMany(Equipement::class);  
+        return $this->hasMany(Equipement::class);
     }
 
 }

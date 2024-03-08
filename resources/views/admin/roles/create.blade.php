@@ -1,14 +1,14 @@
 @extends('admin.layouts.app')
 
 @push('page-css')
-    
+
 @endpush
 
 @push('page-header')
 <div class="col-sm-12">
-	<h3 class="page-title">Create Role</h3>
+	<h3 class="page-title">Ajouter Rôle</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item active">Dashboard</li>
+		<li class="breadcrumb-item active">Tableau de Bord</li>
 	</ul>
 </div>
 @endpush
@@ -17,10 +17,10 @@
 
 <div class="row">
     <div class="col-md-12 col-lg-12">
-    
+
         <div class="card card-table">
             <div class="card-header">
-                <h4 class="card-title ">Add Role</h4>
+                <h4 class="card-title ">Ajouter</h4>
             </div>
             <div class="card-body">
                 <div class="p-5">
@@ -32,25 +32,25 @@
                         </div>
                         <div class="form-group">
                             <lable>Select Permissions</lable>
-                            <select class="select2 form-select form-control" name="permission[]" multiple="multiple"> 
+                            <select class="select2 form-select form-control" name="permission[]" multiple="multiple">
                                 @foreach ($permissions as $permission)
                                     <option value="{{$permission->name}}">{{$permission->name}}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                        <button type="submit" class="btn btn-primary btn-block">Valider</button>
                     </form>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
-    
+
 </div>
 
 @endsection
 
 @push('page-js')
-    
+
 @endpush

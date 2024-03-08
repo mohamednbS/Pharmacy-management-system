@@ -18,14 +18,14 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $title = 'roles';
+        $title = 'rôles';
         if($request->ajax()){
             $roles = Role::get();
             return DataTables::of($roles)
                 ->addIndexColumn()
                 ->addColumn('permissions',function ($role){
-                    // for ($i=0; $i < $role->getAllPermissions()->count(); $i++) { 
-                        
+                    // for ($i=0; $i < $role->getAllPermissions()->count(); $i++) {
+
                     // }
                     foreach($role->getAllPermissions() as $permission){
                         $permission->name;
@@ -38,6 +38,9 @@ class RoleController extends Controller
                 ->addColumn('action',function ($row){
                     $editbtn = '<a href="'.route('roles.edit',$row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fa fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('roles.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></a>';
+                    if ($row->trashed()) {
+                        $deletebtn = ''; // Or you can show a restore button
+                    }
                     if(!auth()->user()->hasPermissionTo('edit-role')){
                         $editbtn = '';
                     }
@@ -51,7 +54,7 @@ class RoleController extends Controller
                 ->make(true);
         }
         return view('admin.roles.index',compact(
-           'title' 
+           'title'
         ));
     }
 
@@ -62,7 +65,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $title = 'create role';
+        $title = 'ajouter rôle';
         $permissions = Permission::get();
         return view('admin.roles.create',compact('title','permissions'));
     }
@@ -81,11 +84,11 @@ class RoleController extends Controller
         ]);
         $role = Role::create(['name' => $request->role]);
         $role->syncPermissions($request->permission);
-        $notification = notify('role created successfully');
+        $notification = notify('rôle crée avec succès');
         return redirect()->route('roles.index')->with($notification);
     }
 
-    
+
 
     /**
      * Show the form for editing the specified resource.
@@ -95,7 +98,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $title = 'edit role';
+        $title = 'modifier rôle';
         $permissions = Permission::get();
         return view('admin.roles.edit',compact(
             'title','role','permissions'
@@ -119,7 +122,7 @@ class RoleController extends Controller
             'name' => $request->role,
         ]);
         $role->syncPermissions($request->permission);
-        return redirect()->route('roles.index')->with(notify('Role updated successfully'));
+        return redirect()->route('roles.index')->with(notify('rôle modifié avec succès'));
     }
 
     /**

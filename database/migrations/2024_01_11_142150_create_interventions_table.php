@@ -18,7 +18,7 @@ class CreateInterventionsTable extends Migration
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->foreignId('equipement_id')->constrained()->onDelete('cascade');
             $table->foreignId('sousequipement_id')->nullable()->constrained()->onDelete('cascade');
-            $table->string('type_panne');
+            $table->string('etat_initial');
             $table->string('description_panne')->nullable();
             $table->string('priorite');
             $table->string('mode_appel');
@@ -31,6 +31,7 @@ class CreateInterventionsTable extends Migration
             $table->datetime('date_fin')->nullable();
             $table->string('etat');
             $table->string('rapport')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

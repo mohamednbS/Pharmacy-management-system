@@ -43,8 +43,8 @@ class InterventionController extends Controller
                         return $intervention->equipement->modele;
                     }
                 })
-                ->addColumn('type_panne',function($intervention){
-                    return $intervention->type_panne;
+                ->addColumn('etat_initial',function($intervention){
+                    return $intervention->etat_initial;
                 })
                 ->addColumn('destinateur',function($intervention){
                     if (is_array($intervention->destinateur)) {
@@ -68,15 +68,11 @@ class InterventionController extends Controller
                 ->addColumn('type_intervention',function($intervention){
                     return $intervention->type_intervention;
                 })
-
-
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("interventions.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
-                    $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('interventions.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
                     $viewbtn = '<a href="'.route("interventions.show", $row->id).'" class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye"></i></button></a>';
-                    if (!auth()->user()->hasPermissionTo('edit-intervention')) {
-                        $editbtn = '';
-                    }
+                    $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('interventions.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+                  
                     if (!auth()->user()->hasPermissionTo('destroy-intervention')) {
                         $deletebtn = '';
                     }
@@ -106,7 +102,7 @@ class InterventionController extends Controller
         $clients = Client::get();
         $etats = Etat::get();
         $soustraitants = Soustraitant::get();
-        $users = User::whereIn('role', ['technicien', 'ingenieur','administrateur'])->get();
+        $users = User::get();
         $sousequipements = Sousequipement::get();
         return view('admin.interventions.create',compact(
             'title','equipements','clients','users','etats','sousequipements','soustraitants'
@@ -135,7 +131,7 @@ class InterventionController extends Controller
             'client_id'=>$request->client,
             'equipement_id'=>$request->equipement,
             'sousequipement_id'=>$request->equipement,
-            'type_panne'=>$request->type_panne,
+            'etat_initial'=>$request->etat_initial,
             'description_panne'=>$request->description_panne,
             'priorite'=>$request->priorite,
             'mode_appel'=>$request->mode_appel,
@@ -145,7 +141,7 @@ class InterventionController extends Controller
             'date_debut'=>$request->date_debut,
             'etat'=>$request->etat,
         ]);
-        $notifications = notify("Intervention ajoutée");
+        $notifications = notify("Intervention ajoutée avec succès");
         return redirect()->route('interventions.index')->with($notifications);
     }
 
@@ -159,10 +155,10 @@ class InterventionController extends Controller
      */
     public function edit(Intervention $intervention)
     {
-        $title = 'edit intervention';
+        $title = 'modifier intervention';
         $equipements= Equipement::get();
         $clients = Client::get();
-        $users = User::whereIn('role', ['technicien', 'ingenieur'])->get();
+        $users = User::get();
         $etats = Etat::get();
         $soustraitants = Soustraitant::get();
         $sousequipements = Sousequipement::get();
@@ -198,7 +194,7 @@ class InterventionController extends Controller
             'client_id'=>$request->client,
             'equipement_id'=>$request->equipement,
             'sousequipement_id'=>$request->equipement,
-            'type_panne'=>$request->type_panne,
+            'etat_initial'=>$request->etat_initial,
             'desciption_panne'=>$request->desciption_panne,
             'priorite'=>$request->priorite,
             'mode_appel'=>$request->mode_appel,
@@ -208,16 +204,16 @@ class InterventionController extends Controller
             'description_intervention'=>$request->description_intervention,
             'date_debut'=>$request->date_debut,
             'date_fin'=>$request->date_fin,
-            'date_fin'=>$request->date_fin,
+            'etat_final'=>$request->etat_final,
             'etat'=>$request->etat,
             'rapport'=>$rapportName,
         ]);
-        $notifications = notify("Intervention modifiée");
+        $notifications = notify("Intervention modifiée avec succès");
         return redirect()->route('interventions.index')->with($notifications);
     }
 
     public function reports(){
-        $title ='interventions reports';
+        $title ='rapport interventions';
         return view('admin.interventions.reports',compact('title'));
     }
 
@@ -258,5 +254,75 @@ class InterventionController extends Controller
     {
         return Intervention::findOrFail($request->id)->delete();
     }
+
+    public function archive(Request $request)
+    {
+        $title = 'interventions';
+        if($request->ajax()){
+            $interventions = Intervention::whereIn('etat',['Clôturé','Clôturé par téléphone','Clôturé à distance'])->get();
+            return DataTables::of($interventions)
+
+                ->addColumn('etat',function($intervention){
+                    return '<a href="'.route("interventions.show", $intervention->id).'">'. $intervention->etat .'</a>';
+                })
+                ->addColumn('client',function($intervention){
+                    if(!empty($intervention->client)){
+                        return $intervention->client->name;
+                    }
+                })
+                ->addColumn('equipement',function($intervention){
+                    if(!empty($intervention->equipement)){
+                        return $intervention->equipement->modele;
+                    }
+                })
+                ->addColumn('type_panne',function($intervention){
+                    return $intervention->type_panne;
+                })
+                ->addColumn('destinateur',function($intervention){
+                    if (is_array($intervention->destinateur)) {
+                        return implode(', ', $intervention->destinateur);
+                    }
+                    return $intervention->destinateur;
+                })
+                ->addColumn('soustraitant',function($intervention){
+                    if(!empty($intervention->soustraitant)){
+                        return $intervention->soustraitant->name;
+                    }
+                })
+                ->addColumn('sousequipement',function($intervention){
+                    if(!empty($intervention->sousequipement)){
+                        return $intervention->sousequipement->designation;
+                    }
+                })
+                ->addColumn('appel_client',function($intervention){
+                    return $intervention->appel_client;
+                })
+                ->addColumn('type_intervention',function($intervention){
+                    return $intervention->type_intervention;
+                })
+                ->addColumn('action', function ($row) {
+                    $editbtn = '<a href="'.route("interventions.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
+                    $viewbtn = '<a href="'.route("interventions.show", $row->id).'" class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye"></i></button></a>';
+                    $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('interventions.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+                    if ($row->trashed()) {
+                        $deletebtn = ''; // Or you can show a restore button
+                    }
+                    if (!auth()->user()->hasPermissionTo('destroy-intervention')) {
+                        $deletebtn = '';
+                    }
+                    if (!auth()->user()->hasPermissionTo('view-intervention')) {
+                        $viewbtn = '';
+                    }
+                    $btn = $editbtn.' '.$deletebtn.' '.$viewbtn;
+                    return $btn;
+                })
+                ->rawColumns(['etat','action'])
+                ->make(true);
+        }
+        return view('admin.interventions.archive',compact(
+            'title'
+        ));
+    }
+
 
 }

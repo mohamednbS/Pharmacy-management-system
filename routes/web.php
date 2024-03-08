@@ -138,6 +138,7 @@ Route::middleware(['auth'])->group(function(){
     /*Interventions routes*/
     Route::resource('interventions',InterventionController::class);
     Route::get('/getClientName', [InterventionController::class, 'getClientName']);
+    Route::get('interventions.archive', [InterventionController::class, 'archive'])->name('interventions.archive');
 
 
 

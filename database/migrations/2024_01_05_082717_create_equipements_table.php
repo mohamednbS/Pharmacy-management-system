@@ -27,6 +27,7 @@ class CreateEquipementsTable extends Migration
             $table->string('date_installation')->nullable();
             $table->integer('plan_prev')->nullable();
             $table->string('document')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

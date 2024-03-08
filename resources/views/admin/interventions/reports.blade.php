@@ -11,7 +11,7 @@
 <div class="col-sm-7 col-auto">
 	<h3 class="page-title">Rapport Interventions</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord </a></li>
 		<li class="breadcrumb-item active">Générer rapport interventions</li>
 	</ul>
 </div>

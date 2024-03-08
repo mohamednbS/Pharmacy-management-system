@@ -17,7 +17,7 @@ class ModalitesController extends Controller
      */
     public function index(Request $request)
     {
-        $title = 'modalites';
+        $title = 'modalités';
         if($request->ajax()){
             $modalites = Modalite::get();
             return DataTables::of($modalites)
@@ -27,6 +27,9 @@ class ModalitesController extends Controller
                         $editbtn = '<a data-id="'.$row->id.'" data-name="'.$row->name.'" href="javascript:void(0)" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit" class="text-center action-btn"></i></button></a>';
                         $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('modalites.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger" class="text-center action-btn"><i class="fas fa-trash"></i></button></a>';
                         $viewbtn = '<a href="'.route("modalites.show", $row->id).'"class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye" class="text-center action-btn"></i></button></a>';
+                        if ($row->trashed()) {
+                            $deletebtn = ''; // Or you can show a restore button
+                        }
                         if(!auth()->user()->hasPermissionTo('edit-modalite')){
                             $editbtn = '';
                         }
@@ -61,7 +64,7 @@ class ModalitesController extends Controller
             'name'=>'required|max:100',
         ]);
         Modalite::create($request->all());
-        $notification=array("Modalité est ajoutée");
+        $notification=array("Modalité ajoutée avec succès");
         return back()->with($notification);
     }
 

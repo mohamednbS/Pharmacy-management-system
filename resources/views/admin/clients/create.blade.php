@@ -9,7 +9,7 @@
 <div class="col-sm-12">
 	<h3 class="page-title">Gestion Clients</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Ajouter Client</li>
 	</ul>
 </div>
@@ -20,12 +20,12 @@
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body custom-edit-service">
-				
-		
+
+
 			<!-- Add Supplier -->
 			<form method="post" enctype="multipart/form-data" action="{{route('clients.store')}}">
 				@csrf
-				
+
 				<div class="service-fields mb-3">
 					<div class="row">
 						<div class="col-lg-6">
@@ -55,7 +55,7 @@
 						</div>
 					</div>
 				</div>
-			
+
 				<div class="service-fields mb-3">
 					<div class="row">
 						<div class="col-12">
@@ -64,7 +64,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="submit-section">
 					<button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Ajouter</button>
 				</div>
@@ -74,13 +74,13 @@
 
 			</div>
 		</div>
-	</div>			
+	</div>
 </div>
-@endsection	
+@endsection
 
 @push('page-js')
 	<!-- Datetimepicker JS -->
 	<script src="{{asset('assets/js/moment.min.js')}}"></script>
-	<script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>	
+	<script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>
 @endpush
 

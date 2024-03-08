@@ -21,6 +21,7 @@ class CreateSousequipementsTable extends Migration
             $table->string('modele')->nulllable();
             $table->string('description')->nulllable();
             $table->foreignId('equipement_id')->constrained()->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

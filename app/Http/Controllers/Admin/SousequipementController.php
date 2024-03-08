@@ -41,7 +41,9 @@ class SousequipementController extends Controller
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("sousequipements.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('sousequipements.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
-
+                    if ($row->trashed()) {
+                        $deletebtn = ''; // Or you can show a restore button
+                    }
                     if (!auth()->user()->hasPermissionTo('edit-sousequipement')) {
                         $editbtn = '';
                     }
@@ -67,7 +69,7 @@ class SousequipementController extends Controller
      */
     public function create($equipement_id)
     {
-        $title = 'create sousequipement';
+        $title = 'ajouter sousequipement';
         $equipement = Equipement::with('sousequipements')->findOrFail($equipement_id);
         return view('admin.sousequipements.create',compact(
             'title','equipement_id','equipement'
@@ -111,7 +113,7 @@ class SousequipementController extends Controller
      */
     public function edit(Sousequipement $sousequipement)
     {
-        $title = 'edit sousequipement';
+        $title = 'modifier sousequipement';
 
         return view('admin.sousequipements.edit',compact(
             'title','sousequipement'
@@ -157,7 +159,7 @@ class SousequipementController extends Controller
     }
 
     public function reports(){
-        $title ='sousequipement reports';
+        $title ='rapport sousequipements';
         return view('admin.soussousequipements.reports',compact('title'));
     }
 
@@ -166,7 +168,7 @@ class SousequipementController extends Controller
             'from_date' => 'required',
             'to_date' => 'required'
         ]);
-        $title = 'soussousequipements reports';
+        $title = 'rapport sousequipements';
         $soussousequipements = sousequipement::whereBetween(DB::raw('DATE(created_at)'), array($request->from_date, $request->to_date))->get();
         return view('admin.soussousequipements.reports',compact(
             'soussousequipements','title'

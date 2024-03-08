@@ -9,13 +9,13 @@ class NotificationController extends Controller
 {
     public function markAsRead(){
         auth()->user()->unreadNotifications->markAsRead();
-        $notification = notify('Notifications marked as read');
+        $notification = notify('Notifications marquées comme lu');
         return back()->with($notification);
     }
 
     public function read(){
         auth()->user()->unreadNotifications->markAsRead();
-        $notification = notify('Notification marked as read');
+        $notification = notify('Notification marqué comme lu');
         return back()->with($notification);
     }
 
@@ -28,7 +28,7 @@ class NotificationController extends Controller
     public function destroy($id)
     {
         auth()->user()->notifications()->delete();
-        $notification = notify('Notification has been deleted');
+        $notification = notify('Notification supprimée');
         return back()->with($notification);
     }
 }

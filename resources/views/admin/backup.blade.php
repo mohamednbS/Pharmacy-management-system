@@ -4,7 +4,7 @@
 <div class="col-sm-7 col-auto">
 	<h3 class="page-title">Backups</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">App Backups</li>
 	</ul>
 </div>
@@ -68,7 +68,7 @@
 				</div>
 			</div>
 		</div>
-	</div>			
+	</div>
 </div>
 
 
@@ -77,5 +77,5 @@
 
 
 @push('page-js')
-	
+
 @endpush

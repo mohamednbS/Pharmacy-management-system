@@ -22,6 +22,7 @@ class CreateContratsTable extends Migration
             $table->string('type_contrat');
             $table->string('status');
             $table->string('note');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

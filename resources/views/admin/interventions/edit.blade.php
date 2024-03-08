@@ -9,7 +9,7 @@
 <div class="col-sm-12">
 	<h3 class="page-title">Gestion Interventions</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Modifier Intervention</li>
 	</ul>
 </div>
@@ -22,7 +22,7 @@
 		<div class="card">
 			<div class="card-body custom-edit-service">
 
-				<!-- Add Medicine -->
+				<!-- edit intervention -->
 				<form method="post" enctype="multipart/form-data" autocomplete="off" action="{{route('interventions.update',$intervention)}}">
 					@csrf
 					@method("PUT")
@@ -80,23 +80,23 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Etat initial d'equipement<span class="text-danger">*</span></label>
-									<select  class="select2 form-select form-control" name="type_panne">
+									<select  class="select2 form-select form-control" name="etat_initial">
 
-                                        @if ( $intervention->type_panne == "Fonctionnel")
+                                        @if ( $intervention->etat_initial == "Fonctionnel")
 
 										<option selected value='Fonctionnel'>Fonctionnel</option>
 										<option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
 										<option value="Panne Intermittente">Panne Intermittente</option>
 										<option value="A l'arrêt">A l'arrêt</option>
 
-										@elseif ($intervention->type_panne == "Partiellement Fonctionnel")
+										@elseif ($intervention->etat_initial == "Partiellement Fonctionnel")
 
 										<option selected value='Partiellement Fonctionnel'>Partiellement Fonctionnel</option>
 										<option value='Fonctionnel'>Fonctionnel</option>
 										<option value="Panne Intermittente">Panne Intermittente</option>
 										<option value="A l'arrêt">A l'arrêt</option>
 
-										@elseif ($intervention->type_panne == "Panne Intermittente")
+										@elseif ($intervention->etat_initial == "Panne Intermittente")
 										<option selected value='Panne Intermittente'>Panne Intermittente</option>
 										<option value='Partiellement Fonctionnel'>Partiellement Fonctionnel</option>
 										<option value='Fonctionnel'>Fonctionnel</option>
@@ -127,21 +127,21 @@
 								<div class="form-group">
 									<label>Mode d'appel client<span class="text-danger">*</span></label>
 									<select  class="select2 form-select form-control" name="mode_appel">
-                                        @if ( $intervention->etat == "Mail")
+                                        @if ( $intervention->mode_appel == "Mail")
 
 										<option selected value='Mail'>Mail</option>
 										<option value="Téléphone">Téléphone</option>
                                         <option value="Fax">Fax</option>
                                         <option value="WhatsApp">WhatsApp</option>
 
-										@elseif ($intervention->etat == "Téléphone")
+										@elseif ($intervention->mode_appel == "Téléphone")
 
 										<option selected value='Téléphone'>Téléphone</option>
 										<option value='Mail'>Mail</option>
 										<option value="Fax">Fax</option>
                                         <option value="WhatsApp">WhatsApp</option>
 
-										@elseif ($intervention->etat == "WhatsApp")
+										@elseif ($intervention->mode_appel == "WhatsApp")
 										<option selected value='WhatsApp'>WhatsApp</option>
 										<option value="Mail">Mail</option>
                                         <option value="Téléphone">Téléphone</option>
@@ -218,59 +218,74 @@
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label>Priorité</label>
-                                    <select  class="select2 form-select form-control" name="priorite">
-                                        @if ( $intervention->etat == "Tres urgent")
-                                        <option >Selectionner une priorité</option>
-                                        <option selected value='Tres urgent'>Tres urgent</option>
-                                        <option value="Urgent">Urgent</option>
-                                        <option value="Normale">Normale</option>
-                                        @elseif ($intervention->etat == "Urgent")
-                                        <option>-- Sélectionner une priorité--</option>
-                                        <option selected value='Urgent'>Urgent</option>
-                                        <option value='Normale'>Normale</option>
-                                        <option value='Tres urgent'>Tres urgent</option>
-                                        @else
-                                        <option>-- Sélectionner une priorité --</option>
-                                        <option selected value='Normale'>Normale</option>
-                                        <option value='Tres urgent'>Tres urgent</option>
-                                        <option value='Urgent'>Urgent</option>
-                                        @endif
-                                    </select>
+									<label>Equipement après visite<span class="text-danger">*</span></label>
+										<select  class="select2 form-select form-control" name="etat_final">
+											<option >Sélectionner l'etat final</option>
+											<option value="Fonctionnel">Fonctionnel</option>
+											<option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+											<option value="Panne Intermittente">Panne Intermittente</option>
+											<option value="A l'arrêt">A l'arrêt</option>
+										</select>
 								</div>
 							</div>
 						</div>
 					</div>
 
-							<div class="service-fields mb-3">
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label>Etat<span class="text-danger">*</span></label>
-											<select  class="select2 form-select form-control" name="etat">
-											<option >Sélectionner un état</option>
-										        @foreach ($etats as $etat)
-										    		<option @if($intervention->etat == $etat->name) selected @endif value="{{$etat->name}}">{{$etat->name}}</option>
-								                @endforeach
-											</select>
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label>Description de l'intervention</label>
-											<input type="text" name="description_intervention" class="form-control" placeholder="décrire l'intervention" value="{{$intervention->description_intervention ?? old('description intervention')}}">{{$intervention->description_intervention}}
-										</div>
-									</div>
-								</div>
+					<div class="service-fields mb-3">
+						<div class="row">
+							<div class="col-lg-4">
+							    <div class="form-group">
+								    <label>Etat intervention<span class="text-danger">*</span></label>
+									<select  class="select2 form-select form-control" name="etat">
+										<option >Sélectionner un état de l'intervention</option>
+										    @foreach ($etats as $etat)
+										    	<option @if($intervention->etat == $etat->name) selected @endif value="{{$etat->name}}">{{$etat->name}}</option>
+								            @endforeach
+									</select>
+							    </div>
+						    </div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label>Priorité<span class="text-danger">*</span></label>
+									<select  class="select2 form-select form-control" name="priorite">
 
-									<div class="service-fields mb-3">
-										<div class="row">
-											<div class="col-12">
-												<label>Rapport d'intervention</label>
-												<input type="file" class="form-control" name='rapport' value="{{$intervention->rapport ?? old('rapport')}}">{{$intervention->rapport}}
-											</div>
-										</div>
-									</div>
+									@if ( $intervention->priorite == "Tres urgent")
+										<option >Selectionner une priorité</option>
+										<option selected value='Tres urgent'>Tres urgent</option>
+										<option value="Urgent">Urgent</option>
+										<option value="Normale">Normale</option>
+
+									@elseif ($intervention->priorite == "Urgent")
+										<option>-- Sélectionner une priorité--</option>
+										<option selected value='Urgent'>Urgent</option>
+										<option value='Normale'>Normale</option>
+										<option value='Tres urgent'>Tres urgent</option>
+
+									@else
+										<option>-- Sélectionner une priorité --</option>
+										<option selected value='Normale'>Normale</option>
+										<option value='Tres urgent'>Tres urgent</option>
+										<option value='Urgent'>Urgent</option>
+										@endif
+									</select>
+							    </div>
+						    </div>
+							<div class="col-lg-4">
+								<div class="form-group">
+								<label>Description de l'intervention</label>
+									<input type="textarea" name="description_intervention" class="form-control" placeholder="décrire l'intervention" value="{{$intervention->description_intervention ?? old('description intervention')}}">{{$intervention->description_intervention}}
+								</div>
+							</div>
+						</div>
+
+						<div class="service-fields mb-3">
+							<div class="row">
+								<div class="col-12">
+									<label>Rapport d'intervention</label>
+									<input type="file" class="form-control" name='rapport' value="{{$intervention->rapport ?? old('rapport')}}">{{$intervention->rapport}}
+								</div>
+							</div>
+						</div>
 
 					</div>
 
@@ -279,7 +294,7 @@
 						<button class="btn btn-primary submit-btn" type="submit" >Valider</button>
 					</div>
 				</form>
-				<!-- /Add Medicine -->
+				<!-- /edit intervention -->
 
 			</div>
 		</div>

@@ -20,12 +20,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $title = 'users';
+        $title = 'utilisateurs';
         if ($request->ajax()) {
             $users = User::get();
             return DataTables::of($users)
                 ->addIndexColumn()
-               
+
                 ->addColumn('avatar', function ($user) {
                     $src = asset('assets/img/avatar.png');
                     if (!empty($user->avatar)) {
@@ -41,10 +41,14 @@ class UserController extends Controller
                 ->addColumn('modalite',function($user){
                     return $user->modalite;
                 })
-          
+
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("users.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('users.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+
+                    if ($row->trashed()) {
+                        $deletebtn = ''; // Or you can show a restore button
+                    }
                     if (!auth()->user()->hasPermissionTo('edit-user')) {
                         $editbtn = '';
                     }
@@ -69,7 +73,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $title = 'create user';
+        $title = 'ajouter utilisateur';
         $roles = Role::where('name', '!=', 'super-admin')->get();
         $modalites = Modalite::get();
         $departements = Departement::get();
@@ -91,7 +95,7 @@ class UserController extends Controller
             'password'=>'required|confirmed|max:200',
             'modalite'=>'required',
             'departement'=>'required',
-          
+
         ]);
         $imageName = null;
         if ($request->hasFile('avatar')) {
@@ -111,12 +115,12 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
         $user->assignRole($request->role);
-     
-        $notifiation = notify('utilisateur crée avec succès');
+
+        $notifiation = notify('utilisateur ajouté avec succès');
         return redirect()->route('users.index')->with($notifiation);
     }
 
-   
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -125,7 +129,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $title = "edit user";
+        $title = "modifier utilisateur";
         $roles = Role::where('name', '!=', 'super-admin')->get();
         $modalites = Modalite::get();
         $departements = Departement::get();
@@ -144,13 +148,13 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $this->validate($request,[
-            'name'=>'required|max:100',
+            'name'=>'required',
             'email'=>'required|email',
             'role'=>'required',
             'password'=>'required|confirmed|max:200',
             'modalite'=>'required',
             'departement'=>'required',
-   
+
         ]);
         $imageName = $user->avatar;
         $password = $user->password;
@@ -177,12 +181,12 @@ class UserController extends Controller
             $user->removeRole($userRole);
         }
         $user->assignRole($request->role);
-        $notification = notify('user updated successfully');
+        $notification = notify('utilisateur modifié avec succès');
         return redirect()->route('users.index')->with($notification);
     }
 
     public function profile(){
-        $title = 'user profile';
+        $title = 'profil utilsateur';
         $roles = Role::get();
         return view('admin.users.profile',compact(
             'title','roles'
@@ -207,7 +211,7 @@ class UserController extends Controller
             'email' => $request->email,
             'avatar' => $imageName,
         ]);
-        $notification = notify('profile updated successfully');
+        $notification = notify('profil modifié avec succès');
         return redirect()->route('profile')->with($notification);
     }
 
@@ -226,11 +230,11 @@ class UserController extends Controller
         $verify_password = password_verify($request->current_password, $user->password);
         if ($verify_password) {
             $user->update(['password'=>Hash::make($request->password)]);
-            $notification = notify('User password updated successfully!!!');
+            $notification = notify('Mot de passe modifié avec succès!!!');
             $logout = auth()->logout();
             return back()->with($notification, $logout);
         } elseif(!$verify_password) {
-            $notification = notify("Incorrect Old Password!!!",'danger');
+            $notification = notify("Mot de passe incorrect!!!",'danger');
             return back()->with($notification);
         }
     }

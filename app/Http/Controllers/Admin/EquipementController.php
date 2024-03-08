@@ -53,6 +53,9 @@ class EquipementController extends Controller
                     $editbtn = '<a href="'.route("equipements.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('equipements.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
                     $viewbtn = '<a href="'.route("equipements.show", $row->id).'" class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye"></i></button></a>';
+                    if ($row->trashed()) {
+                        $deletebtn = ''; // Or you can show a restore button
+                    }
                     if (!auth()->user()->hasPermissionTo('edit-equipement')) {
                         $editbtn = '';
                     }
@@ -81,7 +84,7 @@ class EquipementController extends Controller
      */
     public function create()
     {
-        $title = 'create equipement';
+        $title = 'ajouter equipement';
         $clients = Client::get();
         $modalites = Modalite::get();
         return view('admin.equipements.create',compact(
@@ -128,7 +131,7 @@ class EquipementController extends Controller
             'plan_prev'=>$request->plan_prev,
             'document'=>$documentName,
         ]);
-        $notifications = notify("equipement has been added");
+        $notifications = notify("equipement ajouté avec succès");
         return redirect()->route('equipements.index')->with($notifications);
     }
 
@@ -142,7 +145,7 @@ class EquipementController extends Controller
      */
     public function edit(Equipement $equipement)
     {
-        $title = 'edit equipement';
+        $title = 'modifier equipement';
         $clients = Client::get();
         $modalites = Modalite::get();
         return view('admin.equipements.edit',compact(

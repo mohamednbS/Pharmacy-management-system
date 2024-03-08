@@ -8,7 +8,7 @@
 <div class="col-sm-12">
 	<h3 class="page-title">Gestion Sous-equipement</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Modifier Sous-equipement</li>
 	</ul>
 </div>
@@ -19,7 +19,7 @@
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body custom-edit-service">
-			
+
 			<!-- Edit Supplier -->
 			<form method="post" enctype="multipart/form-data" autocomplete="off" action="{{route('sousequipements.update',$sousequipement)}}">
 				@csrf
@@ -53,7 +53,7 @@
 						</div>
 					</div>
 				</div>
-			
+
 				<div class="service-fields mb-3">
 					<div class="row">
 						<div class="col-12">
@@ -62,7 +62,7 @@
 						</div>
 					</div>
 				</div>
-			
+
 				<div class="submit-section">
 					<button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Modifier</button>
 				</div>
@@ -72,12 +72,12 @@
 
 			</div>
 		</div>
-	</div>			
+	</div>
 </div>
-@endsection	
+@endsection
 
 @push('page-js')
 	<!-- Datetimepicker JS -->
 	<script src="{{asset('assets/js/moment.min.js')}}"></script>
-	<script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>	
+	<script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>
 @endpush

@@ -1,7 +1,7 @@
 @extends('admin.layouts.plain')
 
 @section('content')
-<h1>Forgot Password?</h1>
+<h1>Mot de passe oublié?</h1>
 <p class="account-subtitle">Enter your email to get a password reset link</p>
 <!-- Form -->
 <form action="{{route('password.request')}}" method="post">

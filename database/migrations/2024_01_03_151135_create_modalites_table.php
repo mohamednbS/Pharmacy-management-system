@@ -16,6 +16,7 @@ class CreateModalitesTable extends Migration
         Schema::create('modalites', function (Blueprint $table) {
             $table->bigIncrements('id_modalite')->primaryKey();
             $table->string('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

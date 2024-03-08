@@ -1,12 +1,12 @@
 @extends('admin.layouts.app')
 
-<x-assets.datatables />  
+<x-assets.datatables />
 
 @push('page-header')
 <div class="col-sm-7 col-auto">
 	<h3 class="page-title">Permissions</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Permissions</li>
 	</ul>
 </div>
@@ -27,18 +27,17 @@
 						<thead>
 							<tr style="boder:1px solid black;">
 								<th>Nom</th>
-								<th>Created date</th>
 								<th class="text-center action-btn">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
-													
+
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-	</div>			
+	</div>
 </div>
 
 <!-- Add Modal -->
@@ -75,7 +74,7 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Edit Permission</h5>
+				<h5 class="modal-title">Modifier Permission</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -92,9 +91,9 @@
 								<input type="text" class="form-control perm_name" name="permission">
 							</div>
 						</div>
-						
+
 					</div>
-					<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+					<button type="submit" class="btn btn-primary btn-block">Enregistrer</button>
 				</form>
 			</div>
 		</div>
@@ -115,7 +114,6 @@
                 columns: [
                     {data: 'name', name: 'name'},
                     // {data: 'role', name: 'role'},
-                    {data: 'created_at',name: 'created_at'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
@@ -129,5 +127,5 @@
 			//
 		});
 	</script>
-	
+
 @endpush

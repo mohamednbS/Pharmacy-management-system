@@ -46,6 +46,10 @@ class SoustraitantController extends Controller
                 ->addColumn('action', function ($row) {
                     $editbtn = '<a href="'.route("soustraitants.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('soustraitants.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+
+                    if ($row->trashed()) {
+                        $deletebtn = ''; // Or you can show a restore button
+                    }
                     if (!auth()->user()->hasPermissionTo('edit-soustraitant')) {
                         $editbtn = '';
                     }
@@ -71,7 +75,7 @@ class SoustraitantController extends Controller
      */
     public function create()
     {
-        $title = 'create soustraitant';
+        $title = 'ajouter soustraitant';
         return view('admin.soustraitants.create',compact(
             'title'
         ));
@@ -110,7 +114,7 @@ class SoustraitantController extends Controller
      */
     public function edit(Soustraitant $soustraitant)
     {
-        $title = 'edit soustraitant';
+        $title = 'modifier soustraitant';
         return view('admin.soustraitants.edit',compact(
             'title','soustraitant'
         ));

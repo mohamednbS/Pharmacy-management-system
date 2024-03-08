@@ -1,6 +1,6 @@
 <!-- Header -->
 <div class="header">
-			
+
 	<!-- Logo -->
 	<div class="header-left">
 		<a href="{{route('dashboard')}}" class="logo">
@@ -11,19 +11,19 @@
 		</a>
 	</div>
 	<!-- /Logo -->
-	
+
 	<a href="javascript:void(0);" id="toggle_btn">
 		<i class="fe fe-text-align-left"></i>
 	</a>
-	
-	
-	
+
+
+
 	<!-- Mobile Menu Toggle -->
 	<a class="mobile_btn" id="mobile_btn">
 		<i class="fa fa-bars"></i>
 	</a>
 	<!-- /Mobile Menu Toggle -->
-	
+
 	<!-- Header Right Menu -->
 	<ul class="nav user-menu">
 		<li class="nav-item dropdown">
@@ -33,14 +33,14 @@
 		</li>
 		<!-- Notifications -->
 		<li class="nav-item dropdown noti-dropdown">
-			
+
 			<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 				<i class="fe fe-bell"></i> <span class="badge badge-pill">{{auth()->user()->unReadNotifications->count()}}</span>
 			</a>
 			<div class="dropdown-menu notifications">
 				<div class="topnav-dropdown-header">
 					<span class="notification-title">Notifications</span>
-					<a href="{{route('mark-as-read')}}" class="clear-noti">Mark All As Read </a>
+					<a href="{{route('mark-as-read')}}" class="clear-noti">Marquer comme tous lu </a>
 				</div>
 				<div class="noti-content">
 					<ul class="notification-list">
@@ -57,22 +57,22 @@
 												<span class="noti-title">{{$notification->data['product_name']}} is only {{$notification->data['quantity']}} left.</span>
 												<span>Please update the purchase quantity </span>
 											</p>
-											
+
 											<p class="noti-time"><span class="notification-time">{{$notification->created_at->diffForHumans()}}</span></p>
 										</div>
 									</div>
 								</a>
 							</li>
-						@endforeach						
+						@endforeach
 					</ul>
 				</div>
 				<div class="topnav-dropdown-footer">
-					<a href="#">View all Notifications</a>
+					<a href="#">Voir tous les notifications</a>
 				</div>
 			</div>
 		</li>
 		<!-- /Notifications -->
-		
+
 		<!-- User Menu -->
 		<li class="nav-item dropdown has-arrow">
 			<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
@@ -87,22 +87,22 @@
 						<h6>{{auth()->user()->name}}</h6>
 					</div>
 				</div>
-				
-				<a class="dropdown-item" href="{{route('profile')}}">My Profile</a>
-				@can('view-settings')<a class="dropdown-item" href="{{route('settings')}}">Settings</a>@endcan
-				
+
+				<a class="dropdown-item" href="{{route('profile')}}">Mon Profil</a>
+				@can('view-settings')<a class="dropdown-item" href="{{route('settings')}}">Paramètres</a>@endcan
+
 				<a href="javascript:void(0)" class="dropdown-item">
 					<form action="{{route('logout')}}" method="post">
 					@csrf
-					<button type="submit" class="btn">Logout</button>
+					<button type="submit" class="btn">Se déconnecter</button>
 				</form>
 				</a>
 			</div>
 		</li>
 		<!-- /User Menu -->
-		
+
 	</ul>
 	<!-- /Header Right Menu -->
-	
+
 </div>
 <!-- /Header -->

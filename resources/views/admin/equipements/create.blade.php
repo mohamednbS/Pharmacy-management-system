@@ -9,7 +9,7 @@
 <div class="col-sm-12">
 	<h3 class="page-title">Gestion Equipements</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Ajouter Equipement</li>
 	</ul>
 </div>
@@ -21,7 +21,7 @@
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body custom-edit-service">
-				
+
 				<!-- Add Medicine -->
 				<form method="post" enctype="multipart/form-data" autocomplete="off" action="{{route('equipements.store')}}">
 					@csrf
@@ -36,7 +36,7 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label>Client <span class="text-danger">*</span></label>
-									<select class="select2 form-select form-control" name="client_id"> 
+									<select class="select2 form-select form-control" name="client_id">
 										@foreach ($clients as $client)
 											<option value="{{$client->id}}">{{$client->name}}</option>
 										@endforeach
@@ -46,7 +46,7 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label>Modalité <span class="text-danger">*</span></label>
-									<select class="select2 form-select form-control" name="modalite_id"> 
+									<select class="select2 form-select form-control" name="modalite_id">
 										@foreach ($modalites as $modalite)
 											<option value="{{$modalite->id}}">{{$modalite->name}}</option>
 										@endforeach
@@ -72,7 +72,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="service-fields mb-3">
 						<div class="row">
 							<div class="col-lg-6">
@@ -124,9 +124,9 @@
 						</div>
 					</div>
 
-                  
-					
-					
+
+
+
 					<div class="submit-section">
 						<button class="btn btn-primary submit-btn" type="submit" >Ajouter</button>
 					</div>
@@ -135,13 +135,13 @@
 
 			</div>
 		</div>
-	</div>			
+	</div>
 </div>
 @endsection
 
 @push('page-js')
 	<!-- Datetimepicker JS -->
 	<script src="{{asset('assets/js/moment.min.js')}}"></script>
-	<script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>	
+	<script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>
 @endpush
 

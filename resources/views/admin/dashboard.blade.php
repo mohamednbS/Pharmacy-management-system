@@ -10,7 +10,7 @@
 <div class="col-sm-12">
 	<h3 class="page-title">Bonjour {{auth()->user()->name}}!</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item active">Dashboard</li>
+		<li class="breadcrumb-item active">Tableau de Bord</li>
 	</ul>
 </div>
 @endpush
@@ -29,7 +29,8 @@
                     </div>
                 </div>
                 <div class="dash-widget-info">
-                    <h6 class="text-muted">Contrat Maintenance</h6>
+                    <a href= "/contrats">
+                    <h6 class="text-muted">Contrat Maintenance</a></h6>
                     <div class="progress progress-sm">
                         <div class="progress-bar bg-primary w-50"></div>
                     </div>
@@ -45,12 +46,12 @@
                         <i class="fe fe-credit-card"></i>
                     </span>
                     <div class="dash-count">
-                        <h3>{{$all_modalites}}</h3> 
+                        <h3>{{$all_clients}}</h3>
                     </div>
                 </div>
                 <div class="dash-widget-info">
-
-                    <h6 class="text-muted">Modalités</h6>
+                    <a href= "/clients">
+                    <h6 class="text-muted">Clients</a></h6>
                     <div class="progress progress-sm">
                         <div class="progress-bar bg-success w-50"></div>
                     </div>
@@ -70,8 +71,8 @@
                     </div>
                 </div>
                 <div class="dash-widget-info">
-
-                    <h6 class="text-muted">Equipements</h6>
+                    <a href= "/equipements">
+                    <h6 class="text-muted">Equipements</a></h6>
                     <div class="progress progress-sm">
                         <div class="progress-bar bg-danger w-50"></div>
                     </div>
@@ -91,8 +92,8 @@
                     </div>
                 </div>
                 <div class="dash-widget-info">
-
-                    <h6 class="text-muted">Techniciens</h6>
+                    <a href= "/users">
+                    <h6 class="text-muted">Techniciens</a></h6>
                     <div class="progress progress-sm">
                         <div class="progress-bar bg-warning w-50"></div>
                     </div>
@@ -158,7 +159,12 @@
             serverSide: true,
             ajax: "{{route('interventions.index')}}",
             columns: [
-                {data: 'client', name: 'client'},
+                {data: 'client', name: 'client',
+
+                    render: function(data, type, full, meta) {
+                        return '<a href="/interventions/' + full.id + '">' + data + '</a>';
+                    }
+                 } ,
                 {data: 'equipement', name: 'equipement'},
                  {data: 'destinateur', name: 'destinateur'},
                 {data: 'description_panne', name: 'description_panne'},

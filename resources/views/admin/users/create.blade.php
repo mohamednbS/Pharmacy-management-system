@@ -1,14 +1,14 @@
 @extends('admin.layouts.app')
 
 @push('page-css')
-    
+
 @endpush
 
 @push('page-header')
 <div class="col-sm-12">
-	<h3 class="page-title">Create User</h3>
+	<h3 class="page-title">Gestion Utilisateurs</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item active">Dashboard</li>
+		<li class="breadcrumb-item active">Tableau de Bord</li>
 	</ul>
 </div>
 @endpush
@@ -17,10 +17,10 @@
 
 <div class="row">
     <div class="col-md-12 col-lg-12">
-    
+
         <div class="card card-table">
             <div class="card-header">
-                <h4 class="card-title ">Add User</h4>
+                <h4 class="card-title ">Ajouter</h4>
             </div>
             <div class="card-body">
                 <div class="p-5">
@@ -122,14 +122,14 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 
-    
+
 </div>
 
 @endsection
 
 @push('page-js')
-    
+
 @endpush

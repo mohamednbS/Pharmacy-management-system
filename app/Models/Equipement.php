@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Sousequipement;
 
 class Equipement extends Model
 {
     use HasFactory;
+    use softDeletes;
+
 
     protected $fillable = [
         'code','modele','marque',
@@ -22,7 +25,7 @@ class Equipement extends Model
     }
 
     public function client(){
-        return $this->belongsTo(Client::class);  
+        return $this->belongsTo(Client::class);
     }
 
     public function sousequipements(): HasMany

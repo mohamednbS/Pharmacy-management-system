@@ -27,6 +27,11 @@ class PermissionController extends Controller
                     ->addColumn('action',function ($row){
                         $editbtn = '<a data-id="'.$row->id.'" data-name="'.$row->name.'" href="javascript:void(0)" class="editbtn"><button class="btn btn-primary"><i class="fa fa-edit"></i></button></a>';
                         $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('permissions.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></a>';
+
+                        if ($row->trashed()) {
+                            $deletebtn = ''; // Or you can show a restore button
+                        }
+
                         if(!auth()->user()->hasPermissionTo('edit-permission')){
                             $editbtn = '';
                         }
@@ -39,13 +44,13 @@ class PermissionController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-        
+
         return view('admin.roles.permissions',compact(
             'title',
         ));
     }
 
-  
+
     /**
      * Store a newly created resource in storage.
      *
@@ -61,11 +66,11 @@ class PermissionController extends Controller
             $permission = Permission::create(['name' => $permission]);
             $permission->assignRole('super-admin');
         }
-        $notification = notify("permission created");
+        $notification = notify("permission crée avec succès");
         return back()->with($notification);
     }
 
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -82,7 +87,7 @@ class PermissionController extends Controller
         $permission->update([
             'name' => $request->permission,
         ]);
-        $notification = notify('permission updated');
+        $notification = notify('permission modifiée avec succès');
         return back()->with($notification);
     }
 
@@ -94,6 +99,6 @@ class PermissionController extends Controller
      */
     public function destroy(Request $request)
     {
-        return Permission::findOrFail($request->id)->delete();  
+        return Permission::findOrFail($request->id)->delete();
     }
 }

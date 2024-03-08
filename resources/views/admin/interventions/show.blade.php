@@ -4,7 +4,7 @@
 <div class="col">
 	<h3 class="page-title">Gestion Intervention</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Aperçu Intervention</li>
 	</ul>
 </div>
@@ -58,7 +58,7 @@
 
 								<div class="row">
 									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Etat intial d'equipement</p>
-									<p class="col-sm-10">	{{$intervention->type_panne}}</p>
+									<p class="col-sm-10">	{{$intervention->etat_initial}}</p>
 								</div>
 
 								<div class="row">
@@ -104,6 +104,11 @@
                                 <div class="row">
 									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Description intervention</p>
 									<p class="col-sm-10">{{$intervention->description_intervention}}</p>
+								</div>
+
+                                <div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Etat final</p>
+									<p class="col-sm-10">	{{$intervention->etat_final}}</p>
 								</div>
 
 							</div>
