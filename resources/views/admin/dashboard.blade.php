@@ -117,7 +117,6 @@
                                 <th>Equipement</th>
                                 <th>Interveant(s)</th>
                                 <th>Panne</th>
-
                             </tr>
                         </thead>
                         <tbody>
