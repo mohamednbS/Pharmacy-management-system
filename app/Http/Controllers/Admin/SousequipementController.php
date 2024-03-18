@@ -39,8 +39,8 @@ class SousequipementController extends Controller
                     return $sousequipement->modele;
                 })
                 ->addColumn('action', function ($row) {
-                    $editbtn = '<a href="'.route("sousequipements.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
-                    $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('sousequipements.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+                    $editbtn = '<a href="'.route("sousequipements.edit", $row->id).'" class="editbtn"><button class="btn btn-primary" title="Modifier"><i class="fas fa-edit"></i></button></a>';
+                    $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('sousequipements.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button></a>';
                     if ($row->trashed()) {
                         $deletebtn = ''; // Or you can show a restore button
                     }

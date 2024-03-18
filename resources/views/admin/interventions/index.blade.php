@@ -59,8 +59,8 @@
 <script>
     $(document).ready(function() {
         var table = $('#intervention-table').DataTable({
-            processing: true,
-            serverSide: true,
+            processing: false,
+            serverSide: false,
             ajax: "{{route('interventions.index')}}",
             columns: [
 				{data: 'etat', name: 'etat'},

@@ -43,11 +43,14 @@ class ClientController extends Controller
                 })
 
                 ->addColumn('action', function ($row) {
-                    $editbtn = '<a href="'.route("clients.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
-                    $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('clients.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
-                    $viewbtn = '<a href="'.route("clients.show", $row->id).'" class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye"></i></button></a>';
+                    $editbtn = '<a href="'.route("clients.edit", $row->id).'" class="editbtn"><button class="btn btn-primary" title="Modifier"><i class="fas fa-edit"></i></button></a>';
+                    $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('clients.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button></a>';
+                    $viewbtn = '<a href="'.route("clients.show", $row->id).'" class="viewbtn"><button class="btn btn-success" title="Voir equipements"><i class="fas fa-eye"></i></button></a>';
                     if ($row->trashed()) {
                         $deletebtn = ''; // Or you can show a restore button
+                    }
+                    if (!auth()->user()->hasPermissionTo('edit-client')) {
+                        $editbtn = '';
                     }
                     if (!auth()->user()->hasPermissionTo('destroy-client')) {
                         $deletebtn = '';

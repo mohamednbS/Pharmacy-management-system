@@ -58,7 +58,7 @@
     $(document).ready(function() {
         var table = $('#contrat-table').DataTable({
             processing: true,
-            serverSide: true,
+            serverSide: false,
             ajax: "{{route('contrats.index')}}",
             columns: [
                 {data: 'client', name: 'client'},

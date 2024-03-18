@@ -84,8 +84,8 @@
 <script>
     $(document).ready(function() {
         var table = $('#client-table').DataTable({
-            processing: true,
-            serverSide: true,
+            processing: false,
+            serverSide: false,
             ajax: "{{route('clients.index')}}",
             columns: [
                 {data: 'name', name: 'name'},

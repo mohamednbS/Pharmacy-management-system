@@ -55,7 +55,7 @@
     $(document).ready(function() {
         var table = $('#sousequipement-table').DataTable({
             processing: true,
-            serverSide: true,
+            serverSide: false,
             ajax: "{{route('sousequipements.index')}}",
             columns: [
                 {data: 'designation', name: 'designation'},

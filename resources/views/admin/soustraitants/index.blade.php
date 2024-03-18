@@ -85,7 +85,7 @@
     $(document).ready(function() {
         var table = $('#soustraitant-table').DataTable({
             processing: true,
-            serverSide: true,
+            serverSide: false,
             ajax: "{{route('soustraitants.index')}}",
             columns: [
                 {data: 'name', name: 'name'},

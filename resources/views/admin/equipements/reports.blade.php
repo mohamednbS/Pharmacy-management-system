@@ -85,7 +85,20 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Rechercher</label>
-                                    <input type="text" name="search_keyword" class="form-control" placeholder="Entrez la désignation">
+                                    <select type="text" name="search_keyword" class="form-control">
+                                        <option>Sélectionner une désignation</option>
+                                        <option value="CT">CT</option>
+                                        <option value="IRM">IRM</option>
+                                        <option value="CV">CV</option>
+                                        <option value="US">US</option>
+                                        <option value="ISP">ISP</option>
+                                        <option value="DXR">DXR</option>
+                                        <option value="Moniteur">Moniteur</option>
+                                        <option value="Moniteur">MATC</option>
+                                        <option value="PACS">PACS</option>
+                                        <option value="Robot de gravure">Robot de gravure</option>
+                                        <option value="RADIO MOBILE">RADIO MOBILE</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

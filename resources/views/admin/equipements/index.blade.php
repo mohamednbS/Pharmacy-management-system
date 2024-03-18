@@ -58,8 +58,8 @@
 <script>
     $(document).ready(function() {
         var table = $('#equipement-table').DataTable({
-            processing: true,
-            serverSide: true,
+            processing: false,
+            serverside: false,
             ajax: "{{route('equipements.index')}}",
             columns: [
                 {data: 'code', name: 'code'},

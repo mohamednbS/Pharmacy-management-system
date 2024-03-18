@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @push('page-css')
-    
+
 @endpush
 
 @push('page-header')
@@ -17,7 +17,7 @@
 
 <div class="row">
     <div class="col-md-12 col-lg-12">
-    
+
         <div class="card card-table">
             <div class="card-header">
                 <h4 class="card-title ">Modifier Utilisateur</h4>
@@ -61,7 +61,7 @@
                                                 <option value='{{ $departement->name }}'>{{ $departement->name }}</option>
                                             @endif
                                         @endforeach
-                                        
+
                                         </select>
                                     </div>
                                 </div>
@@ -133,18 +133,19 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">Modifier</button>
+                        <a href="{{route('users.index')}}" class="btn btn-danger btn-block">Annuler</a>
                     </form>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
-    
+
 </div>
 
 @endsection
 
 @push('page-js')
-    
+
 @endpush

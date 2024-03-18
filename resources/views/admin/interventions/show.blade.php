@@ -2,7 +2,7 @@
 
 @push('page-header')
 <div class="col">
-	<h3 class="page-title">Gestion Intervention</h3>
+	<h3 class="page-title">Gestion Interventions</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
 		<li class="breadcrumb-item active">Aperçu Intervention</li>
@@ -19,10 +19,11 @@
 
 					<h4 class="user-name mb-3">Client : {{$intervention->client->name}}</h4>
 					<h5 class="user-name mb-3">Equipmement : {{$intervention->equipement->modele.'-'.$intervention->equipement->numserie}}</h5>
-                    <h5 class="user-name mb-3">Sous equipement:
+                    <h5 class="user-name mb-3">Sous équipement:
                                 @if($intervention->sousequipement)
                                 {{$intervention->sousequipement->designation}}@endif
                     </h5>
+                    <h6 class="user-name mb-3">Etat : {{$intervention->etat}}</h6>
 				</div>
 
 
@@ -33,7 +34,7 @@
 					<a class="nav-link active" data-toggle="tab" href="#per_details_tab">Aperçu</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-toggle="tab" href="#password_tab">Historique</a>
+					<a class="nav-link" data-toggle="tab" href="#password_tab">Historiques</a>
 				</li>
 			</ul>
 		</div>
@@ -51,18 +52,20 @@
 								<h5 class="card-title d-flex justify-content-between">
 									<span>Aperçu</span>
 									<a class="edit-link" data-toggle="modal" href="#edit_intervention_details"><i class="fa fa-edit mr-1"></i>Modifier</a>
-                                  <span class="label label-primary"></span>
+                                    <a class="edit-link" data-toggle="modal" href="#ajout_sousintervention"><i class="fa fa-edit mr-1"></i>Ajouter sous-intervention</a>
+									<span class="label label-primary"></span>
+
 
 								</h5>
 
 
 								<div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Etat intial d'equipement</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">État initial d'équipement</p>
 									<p class="col-sm-10">	{{$intervention->etat_initial}}</p>
 								</div>
 
 								<div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Description Panne</p>
+									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Description de la Panne</p>
 									<p class="col-sm-10">{{$intervention->description_panne}}</p>
 								</div>
 
@@ -82,36 +85,38 @@
                                         @if (is_array($intervention->destinateur))
                                         {{
                                            implode(', ', $intervention->destinateur)
-                                         }}@endif</p>
+                                         }}
+                                        @endif
+                                    </p>
 								</div>
 
                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Sous traitant</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Sous-traitant</p>
                                     @if($intervention->soustraitant)
                                     <p class="col-sm-10">{{$intervention->soustraitant->name}}@endif</p>
 								</div>
 
                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date/Heure début</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date/Heure de début</p>
 									<p class="col-sm-10">	{{$intervention->date_debut}}</p>
 								</div>
 
                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date/Heure fin</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date/Heure de fin</p>
 									<p class="col-sm-10">	{{$intervention->date_fin}}</p>
 								</div>
 
                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Description intervention</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Description de l'intervention</p>
 									<p class="col-sm-10">{{$intervention->description_intervention}}</p>
 								</div>
 
                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Etat final</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">État final d'équipement</p>
 									<p class="col-sm-10">	{{$intervention->etat_final}}</p>
 								</div>
 
-							</div>
+						</div>
                         <!-- Edit Details Modal -->
 						<div class="modal fade" id="edit_intervention_details" aria-hidden="true" role="dialog">
 							<div class="modal-dialog modal-dialog-centered" role="document">
@@ -178,46 +183,136 @@
 								</div>
 							</div>
 						</div>
-						<!-- /Edit Details Modal -->
+						<!-- /Edit Details intervention -->
+
+                        <!-- Ajout sous intervention -->
+						<div class="modal fade" id="ajout_sousintervention" aria-hidden="true" role="dialog">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Ajouter une sous-intervention</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<form method="post" enctype="multipart/form-data" action="{{ route('sousinterventions.store', ['intervention_id' => $intervention->id]) }}">
+										@csrf
+											<div class="row form-row">
+												<div class="col-12">
+                                                    <div class="form-group">
+                                                        <label>Date/Heure début <span class="text-danger">*</span></label>
+             											<input type="datetime-local" name="date_debut" class="form-control">
+                                                    </div>
+												</div>
+												<div class="col-12">
+                                                    <div class="form-group">
+                                                        <label>Date/Heure fin <span class="text-danger">*</span></label>
+             											<input type="datetime-local" name="date_fin" class="form-control">
+                                                    </div>
+												</div>
+
+												<div class="col-12">
+													<div class="form-group">
+														<label>Equipement avant visite<span class="text-danger">*</span></label>
+														<select  class="select2 form-select form-control" name="etat_initial">
+															<option >Sélectionner l'etat initial</option>
+															<option value="Fonctionnel">Fonctionnel</option>
+															<option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+															<option value="Panne Intermittente">Panne Intermittente</option>
+															<option value=" l'arrêt">A l'arrêt</option>
+
+														</select>
+													</div>
+												</div>
+
+												<div class="col-12">
+													<div class="form-group">
+														<label>Intervenant(s)</label>
+														<select  class="select2 form-select form-control" name="intervenant[]" multiple>
+															<option >Sélectionner l'intervenant(s)</option>
+															@foreach($users as $user)
+																<option value="{{ $user->name }}">{{ $user->name }}</option>
+															@endforeach
+														</select>
+													</div>
+												</div>
+
+												<div class="col-12">
+													<div class="form-group">
+														<label>Description</label>
+														<input type="text" name="description_panne" class="form-control">
+													</div>
+												</div>
+
+
+											<button type="submit" class="btn btn-primary btn-block">Valider</button>
+										</form>
+									</div>
+								</div>
+							</div>
 						</div>
-                    </div>
-                    <!-- /Personal Details -->
+						<!-- /Ajout sous-intervention -->
+
+					</div>
+
+                    <!-- /Aperçcu-->
 
                 </div>
                 <!-- /Personal Details Tab -->
 
-                <!-- Change Password Tab -->
-                <div id="password_tab" class="tab-pane fade">
+                    <!-- Sous interventions -->
+                    <div id="password_tab" class="tab-pane fade">
 
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Historique intervention</h5>
-                            <div class="row">
-                                <div class="col-md-10 col-lg-12">
-                                    <form method="POST" action="{{route('update-password',auth()->user())}}">
-                                        @csrf
-                                        @method("PUT")
-                                        <div class="form-group">
-                                            <label>Date 1ère intervention</label>
-                                            <input type="date-time" name="current_password" class="form-control">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Sous-interventions</h5>
+                                <div class="row">
+                                    <div class="col-md-10 col-lg-12">
+                                        <!-- Liste des sous-interventions -->
+                                        @if($intervention->sousinterventions)
+                                        <div class="card-body">
+                                            <h5 class="card-title d-flex justify-content-between">
+                                                <span>Historique de l'intervention</span>
+                                            </h5>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table id="sousinterventions-table" class="datatable table table-hover table-center mb-0">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th>Date début</th>
+                                                                    <th>Date fin</th>
+                                                                    <th>Etat initial</th>
+                                                                    <th>Description</th>
+                                                                   
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($sousinterventions as $sousintervention)
+                                                                <tr>
+                                                                    <td>{{$sousintervention->date_debut}}</td>
+                                                                    <td>{{$sousintervention->date_fin}}</td>
+                                                                    <td>{{$sousintervention->etat_initial}}</td>
+                                                                    <td>{{$sousintervention->description_panne}}</td>
+
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                        @endif
                                         </div>
-                                        <div class="form-group">
-                                            <label>Date 2ère intervention</label>
-                                            <input type="date-time" name="password" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Date 3ère intervention</label>
-                                            <input type="date-time" name="password_confirmation" class="form-control">
-                                        </div>
-                                        <!--
-                                       <button class="btn btn-primary" type="submit">Valider</button> -->
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /Change Password Tab -->
+                    <!-- /Sous interventions -->
 
             </div>
         </div>

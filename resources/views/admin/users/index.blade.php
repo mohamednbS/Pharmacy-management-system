@@ -56,7 +56,7 @@
 $(document).ready(function() {
     var table = $('#user-table').DataTable({
         processing: true,
-        serverSide: true,
+        serverSide: false,
         ajax: "{{route('users.index')}}",
         columns: [
 			{data: 'avatar', name: 'avatar', orderable: false, searchable: false},

@@ -36,6 +36,7 @@
                                     <th>Heure/Date appel client</th>
                                     <th>Mode appel</th>
                                     <th>Panne</th>
+                           
                                     <th>Etat</th>
 
 
@@ -49,6 +50,7 @@
                                     <td>{{$intervention->appel_client}}</td>
                                     <td>{{$intervention->mode_appel}}</td>
                                     <td>{{$intervention->description_panne}}</td>
+
                                     <td>{{$intervention->etat}}</td>
 
 

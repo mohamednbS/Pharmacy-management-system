@@ -29,7 +29,7 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label>Code</label>
-									<input class="form-control" type="text" name="code" value="{{$equipement->code}}" >
+									<input class="form-control" type="text" name="code" value="{{$equipement->code ?? old('code')}}">
 								</div>
 							</div>
 							<div class="col-lg-4">
@@ -133,14 +133,12 @@
 						</div>
 					</div>
 
-
-
-
 					<div class="submit-section">
-						<button class="btn btn-primary submit-btn" type="submit" >Submit</button>
+                        <a href="{{route('equipements.index')}}" class="btn btn-danger submit-btn">Annuler</a>
+						<button class="btn btn-primary submit-btn" type="submit" >Modifier</button>
 					</div>
 				</form>
-				<!-- /Add Medicine -->
+				<!-- /Edit Equipement-->
 
 			</div>
 		</div>

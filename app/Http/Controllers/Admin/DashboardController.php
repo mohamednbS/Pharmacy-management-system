@@ -15,19 +15,20 @@ use App\Http\Controllers\Controller;
 class DashboardController extends Controller
 {
     public function index(){
-        $title = 'Tableau de Bord';
-        $intervention_cloture = Intervention::whereIn('etat', ['Clôturé', 'Clôturé à distance'])->count();
-        $intervention_non_cloture = Intervention::where('etat','!=','Clôturé')->count();
+        $title = 'dashboard';
+        $intervention_cloture = Intervention::whereIn('etat', ['Cloturé', 'Cloturé à distance','Cloturé par téléphone'])->count();
+        $intervention_non_cloture = Intervention::whereNotIn('etat', ['Cloturé', 'Cloturé par téléphone', 'Cloturé à distance'])->count();
         $all_contrats = Contrat::count();
         $all_equipements = Equipement::count();
+        $all_clients = Client::count();
 
 
 
-        $pieChart = app()->chartjs
-                ->name('pieChart')
+        $pieChart_interventions = app()->chartjs
+                ->name('pieChart_interventions')
                 ->type('pie')
                 ->size(['width' => 400, 'height' => 200])
-                ->labels(['Intervention Clôturé', 'Intervention non Clôturé'])
+                ->labels(['Intervention Cloturé', 'Intervention non Cloturé'])
                 ->datasets([
                     [
                         'backgroundColor' => ['#FF6384', '#36A2EB','#7bb13c'],
@@ -37,9 +38,26 @@ class DashboardController extends Controller
                 ])
                 ->options([]);
 
-                $all_clients = Client::count();
+        $contrats_encours = Contrat::whereIn('status', ['En cours'])->count();
+        $contrats_expire = Contrat::whereNotIn('status', ['En cours'])->count();
+        $pieChart_contrats = app()->chartjs
+        ->name('pieChart_contrats')
+        ->type('pie')
+        ->size(['width' => 400, 'height' => 200])
+        ->labels(['contrats en cours', 'Contrats proche d'.'.'.'expiration'])
+        ->datasets([
+            [
+                'backgroundColor' => ['#7bb13c', '#36A2EB'],
+                'hoverBackgroundColor' => ['#7bb13c', '#36A2EB'],
+                'data' => [$contrats_encours, $contrats_expire]
+            ]
+        ])
+        ->options([]);
+
+
         return view('admin.dashboard',compact(
-            'title','pieChart','all_contrats','all_equipements','all_clients'
+            'title','pieChart_interventions','pieChart_contrats','all_contrats','all_equipements','all_clients'
         ));
     }
 }
+

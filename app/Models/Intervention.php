@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Intervention extends Model
@@ -39,6 +40,10 @@ class Intervention extends Model
     public function soustraitant(){
 
         return $this->belongsTo(Soustraitant::class);
+    }
+    public function sousinterventions():HasMany
+    {
+        return $this->HasMany(Sousintervention::class);
     }
 
 }

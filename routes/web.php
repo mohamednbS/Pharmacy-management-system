@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\InterventionController;
 use App\Http\Controllers\Admin\EtatController;
 use App\Http\Controllers\Admin\ContratController;
 use App\Http\Controllers\Admin\SoustraitantController;
+use App\Http\Controllers\Admin\SousinterventionController;
 use App\Http\livewire\Calendar ;
 
 /*
@@ -139,8 +140,8 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('interventions',InterventionController::class);
     Route::get('/getClientName', [InterventionController::class, 'getClientName']);
     Route::get('interventions.archive', [InterventionController::class, 'archive'])->name('interventions.archive');
-
-
+    Route::get('interventions.unclosed', [InterventionController::class, 'unclosed'])->name('interventions.unclosed');
+    Route::post('sousinterventions/{intervention_id}/store', [SousinterventionController::class,'store'])->name('sousinterventions.store');
 
 });
 

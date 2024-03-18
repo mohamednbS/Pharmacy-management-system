@@ -49,7 +49,7 @@
 		$(document).ready(function() {
             var table = $('#role-table').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 ajax: "{{route('roles.index')}}",
                 columns: [
                     {data: 'name', name: 'name'},

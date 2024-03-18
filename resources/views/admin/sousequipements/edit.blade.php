@@ -20,7 +20,7 @@
 		<div class="card">
 			<div class="card-body custom-edit-service">
 
-			<!-- Edit Supplier -->
+			<!-- Edit sous-equipement-->
 			<form method="post" enctype="multipart/form-data" autocomplete="off" action="{{route('sousequipements.update',$sousequipement)}}">
 				@csrf
 				@method("PUT")
@@ -64,10 +64,11 @@
 				</div>
 
 				<div class="submit-section">
+                    <a href="{{route('sousequpements.index')}}" class="btn btn-danger submit-btn">Annuler</a>
 					<button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Modifier</button>
 				</div>
 			</form>
-			<!-- /Add Medicine -->
+			<!-- /Edit sous-equipement -->
 
 
 			</div>

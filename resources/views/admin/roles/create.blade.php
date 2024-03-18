@@ -38,7 +38,9 @@
                                 @endforeach
                             </select>
                         </div>
+
                         <button type="submit" class="btn btn-primary btn-block">Valider</button>
+                        <a href="{{route('roles.index')}}" class="btn btn-danger btn-block">Annuler</a>
                     </form>
                 </div>
             </div>

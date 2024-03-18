@@ -37,14 +37,14 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Matricule</label>
-                                    <input type="text" name="matricule" class="form-control">
+                                    <input type="text" name="matricule" class="form-control" placeholder="Saisir la matricule de l'utilisateur">
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Adresse mail</label>
-                                    <input type="email" name="email" class="form-control" placeholder="example@gmail.com">
+                                    <input type="email" name="email" class="form-control" placeholder="exemple@gmail.com">
                                 </div>
                             </div>
 
@@ -53,6 +53,7 @@
                                     <label>Département</label>
                                     <div class="form-group">
                                         <select class="select2 form-select form-control" name="departement">
+                                            <option value="Sélectionner un département">Sélectionner un département</option>
                                             @foreach ($departements as $departement)
                                                 <option value="{{$departement->name}}">{{$departement->name}}</option>
                                             @endforeach
@@ -65,7 +66,8 @@
                                 <div class="form-group">
                                     <label>Modalité</label>
                                     <div class="form-group">
-                                        <select class="select2 form-select form-control"  name="modalite" >
+                                        <select class="select2 form-select form-control"  name="modalite">
+                                            <option value="Sélectionner une modalité">Sélectionner une modalité</option>
                                             @foreach ($modalites as $modalite)
                                                 <option value="{{$modalite->name}}">{{$modalite->name}}</option>
                                             @endforeach
@@ -79,6 +81,7 @@
                                     <label>Rôle</label>
                                     <div class="form-group">
                                         <select class="select2 form-select form-control" name="role">
+                                            <option value="Sélectionner le role de l'utilisateur">Sélectionner le rôle de l'utilisateur</option>
                                             @foreach ($roles as $role)
                                                 <option value="{{$role->name}}">{{$role->name}}</option>
                                             @endforeach
@@ -90,14 +93,14 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Mobile</label>
-                                    <input type="text" name="phone" class="form-control">
+                                    <input type="text" name="phone" class="form-control" placeholder="Saisir le mobile de l'utilisateur">
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Avatar</label>
-                                    <input type="file" name="avatar" class="form-control" >
+                                    <input type="file" name="avatar" class="form-control">
                                 </div>
                             </div>
                             <div class="col-12">
@@ -117,7 +120,8 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Ajouter</button>
+                        <button type="submit" class="btn btn-primary btn-block">Valider</button>
+                        <a href="{{route('users.index')}}" class="btn btn-danger btn-block">Annuler</a>
                     </form>
                 </div>
             </div>

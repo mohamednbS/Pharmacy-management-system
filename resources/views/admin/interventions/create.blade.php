@@ -180,10 +180,11 @@
 
 
 					<div class="submit-section">
+                        <a href="{{route('interventions.index')}}" class="btn btn-danger submit-btn">Annuler</a>
 						<button class="btn btn-primary submit-btn" type="submit" >Valider</button>
 					</div>
 				</form>
-				<!-- /Add Medicine -->
+				<!-- /Add Intervention -->
 
 			</div>
 		</div>

@@ -109,7 +109,7 @@
 		$(document).ready(function() {
             var table = $('#perm-table').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 ajax: "{{route('permissions.index')}}",
                 columns: [
                     {data: 'name', name: 'name'},

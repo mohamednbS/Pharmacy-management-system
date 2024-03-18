@@ -8,10 +8,10 @@
 
 @push('page-header')
 <div class="col-sm-7 col-auto">
-	<h3 class="page-title">Gestion Etat de Maintenance</h3>
+	<h3 class="page-title">Gestion des Etats de Maintenance</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
-		<li class="breadcrumb-item active">Etat de Maintenance</li>
+		<li class="breadcrumb-item active">Etats de Maintenance</li>
 	</ul>
 </div>
 <div class="col-sm-5 col">
@@ -64,7 +64,7 @@
 							</div>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary btn-block">Ajouter</button>
+					<button type="submit" class="btn btn-primary btn-block">Valider</button>
 				</form>
 			</div>
 		</div>
@@ -110,7 +110,7 @@
     $(document).ready(function() {
         var table = $('#etat-table').DataTable({
             processing: true,
-            serverSide: true,
+            serverSide: false,
             ajax: "{{route('etats.index')}}",
             columns: [
                 {data: 'name', name: 'name'},
