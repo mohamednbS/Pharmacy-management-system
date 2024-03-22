@@ -17,12 +17,8 @@ class Sousintervention extends Model
     ];
 
     protected $fillable = [
-<<<<<<< HEAD
         'date_debut','date_fin','etat_initial','description_panne','intervenant','description_sousintervention','intervention_id',
         'etat_final'
-=======
-        'date_debut','date_fin','etat_initial','description_panne','intervenant','description_sousintervention','intervention_id'
->>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
     ];
 
     public function intervention(){

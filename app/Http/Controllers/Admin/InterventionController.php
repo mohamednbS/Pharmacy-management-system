@@ -204,7 +204,7 @@ class InterventionController extends Controller
             'desciption_panne'=>$request->desciption_panne,
             'priorite'=>$request->priorite,
             'mode_appel'=>$request->mode_appel,
-            'destinateur'=> $request->destinateur, 
+            'destinateur'=> $request->destinateur,
             'soustraitant_id'=>$request->soustraitant_id,
             'appel_client'=>$request->appel_client,
             'description_intervention'=>$request->description_intervention,
@@ -243,11 +243,7 @@ class InterventionController extends Controller
         $sousequipements= Sousequipement::get();
         $users= User::get();
         $soustraitants = Soustraitant::get();
-<<<<<<< HEAD
         $sousinterventions = $intervention->sousinterventions;
-=======
-        $sousinterventions = $intervention->sousinterventions ;
->>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
         return view('admin.interventions.show',compact(
             'title','clients','sousequipements','intervention',
             'users','equipements','soustraitants','sousinterventions'
