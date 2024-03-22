@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\InterventionController;
 use App\Http\Controllers\Admin\EtatController;
 use App\Http\Controllers\Admin\ContratController;
 use App\Http\Controllers\Admin\SoustraitantController;
+use App\Http\Controllers\Admin\SousinterventionController;
 use App\Http\livewire\Calendar ;
 
 /*
@@ -126,7 +127,7 @@ Route::middleware(['auth'])->group(function(){
 
 
     /*Sous Equipements routes*/
-    Route::resource('sousequipements',SousequipementController::class);
+    Route::resource('sousequipements',SousequipementController::class)->except('create','store','show');
     Route::get('/equipements/{equipement_id}/sousequipements/create', [SousequipementController::class,'create']);
     Route::post('/equipements/{equipement_id}/store', [SousequipementController::class,'store'])->name('sousequipements.store');
     Route::get('/getSousequipements', [SousequipementController::class, 'getSousequipements']);
@@ -139,9 +140,12 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('interventions',InterventionController::class);
     Route::get('/getClientName', [InterventionController::class, 'getClientName']);
     Route::get('interventions.archive', [InterventionController::class, 'archive'])->name('interventions.archive');
+    Route::get('interventions.unclosed', [InterventionController::class, 'unclosed'])->name('interventions.unclosed');
 
 
-
+    /*sous interventions routes*/
+    Route::post('sousinterventions/{intervention_id}/store', [SousinterventionController::class,'store'])->name('sousinterventions.store');
+    Route::resource('sousinterventions',SousinterventionController::class)->except('create','store','show');
 });
 
     Route::middleware(['guest'])->group(function () {

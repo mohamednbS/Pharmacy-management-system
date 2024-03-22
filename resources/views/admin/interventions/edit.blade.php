@@ -213,7 +213,7 @@
 								<div class="form-group">
 									<label>Date/Heure fin<span class="text-danger">*</span></label>
 									<input type="datetime-local" name="date_fin" class="form-control"
-                                    value="{{$intervention->date_fin ?? old('date_fin')}}">{{$intervention->date_fin}}
+                                    value="{{$intervention->date_fin ?? old('date_fin')}}">
 								</div>
 							</div>
 							<div class="col-lg-4">
@@ -239,7 +239,7 @@
 									<select  class="select2 form-select form-control" name="etat">
 										<option >Sélectionner un état de l'intervention</option>
 										    @foreach ($etats as $etat)
-										    	<option @if($intervention->etat == $etat->name) selected @endif value="{{$etat->name}}">{{$etat->name}}</option>
+										    	<option @if($intervention->etat == $etat->name) selected @endif>{{ $etat->name }}</option>
 								            @endforeach
 									</select>
 							    </div>
@@ -273,7 +273,7 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 								<label>Description de l'intervention</label>
-									<input type="textarea" name="description_intervention" class="form-control" placeholder="décrire l'intervention" value="{{$intervention->description_intervention ?? old('description intervention')}}">{{$intervention->description_intervention}}
+									<input type="textarea" name="description_intervention" class="form-control" placeholder="décrire l'intervention" value="{{$intervention->description_intervention ?? old('description_intervention')}}">
 								</div>
 							</div>
 						</div>
@@ -282,7 +282,7 @@
 							<div class="row">
 								<div class="col-12">
 									<label>Rapport d'intervention</label>
-									<input type="file" class="form-control" name='rapport' value="{{$intervention->rapport ?? old('rapport')}}">{{$intervention->rapport}}
+									<input type="file" class="form-control" name='rapport' value="{{$intervention->rapport ?? old('rapport')}}">
 								</div>
 							</div>
 						</div>
@@ -291,7 +291,8 @@
 
 
 					<div class="submit-section">
-						<button class="btn btn-primary submit-btn" type="submit" >Valider</button>
+                        <a href="{{route('interventions.index')}}" class="btn btn-danger submit-btn">Annuler</a>
+						<button class="btn btn-primary submit-btn" type="submit" >Modifier</button>
 					</div>
 				</form>
 				<!-- /edit intervention -->

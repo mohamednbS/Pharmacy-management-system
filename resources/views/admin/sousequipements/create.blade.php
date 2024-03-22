@@ -67,10 +67,11 @@
 				</div>
 
 				<div class="submit-section">
+                    <a href="{{route('sousequipements.index')}}" class="btn btn-danger submit-btn">Annuler</a>
 					<button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Ajouter</button>
 				</div>
 			</form>
-			<!-- /Add Medicine -->
+			<!-- /Add Sous-equipement -->
 
 
 			</div>

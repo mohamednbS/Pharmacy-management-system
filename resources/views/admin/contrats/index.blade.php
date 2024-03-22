@@ -27,7 +27,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
-					<table id="contrat-table" class="datatable table table-hover table-center mb-0">
+					<table id="contrat-table" class="table table-bordered table-hover">
 						<thead>
 							<tr>
 								<th>Client</th>
@@ -58,7 +58,7 @@
     $(document).ready(function() {
         var table = $('#contrat-table').DataTable({
             processing: true,
-            serverSide: true,
+            serverSide: false,
             ajax: "{{route('contrats.index')}}",
             columns: [
                 {data: 'client', name: 'client'},

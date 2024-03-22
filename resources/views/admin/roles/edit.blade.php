@@ -6,7 +6,7 @@
 
 @push('page-header')
 <div class="col-sm-12">
-	<h3 class="page-title">Modfier Rôle</h3>
+	<h3 class="page-title">Gestion des Rôles</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item active">Dashboard</li>
 	</ul>
@@ -42,7 +42,9 @@
                                 @endforeach
                             </select>
                         </div>
+
                         <button type="submit" class="btn btn-primary btn-block">Modifier</button>
+                        <a href="{{route('roles.index')}}" class="btn btn-danger btn-block">Annuler</a>
                     </form>
                 </div>
             </div>

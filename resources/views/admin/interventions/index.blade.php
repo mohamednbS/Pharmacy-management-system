@@ -27,7 +27,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
-					<table id="intervention-table" class="datatable table table-hover table-center mb-0">
+					<table id="intervention-table" class="table table-bordered table-hover">
 						<thead>
 							<tr>
 							    <th>Etat</th>
@@ -59,14 +59,14 @@
 <script>
     $(document).ready(function() {
         var table = $('#intervention-table').DataTable({
-            processing: true,
-            serverSide: true,
+            processing: false,
+            serverSide: false,
             ajax: "{{route('interventions.index')}}",
             columns: [
 				{data: 'etat', name: 'etat'},
                 {data: 'client', name: 'client'},
                 {data: 'equipement', name: 'equipement'},
-                {data: 'etat_initial', name: 'etat_initial'},
+                {data: 'etat_initial', name: 'etat_initial'}, 
                 {data: 'destinateur', name: 'destinateur'},
                 {data: 'soustraitant', name: 'soustraitant'},
                 {data: 'sousequipement', name: 'sousequipement'},

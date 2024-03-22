@@ -22,7 +22,7 @@
 		<div class="card">
 			<div class="card-body custom-edit-service">
 
-				<!-- Add Medicine -->
+				<!-- Add equipement -->
 				<form method="post" enctype="multipart/form-data" autocomplete="off" action="{{route('equipements.store')}}">
 					@csrf
 					<div class="service-fields mb-3">
@@ -30,13 +30,14 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label>Code</label>
-									<input class="form-control" type="text" name="code" >
+									<input class="form-control" type="text" name="code" placeholder="Saisir le code de l'équipement">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label>Client <span class="text-danger">*</span></label>
 									<select class="select2 form-select form-control" name="client_id">
+                                        <option value="Sélectionner un client">Sélectionner un client</option>
 										@foreach ($clients as $client)
 											<option value="{{$client->id}}">{{$client->name}}</option>
 										@endforeach
@@ -47,6 +48,7 @@
 								<div class="form-group">
 									<label>Modalité <span class="text-danger">*</span></label>
 									<select class="select2 form-select form-control" name="modalite_id">
+                                        <option value="Sélectionner une modalité">Sélectionner une modalité</option>
 										@foreach ($modalites as $modalite)
 											<option value="{{$modalite->id}}">{{$modalite->name}}</option>
 										@endforeach
@@ -61,13 +63,13 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Désignation<span class="text-danger">*</span></label>
-									<input class="form-control" type="text" name="designation">
+									<input class="form-control" type="text" name="designation" placeholder="Exemple: CT, IRM, CV,US, MATC, PACS, Robot de gravure, RADIO MOBILE">
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Modèle<span class="text-danger">*</span></label>
-									<input class="form-control" type="text" name="modele">
+									<input class="form-control" type="text" name="modele" placeholder="Saisir le modéle de l'équipement">
 								</div>
 							</div>
 						</div>
@@ -78,13 +80,13 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Numéro Série<span class="text-danger">*</span></label>
-									<input class="form-control" type="text" name="numserie">
+									<input class="form-control" type="text" name="numserie" placeholder="Saisir le numéro de série de l'équipement">
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Marque</label>
-									<input class="form-control" type="text" name="marque">
+									<input class="form-control" type="text" name="marque" placeholder="Saisir la marque de l'équipement">
 								</div>
 							</div>
 						</div>
@@ -95,13 +97,13 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Date Installation</label>
-									<input class="form-control" type="date" name="date_installation">
+									<input class="form-control" type="date" name="date_installation" placeholder="Saisir la date d'installation">
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Software</label>
-									<input type="text" name="software" class="form-control">
+									<input type="text" name="software" class="form-control" placeholder="Saisir la version du software">
 								</div>
 							</div>
 						</div>
@@ -112,13 +114,13 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Nombre Planning Préventif/an</label>
-									<input class="form-control" type="number" name="plan_prev">
+									<input class="form-control" type="number" name="plan_prev" placeholder="Saisir le nombre de planning préventif/an">
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Fiche Technique</label>
-									<input type="file" name="document" class="form-control">
+									<input type="file" name="document" class="form-control" placeholder="Importer la fiche technique">
 								</div>
 							</div>
 						</div>
@@ -128,10 +130,11 @@
 
 
 					<div class="submit-section">
-						<button class="btn btn-primary submit-btn" type="submit" >Ajouter</button>
+                        <a href="{{route('equipements.index')}}" class="btn btn-danger submit-btn">Annuler</a>
+						<button class="btn btn-primary submit-btn" type="submit" >Valider</button>
 					</div>
 				</form>
-				<!-- /Add Medicine -->
+				<!-- /Add Equipement -->
 
 			</div>
 		</div>

@@ -23,7 +23,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
-					<table id="role-table" class="datatable table table-striped table-bordered table-hover table-center mb-0">
+					<table id="role-table" class="table table-bordered table-hover">
 						<thead>
 							<tr style="boder:1px solid black;">
 								<th>Nom</th>
@@ -49,7 +49,7 @@
 		$(document).ready(function() {
             var table = $('#role-table').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 ajax: "{{route('roles.index')}}",
                 columns: [
                     {data: 'name', name: 'name'},

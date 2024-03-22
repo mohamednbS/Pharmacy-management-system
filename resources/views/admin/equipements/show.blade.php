@@ -5,7 +5,7 @@
 	<h3 class="page-title">Gestion Equipement</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
-		<li class="breadcrumb-item active">Equipement</li>
+		<li class="breadcrumb-item active">Equipements</li>
 	</ul>
 </div>
 @endpush
@@ -50,7 +50,7 @@
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title d-flex justify-content-between">
-									<span>Aperçu</span>
+									<span class="badge rounded-pill bg-primary text-light">Aperçu</span>
 									<a class="edit-link" data-toggle="modal" href="#edit_equipement_details"><i class="fa fa-edit mr-1"></i>Modifier</a>
 								</h5>
 
@@ -90,8 +90,8 @@
 							@if($equipement->contrat)
 							<div class="card-body">
 								<h5 class="card-title d-flex justify-content-between">
-									<span>Détails du contrat</span>
-							    </h5>
+									<span  class="badge rounded-pill bg-primary text-light">Détails du contrat</span>
+                                </h5>
                                 <div class="row">
 									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Type contrat</p>
 									<p class="col-sm-10">	{{$equipement->contrat->type_contrat}}</p>
@@ -111,7 +111,7 @@
 								</div>
 							</div>
 							@else
-							<div class="p-3 mb-2 bg-primary text-light">
+							<div class="p-3 mb-2 bg-danger text-light">
                     			<p>Cet équipement est hors contrat.</p>
 							</div>
 							@endif
@@ -195,21 +195,18 @@
 						</div>
 						<!-- /Edit Details Modal -->
 						</div>
-                    </div>
-                    <!-- /Personal Details -->
-
-
 
                  <!-- Liste des sous equipements -->
-                 @if($equipement->sousequipements)
-                 <div class="card-body">
-                     <h5 class="card-title d-flex justify-content-between">
-                         <span>Liste des sous-équipement</span>
-                     </h5>
-                     <div class="card">
-                         <div class="card-body">
+                @if($equipement->sousequipements->isEmpty())
+                <div class="p-3 mb-2 bg-danger text-light">
+                     <p>Pas de sous-équipements.</p>
+                </div>
+                @else
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-uppercase"><span class="badge rounded-pill bg-primary text-light">Liste des sous-équipements</span></h3>
                              <div class="table-responsive">
-                                 <table id="equipementsousequipement-table" class="datatable table table-hover table-center mb-0">
+                                 <table id="equipementsousequipement-table" class="table table-bordered table-hover">
                                      <thead>
                                          <tr>
 
@@ -233,8 +230,9 @@
                                  </table>
                              </div>
                          </div>
+                    </div>
 
-                 @endif
+                @endif
                 </div>
                  <!-- Change Password Tab -->
                 <div id="password_tab" class="tab-pane fade">

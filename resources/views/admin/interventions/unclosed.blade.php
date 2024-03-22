@@ -11,7 +11,7 @@
 	<h3 class="page-title">Gestion Interventions</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-		<li class="breadcrumb-item active">Interventions Clôturées</li>
+		<li class="breadcrumb-item active">Interventions Non Clôturées</li>
 	</ul>
 </div>
 <div class="col-sm-5 col">
@@ -27,7 +27,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
-					<table id="intervention-archive-table" class="datatable table table-hover table-center mb-0">
+					<table id="intervention-unclosed-table" class="datatable table table-hover table-center mb-0">
 						<thead>
 							<tr>
 							    <th>Etat</th>
@@ -58,10 +58,10 @@
 @push('page-js')
 <script>
     $(document).ready(function() {
-        var table = $('#intervention-archive-table').DataTable({
+        var table = $('#intervention-unclosed-table').DataTable({
             processing: true,
-            serverSide: true,
-            ajax: "{{route('interventions.archive')}}",
+            serverSide: false,
+            ajax: "{{route('interventions.unclosed')}}",
             columns: [
 				{data: 'etat', name: 'etat'},
                 {data: 'client', name: 'client'},

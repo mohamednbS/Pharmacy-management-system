@@ -4,7 +4,7 @@
 <div class="col">
 	<h3 class="page-title">Gestion Intervention</h3>
 	<ul class="breadcrumb">
-		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
+		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
 		<li class="breadcrumb-item active">Aperçu Intervention</li>
 	</ul>
 </div>
@@ -23,6 +23,7 @@
                                 @if($intervention->sousequipement)
                                 {{$intervention->sousequipement->designation}}@endif
                     </h5>
+					<h6 class="user-name mb-3">Etat : {{$intervention->etat}}</h6>
 				</div>
 
 
@@ -32,9 +33,7 @@
 				<li class="nav-item">
 					<a class="nav-link active" data-toggle="tab" href="#per_details_tab">Aperçu</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="tab" href="#password_tab">Historique</a>
-				</li>
+
 			</ul>
 		</div>
 
@@ -51,18 +50,19 @@
 								<h5 class="card-title d-flex justify-content-between">
 									<span>Aperçu</span>
 									<a class="edit-link" data-toggle="modal" href="#edit_intervention_details"><i class="fa fa-edit mr-1"></i>Modifier</a>
-                                  <span class="label label-primary"></span>
+                                  	<a class="edit-link" data-toggle="modal" href="#ajout_sousintervention"><i class="fa fa-edit mr-1"></i>Ajouter sous-intervention</a>
+									<span class="label label-primary"></span>
 
 								</h5>
 
 
-								<div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Etat intial d'equipement</p>
+                                <div class="row">
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">État initial d'équipement</p>
 									<p class="col-sm-10">	{{$intervention->etat_initial}}</p>
 								</div>
 
 								<div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Description Panne</p>
+									<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Description de la Panne</p>
 									<p class="col-sm-10">{{$intervention->description_panne}}</p>
 								</div>
 
@@ -82,34 +82,38 @@
                                         @if (is_array($intervention->destinateur))
                                         {{
                                            implode(', ', $intervention->destinateur)
-                                         }}@endif</p>
+                                         }}
+                                        @endif
+                                    </p>
 								</div>
 
                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Sous traitant</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Sous-traitant</p>
                                     @if($intervention->soustraitant)
                                     <p class="col-sm-10">{{$intervention->soustraitant->name}}@endif</p>
 								</div>
 
                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date/Heure début</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date/Heure de début</p>
 									<p class="col-sm-10">	{{$intervention->date_debut}}</p>
 								</div>
 
                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date/Heure fin</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date/Heure de fin</p>
 									<p class="col-sm-10">	{{$intervention->date_fin}}</p>
 								</div>
 
                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Description intervention</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Description de l'intervention</p>
 									<p class="col-sm-10">{{$intervention->description_intervention}}</p>
 								</div>
 
                                 <div class="row">
-									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Etat final</p>
+									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">État final d'équipement</p>
 									<p class="col-sm-10">	{{$intervention->etat_final}}</p>
 								</div>
+
+
 
 							</div>
                         <!-- Edit Details Modal -->
@@ -179,46 +183,254 @@
 							</div>
 						</div>
 						<!-- /Edit Details Modal -->
+
+						<!-- Ajout sous intervention -->
+						<div class="modal fade" id="ajout_sousintervention" aria-hidden="true" role="dialog">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Ajouter une sous-intervention</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<form method="post" enctype="multipart/form-data" action="{{ route('sousinterventions.store', ['intervention_id' => $intervention->id]) }}">
+										@csrf
+											<div class="row form-row">
+												<div class="col-12">
+                                                    <div class="form-group">
+                                                        <label>Date/Heure début <span class="text-danger">*</span></label>
+             											<input type="datetime-local" name="date_debut" class="form-control">
+                                                    </div>
+												</div>
+												<div class="col-12">
+                                                    <div class="form-group">
+                                                        <label>Date/Heure fin <span class="text-danger">*</span></label>
+             											<input type="datetime-local" name="date_fin" class="form-control">
+                                                    </div>
+												</div>
+
+												<div class="col-12">
+													<div class="form-group">
+														<label>Equipement avant visite<span class="text-danger">*</span></label>
+														<select  class="select2 form-select form-control" name="etat_initial">
+															<option >Sélectionner l'etat initial</option>
+															<option value="Fonctionnel">Fonctionnel</option>
+															<option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+															<option value="Panne Intermittente">Panne Intermittente</option>
+															<option value=" l'arrêt">A l'arrêt</option>
+
+														</select>
+													</div>
+												</div>
+
+												<div class="col-12">
+													<div class="form-group">
+														<label>Intervenant(s)</label>
+														<select  class="select2 form-select form-control" name="intervenant[]" multiple>
+															<option >Sélectionner l'intervenant(s)</option>
+															@foreach($users as $user)
+																<option value="{{ $user->name }}">{{ $user->name }}</option>
+															@endforeach
+														</select>
+													</div>
+												</div>
+
+												<div class="col-12">
+													<div class="form-group">
+														<label>Description</label>
+														<input type="text" name="description_panne" class="form-control">
+													</div>
+												</div>
+											<button type="submit" class="btn btn-primary btn-block">Valider</button>
+										</form>
+									</div>
+								</div>
+							</div>
 						</div>
-                    </div>
-                    <!-- /Personal Details -->
+						<!-- /Ajout sous-intervention -->
+						</div>
 
-                </div>
-                <!-- /Personal Details Tab -->
+                    <!-- /Aperçu intervention -->
 
-                <!-- Change Password Tab -->
-                <div id="password_tab" class="tab-pane fade">
-
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Historique intervention</h5>
-                            <div class="row">
-                                <div class="col-md-10 col-lg-12">
-                                    <form method="POST" action="{{route('update-password',auth()->user())}}">
-                                        @csrf
-                                        @method("PUT")
-                                        <div class="form-group">
-                                            <label>Date 1ère intervention</label>
-                                            <input type="date-time" name="current_password" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Date 2ère intervention</label>
-                                            <input type="date-time" name="password" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Date 3ère intervention</label>
-                                            <input type="date-time" name="password_confirmation" class="form-control">
-                                        </div>
-                                        <!--
-                                       <button class="btn btn-primary" type="submit">Valider</button> -->
-                                    </form>
-                                </div>
-                            </div>
+					<!-- index Sous interventions -->
+                    @if($intervention->sousinterventions->isEmpty())
+                        <div class="p-3 mb-2 bg-warning text-light">
+                            <h6 class="text-center">Pas de sous intervention.</h6>
                         </div>
-                    </div>
-                </div>
-                <!-- /Change Password Tab -->
+                    @else
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="text-uppercase"><span class="badge rounded-pill bg-info text-light">Historique des sous-interventions</span></h4>
+									<div class="table-responsive">
+										<table id="sousinterventions-table" class="datatable table table-hover table-center mb-0">
+											<thead>
+                                                <tr>
+                                                    <th>Date début</th>
+                                                    <th>Etat initial</th>
+                                                    <th>Intervenant(s)</th>
+                                                    <th>Description</th>
+                                                    <th>Etat final</th>
+                                                    <th>Date fin</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach ($sousinterventions as $sousintervention)
+                                                    <tr>
+                                                    <td>{{$sousintervention->date_debut}}</td>
+                                                    <td>{{$sousintervention->etat_initial}}</td>
+                                                    <td>
+                                                        @if (is_array($sousintervention->intervenant))
+                                                        {{
+                                                            implode(', ', $sousintervention->intervenant)
+                                                        }}
+                                                        @endif
+                                                    </td>
+                                                    <td>{{$sousintervention->description_panne}}</td>
+                                                    <td>{{$sousintervention->etat_final}}</td>
+                                                    <td>{{$sousintervention->date_fin}}</td>
+                                                    <td>
+                                                        <!-- Bouton "Edit" pour chaque sous-intervention -->
+                                                        <a data-placement="top" title="Modifier" class='btn btn-info edit-link' data-toggle="modal" data-target="#edit_sousintervention_{{$sousintervention->id}}">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                        <!-- Bouton "Supprimer" pour chaque sous-intervention -->
+                                                        <a data-toggle="tooltip" data-placement="top" title="Supprimer" class='btn btn-danger' route='interventions.destroy' onclick="return confirm('Voulez-vous vraiment supprimer la demande {{$sousintervention->id}} ?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                    @endif
 
+					<!-- /index Sous interventions -->
+
+					<!-- Edit Modal des sous-intervention -->
+					@foreach($sousinterventions as $sousintervention)
+					<div class="modal fade" id="edit_sousintervention_{{$sousintervention->id}}" aria-hidden="true" role="dialog">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Modifier sous-intervention</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+
+									<form method="post" enctype="multipart/form-data" action="{{route('sousinterventions.update',$sousintervention->id)}}">
+										@csrf
+										@method("PUT")
+										<div class="col-12">
+											<div class="form-group">
+												<label>Date début<span class="text-danger">*</span></label>
+												<input class="form-control" type="datetime-local" name="date_debut" value="{{$sousintervention->date_debut}}">
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-group">
+												<label>Date fin<span class="text-danger">*</span></label>
+												<input class="form-control" type="datetime-local" name="date_fin" value="{{$sousintervention->date_fin}}">
+											</div>
+										</div>
+
+										<div class="col-12">
+											<div class="form-group">
+												<label>Equipement avant visite</label>
+												<select  class="select2 form-select form-control" name="etat_initial">
+
+													@if ( $sousintervention->etat_initial == "Fonctionnel")
+													<option selected value='Fonctionnel'>Fonctionnel</option>
+													<option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+													<option value="Panne Intermittente">Panne Intermittente</option>
+													<option value="A l'arrêt">A l'arrêt</option>
+
+													@elseif ($sousintervention->etat_initial == "Partiellement Fonctionnel")
+													<option selected value='Partiellement Fonctionnel'>Partiellement Fonctionnel</option>
+													<option value='Fonctionnel'>Fonctionnel</option>
+													<option value="Panne Intermittente">Panne Intermittente</option>
+													<option value="A l'arrêt">A l'arrêt</option>
+
+													@elseif ($sousintervention->etat_initial == "Panne Intermittente")
+													<option selected value='Panne Intermittente'>Panne Intermittente</option>
+													<option value='Partiellement Fonctionnel'>Partiellement Fonctionnel</option>
+													<option value='Fonctionnel'>Fonctionnel</option>
+													<option value="A l'arrêt">A l'arrêt</option>
+
+													@else
+													<option selected value="A l'arrêt">A l'arrêt</option>
+													<option value='Panne Intermittente'>Panne Intermittente</option>
+													<option value='Partiellement Fonctionnel'>Partiellement Fonctionnel</option>
+													<option value='Fonctionnel'>Fonctionnel</option>
+													@endif
+                                    			</select>
+											</div>
+										</div>
+
+										<div class="col-12">
+											<div class="form-group">
+												<label>Intervenant(s)</label>
+												<select  class="select2 form-select form-control" name="intervenant[]" multiple>
+													<option >Sélectionner l'intervenant(s)</option>
+													@foreach($users as $user)
+														@if(in_array($user->name, $sousintervention->intervenant))
+															<option selected value='{{ $user->name }}'>{{ $user->name }}</option>
+														@else
+															<option value='{{ $user->name }}'>{{ $user->name }}</option>
+														@endif
+													@endforeach
+												</select>
+											</div>
+										</div>
+
+										<div class="col-12">
+											<div class="form-group">
+												<label>Description</label>
+												<input type="text" name="description_panne" class="form-control" value="{{$sousintervention->description_panne}}">
+											</div>
+										</div>
+
+										<div class="col-12">
+											<div class="form-group">
+												<label>Equipement après visite</label>
+												<select  class="select2 form-select form-control" name="etat_initial">
+                                                    <option value="" selected disabled>Selectionner l'etat initial</option>
+													<option value="Fonctionnel" {{ $sousintervention->etat_initial == "Fonctionnel" ? 'selected' : '' }}>Fonctionnel</option>
+                                                    <option value="Partiellement Fonctionnel" {{ $sousintervention->etat_initial == "Partiellement Fonctionnel" ? 'selected' : '' }}>Partiellement Fonctionnel</option>
+                                                    <option value="Panne Intermittente" {{ $sousintervention->etat_initial == "Panne Intermittente" ? 'selected' : '' }}>Panne Intermittente</option>
+                                                    <option value="A l'arrêt" {{ $sousintervention->etat_initial == "A l'arrêt" ? 'selected' : '' }}>A l'arrêt</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-12">
+											<div class="form-group">
+												<label>Description sous intervention</label>
+												<input type="text" name="description_sousintervention" class="form-control" value="{{$sousintervention->description_sousintervention ?? old('description_sousintervention')}}">
+											</div>
+										</div>
+
+										<div class="col-12">
+											<div class="form-group">
+												<label>Rapport</label>
+												<input type="file" class="form-control" name='rapport' value="{{$sousintervention->rapport ?? old('rapport')}}">>
+											</div>
+										</div>
+										<button type="submit" class="btn btn-primary btn-block">Modifier</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					@endforeach
+					<!-- /Edit Modal des sous-intervention -->
             </div>
         </div>
     </div>

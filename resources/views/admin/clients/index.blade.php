@@ -27,16 +27,15 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
-					<table id="client-table" class="datatable table table-hover table-center mb-0">
+					<table id="client-table" class="table table-bordered table-hover">
 						<thead>
 							<tr>
 								<th>Nom Client/Raison Sociale</th>
 								<th>Email</th>
 								<th>Mobile</th>
 								<th>Fax</th>
-								<th>Adresse</th>
 
-								<th class="action-btn">Action</th>
+							    <th class="action-btn">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -84,15 +83,14 @@
 <script>
     $(document).ready(function() {
         var table = $('#client-table').DataTable({
-            processing: true,
-            serverSide: true,
+            processing: false,
+            serverSide: false,
             ajax: "{{route('clients.index')}}",
             columns: [
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
                 {data: 'phone', name: 'phone'},
                 {data: 'fax', name: 'fax'},
-                {data: 'address', name: 'address'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });

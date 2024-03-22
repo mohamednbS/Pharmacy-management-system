@@ -99,7 +99,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label>Notes</label>
-                                    <textarea class="form-control service-desc" name="note"></textarea>
+                                    <textarea class="form-control service-desc" name="note" placeholder="Ecrire une note"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -107,6 +107,7 @@
 
 
 					<div class="submit-section">
+                        <a href="{{route('contrats.index')}}" class="btn btn-danger submit-btn">Annuler</a>
 						<button class="btn btn-primary submit-btn" type="submit" >Valider</button>
 					</div>
 				</form>

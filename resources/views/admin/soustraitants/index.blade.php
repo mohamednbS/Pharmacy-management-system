@@ -27,7 +27,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
-					<table id="soustraitant-table" class="datatable table table-hover table-center mb-0">
+					<table id="soustraitant-table" class="table table-bordered table-hover">
 						<thead>
 							<tr>
 								<th>Nom Sous-taitant</th>
@@ -85,7 +85,7 @@
     $(document).ready(function() {
         var table = $('#soustraitant-table').DataTable({
             processing: true,
-            serverSide: true,
+            serverSide: false,
             ajax: "{{route('soustraitants.index')}}",
             columns: [
                 {data: 'name', name: 'name'},

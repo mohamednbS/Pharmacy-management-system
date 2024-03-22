@@ -177,7 +177,8 @@
 
 
 					<div class="submit-section">
-						<button class="btn btn-primary submit-btn" type="submit" >Valider</button>
+                        <a href="{{route('contrats.index')}}" class="btn btn-danger submit-btn">Annuler</a>
+						<button class="btn btn-primary submit-btn" type="submit" >Modifier</button>
 					</div>
 				</form>
 				<!-- /Add Contrat -->

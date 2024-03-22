@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use QCod\AppSettings\Setting\AppSettings;
+use Illuminate\Support\Facades\Cache; // Importer la classe Cache
 
 
 class EquipementController extends Controller
@@ -25,6 +26,16 @@ class EquipementController extends Controller
     public function index(Request $request)
     {
         $title = 'equipements';
+        // Vérifier si les données sont en cache
+        if (Cache::has('equipements_data')) {
+            $equipements = Cache::get('equipements_data');
+        } else {
+            // Si les données ne sont pas en cache, les récupérer normalement
+            $equipements = Equipement::get();
+
+            // Mettre en cache les données pour une durée spécifiée (par exemple, 60 minutes)
+            Cache::put('equipements_data', $equipements, 60);
+        }
         if($request->ajax()){
             $equipements = Equipement::get();
             return DataTables::of($equipements)
@@ -46,13 +57,13 @@ class EquipementController extends Controller
                     return $equipement->modalite->name;
                 })
                 ->addColumn('date_installation',function($equipement){
-                    return date_format(date_create($equipement->date_installation),'d M, Y');
+                    return $equipement->date_installation;
                 })
 
                 ->addColumn('action', function ($row) {
-                    $editbtn = '<a href="'.route("equipements.edit", $row->id).'" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit"></i></button></a>';
-                    $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('equipements.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
-                    $viewbtn = '<a href="'.route("equipements.show", $row->id).'" class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye"></i></button></a>';
+                    $editbtn = '<a href="'.route("equipements.edit", $row->id).'" class="editbtn"><button class="btn btn-primary" title="Modifier"><i class="fas fa-edit"></i></button></a>';
+                    $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('equipements.destroy', $row->id).'" href="javascript:void(0)" id="deletebtn" title="Supprimer"><button class="btn btn-danger"><i class="fas fa-trash"></i></button></a>';
+                    $viewbtn = '<a href="'.route("equipements.show", $row->id).'" class="viewbtn"><button class="btn btn-success" title="Voir"><i class="fas fa-eye"></i></button></a>';
                     if ($row->trashed()) {
                         $deletebtn = ''; // Or you can show a restore button
                     }
@@ -169,7 +180,6 @@ class EquipementController extends Controller
             'numserie'=>'required',
             'modalite_id'=>'required',
             'client_id'=>'required',
-            'software'=>'required',
             'date_installation'=>'required',
             'plan_prev'=>'required',
         ]);
@@ -229,7 +239,7 @@ class EquipementController extends Controller
         $equipement = Equipement::findOrFail($id);
         $clients = Client::get();
         $modalites = Modalite::get();
-        $contrat = $equipement->contrat;
+        $contrat = $equipement->contrat; 
         $sousequipements = $equipement->sousequipements;
         return view('admin.equipements.show',compact(
             'title','modalites','clients','equipement','contrat','sousequipements'

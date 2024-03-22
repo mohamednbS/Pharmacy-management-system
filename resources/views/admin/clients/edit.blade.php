@@ -58,13 +58,14 @@
 					<div class="row">
 						<div class="col-12">
 							<label>Adresse</label>
-							<input name="address" class="form-control" value="{{$client->address ?? old('address')}}">{{$client->address}}
+							<input name="address" class="form-control" value="{{$client->address ?? old('address')}}">
 						</div>
 					</div>
 				</div>
 
 
 				<div class="submit-section">
+                    <a href="{{route('clients.index')}}" class="btn btn-danger submit-btn">Annuler</a>
 					<button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Modifier</button>
 				</div>
 			</form>

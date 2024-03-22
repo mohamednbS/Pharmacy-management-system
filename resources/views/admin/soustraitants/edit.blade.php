@@ -58,18 +58,19 @@
 					<div class="row">
 						<div class="col-12">
 							<label>Adresse</label>
-							<input name="comment" class="form-control" value="{{$soustraitant->address ?? old('address')}}">{{$soustraitant->address}}
+							<input name="comment" class="form-control" value="{{$soustraitant->address ?? old('address')}}">
 						</div>
 					</div>
 				</div>
 
 
 				<div class="submit-section">
+                    <a href="{{route('soustraitants.index')}}" class="btn btn-danger submit-btn">Annuler</a>
 					<button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Modifier</button>
 				</div>
 			</form>
 
-			<!-- /Edit soustraitant -->
+			<!-- /Edit sous-traitant -->
 
 			</div>
 		</div>

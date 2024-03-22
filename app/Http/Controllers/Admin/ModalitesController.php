@@ -24,9 +24,9 @@ class ModalitesController extends Controller
                     ->addIndexColumn()
 
                     ->addColumn('action',function ($row){
-                        $editbtn = '<a data-id="'.$row->id.'" data-name="'.$row->name.'" href="javascript:void(0)" class="editbtn"><button class="btn btn-primary"><i class="fas fa-edit" class="text-center action-btn"></i></button></a>';
-                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('modalites.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger" class="text-center action-btn"><i class="fas fa-trash"></i></button></a>';
-                        $viewbtn = '<a href="'.route("modalites.show", $row->id).'"class="viewbtn"><button class="btn btn-success"><i class="fas fa-eye" class="text-center action-btn"></i></button></a>';
+                        $editbtn = '<a data-id="'.$row->id.'" data-name="'.$row->name.'" href="javascript:void(0)" class="editbtn"><button class="btn btn-primary" title="Modifier"><i class="fas fa-edit" class="text-center action-btn"></i></button></a>';
+                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('modalites.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger" class="text-center action-btn" title="Supprimer"><i class="fas fa-trash"></i></button></a>';
+                        $viewbtn = '<a href="'.route("modalites.show", $row->id).'"class="viewbtn"><button class="btn btn-success" title="Voir equipements"><i class="fas fa-eye" class="text-center action-btn"></i></button></a>';
                         if ($row->trashed()) {
                             $deletebtn = ''; // Or you can show a restore button
                         }

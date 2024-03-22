@@ -26,7 +26,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
-					<table id="user-table" class="datatable table table-striped table-bordered table-hover table-center mb-0">
+					<table id="user-table" class="table table-bordered table-hover">
 						<thead>
 							<tr style="boder:1px solid black;">
 							    <th>Avatar</th>
@@ -56,7 +56,7 @@
 $(document).ready(function() {
     var table = $('#user-table').DataTable({
         processing: true,
-        serverSide: true,
+        serverSide: false,
         ajax: "{{route('users.index')}}",
         columns: [
 			{data: 'avatar', name: 'avatar', orderable: false, searchable: false},
