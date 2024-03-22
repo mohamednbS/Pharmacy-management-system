@@ -64,7 +64,11 @@
 				</div>
 
 				<div class="submit-section">
+<<<<<<< HEAD
                     <a href="{{route('sousequipements.index')}}" class="btn btn-danger submit-btn">Annuler</a>
+=======
+                    <a href="{{route('sousequpements.index')}}" class="btn btn-danger submit-btn">Annuler</a>
+>>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
 					<button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Modifier</button>
 				</div>
 			</form>

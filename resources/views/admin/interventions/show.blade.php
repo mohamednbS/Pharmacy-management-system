@@ -2,7 +2,7 @@
 
 @push('page-header')
 <div class="col">
-	<h3 class="page-title">Gestion Intervention</h3>
+	<h3 class="page-title">Gestion Interventions</h3>
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
 		<li class="breadcrumb-item active">Aperçu Intervention</li>
@@ -19,11 +19,15 @@
 
 					<h4 class="user-name mb-3">Client : {{$intervention->client->name}}</h4>
 					<h5 class="user-name mb-3">Equipmement : {{$intervention->equipement->modele.'-'.$intervention->equipement->numserie}}</h5>
-                    <h5 class="user-name mb-3">Sous equipement:
+                    <h5 class="user-name mb-3">Sous équipement:
                                 @if($intervention->sousequipement)
                                 {{$intervention->sousequipement->designation}}@endif
                     </h5>
+<<<<<<< HEAD
 					<h6 class="user-name mb-3">Etat : {{$intervention->etat}}</h6>
+=======
+                    <h6 class="user-name mb-3">Etat : {{$intervention->etat}}</h6>
+>>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
 				</div>
 
 
@@ -33,7 +37,13 @@
 				<li class="nav-item">
 					<a class="nav-link active" data-toggle="tab" href="#per_details_tab">Aperçu</a>
 				</li>
+<<<<<<< HEAD
 
+=======
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="tab" href="#password_tab">Historiques</a>
+				</li>
+>>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
 			</ul>
 		</div>
 
@@ -56,7 +66,11 @@
 								</h5>
 
 
+<<<<<<< HEAD
                                 <div class="row">
+=======
+								<div class="row">
+>>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
 									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">État initial d'équipement</p>
 									<p class="col-sm-10">	{{$intervention->etat_initial}}</p>
 								</div>
@@ -113,9 +127,13 @@
 									<p class="col-sm-10">	{{$intervention->etat_final}}</p>
 								</div>
 
+<<<<<<< HEAD
 
 
 							</div>
+=======
+						</div>
+>>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
                         <!-- Edit Details Modal -->
 						<div class="modal fade" id="edit_intervention_details" aria-hidden="true" role="dialog">
 							<div class="modal-dialog modal-dialog-centered" role="document">
@@ -182,9 +200,15 @@
 								</div>
 							</div>
 						</div>
+<<<<<<< HEAD
 						<!-- /Edit Details Modal -->
 
 						<!-- Ajout sous intervention -->
+=======
+						<!-- /Edit Details intervention -->
+
+                        <!-- Ajout sous intervention -->
+>>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
 						<div class="modal fade" id="ajout_sousintervention" aria-hidden="true" role="dialog">
 							<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">

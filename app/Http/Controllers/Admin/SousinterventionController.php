@@ -104,7 +104,10 @@ class SousinterventionController extends Controller
             'date_fin' => 'nullable|date',
             'rapport' => 'nullable|string',
             'description_sousintervention' => 'nullable|string',
+<<<<<<< HEAD
       
+=======
+>>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
 
 
         ]);
@@ -112,14 +115,26 @@ class SousinterventionController extends Controller
             'date_debut'=>$request->date_debut,
             'date_fin'=>$request->date_fin,
             'etat_initial'=>$request->etat_initial,
+<<<<<<< HEAD
             'intervenant'=>$request->intervenant,
             'description_panne'=>$request->description_panne,
             'description_sousintervention'=>$request->description_sousintervention,
+=======
+            'etat_final'=>$request->etat_final,
+            'intervenant'=>$request->intervenant,
+            'description_panne'=>$request->description_panne,
+            'description_sousintervention'=>$request->description_sousintervention,
+            'rapport'=>$request->rapport,
+>>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
             'intervention_id'=>$intervention_id,
 
 
         ]);
+<<<<<<< HEAD
         $notifications = notify("Sous-intervention ajoutée avec succès");
+=======
+        $notifications = notify("Sousintervention ajoutée avec succès");
+>>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
         return redirect()->route('interventions.show', ['intervention' => $intervention_id])->with($notifications);
     }
 
@@ -134,10 +149,16 @@ class SousinterventionController extends Controller
     public function edit(Sousintervention $Sousintervention)
     {
         $title = 'edit Sousintervention';
+<<<<<<< HEAD
         $sousintervention = Sousintervention::find($id);
         $users = User::whereIn('role', ['technicien', 'ingenieur','administrateur'])->get();
         return view('admin.sousinterventions.edit',compact(
             'title','Sousintervention','users'
+=======
+
+        return view('admin.sousinterventions.edit',compact(
+            'title','Sousintervention'
+>>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
         ));
     }
 
@@ -152,6 +173,7 @@ class SousinterventionController extends Controller
     {
         $this->validate($request,[
 
+<<<<<<< HEAD
             'date_debut'=>'required',
             'date_fin' => 'nullable|date',
             'description_sousintervention' => 'nullable|string',
@@ -177,6 +199,24 @@ class SousinterventionController extends Controller
         $notifications = notify("Sous-intervention modifié avec succès");
         return redirect()->back()->with($notifications);
     }
+=======
+            'date_fin'=>'required',
+            'designation'=>'required|min:1',
+        ]);
+
+        $Sousintervention->update([
+            'date_fin'=>$request->date_fin,
+            'designation'=>$request->designation,
+            'etat_initial'=>$request->etat_initial,
+            'etat_final'=>$request->etat_final,
+            'description'=>$request->description,
+
+        ]);
+        $notifications = notify("Sousintervention modifié avec succès");
+        return redirect()->route('sousinterventions.index')->with($notifications);
+    }
+
+>>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
        /**
      * Remove the specified resource from storage.
      *
