@@ -33,17 +33,25 @@
 							    <th>Etat</th>
 								<th>Client</th>
 								<th>Equipement</th>
-								<th>Panne Initial</th>
+								<th>Equipement avant visite</th>
 								<th>Intervenant(s)</th>
                                 <th>Sous-traitant</th>
-                                <th>Sous equipement</th>
 								<th>Description Panne</th>
+                                <th>Priorité</th>
                                 <th>Heure/Date d'appel client</th>
+                                <th>Equipement après visite</th>
 								<th class="action-btn">Action</th>
 							</tr>
 						</thead>
 						<tbody>
-
+                            <!-- Add a spinner/loader-->
+                            <div id="spinner" class="spinner-border text-primary" role="status"
+                                style="display: none;
+                                position: absolute;
+                                inset-block-start: 50%;
+                                inset-inline-start: 50%;">
+                                <span class="sr-only">en cours...</span>
+                            </div>
 						</tbody>
 					</table>
 				</div>
@@ -57,6 +65,15 @@
 
 @push('page-js')
 <script>
+    // Show spinner when DataTable is processing
+     $('#intervention-table').on('processing.dt', function(e, settings, processing) {
+      if (processing) {
+        $('#spinner').show();
+      } else {
+        $('#spinner').hide();
+      }
+    });
+
     $(document).ready(function() {
         var table = $('#intervention-table').DataTable({
             processing: false,
@@ -66,14 +83,30 @@
 				{data: 'etat', name: 'etat'},
                 {data: 'client', name: 'client'},
                 {data: 'equipement', name: 'equipement'},
-                {data: 'etat_initial', name: 'etat_initial'}, 
+                {data: 'etat_initial', name: 'etat_initial'},
                 {data: 'destinateur', name: 'destinateur'},
                 {data: 'soustraitant', name: 'soustraitant'},
-                {data: 'sousequipement', name: 'sousequipement'},
 				{data: 'description_panne', name: 'description_panne'},
-                {data: 'appel_client', name: 'appel_client'},
+                {data: 'priorite', name: 'priorite'},
+                {	data: 'appel_client',
+                    name: 'appel_client',
+                    render: function(data, type, row) {
+                        if (data) {
+                            // Parse the date string using moment.js and format it as 'd-m-y hh:mm'
+                            var date = moment(data, 'YYYY-MM-DD HH:mm:ss');
+                            return date.format('DD-MM-YYYY hh:mm');
+                        }
+                        return '';
+                    }
+                },
+                {data: 'etat_final', name: 'etat_final'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
+        });
+        // Load the moment.js library
+          $.getScript('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js', function() {
+            // Initialize the moment.js library with the desired locale (e.g., French)
+            moment.locale('fr');
         });
 
     });

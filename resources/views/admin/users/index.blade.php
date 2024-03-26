@@ -41,6 +41,14 @@
 							</tr>
 						</thead>
 						<tbody>
+                            <!-- Add a spinner/loader-->
+                                <div id="spinner" class="spinner-border text-primary" role="status"
+                                    style="display: none;
+                                    position: absolute;
+                                    inset-block-start: 50%;
+                                    inset-inline-start: 50%;">
+                                    <span class="sr-only">en cours...</span>
+                                </div>
 
 						</tbody>
 					</table>
@@ -53,23 +61,32 @@
 
 @push('page-js')
 <script>
-$(document).ready(function() {
-    var table = $('#user-table').DataTable({
-        processing: true,
-        serverSide: false,
-        ajax: "{{route('users.index')}}",
-        columns: [
-			{data: 'avatar', name: 'avatar', orderable: false, searchable: false},
-            {data: 'name', name: 'name'},
-			{data: 'matricule', name: 'matricule'},
-            {data: 'email', name: 'email'},
-            {data: 'role', name: 'role'},
-			{data: 'modalite', name: 'modalite'},
-			{data: 'departement', name: 'departement'},
-			{data: 'phone', name: 'phone'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+    // Show spinner when DataTable is processing
+    $('#user-table').on('processing.dt', function(e, settings, processing) {
+      if (processing) {
+        $('#spinner').show();
+        } else {
+        $('#spinner').hide();
+        }
     });
+
+    $(document).ready(function() {
+        var table = $('#user-table').DataTable({
+            processing: false,
+            serverSide: false,
+            ajax: "{{route('users.index')}}",
+            columns: [
+                {data: 'avatar', name: 'avatar', orderable: false, searchable: false},
+                {data: 'name', name: 'name'},
+                {data: 'matricule', name: 'matricule'},
+                {data: 'email', name: 'email'},
+                {data: 'role', name: 'role'},
+                {data: 'modalite', name: 'modalite'},
+                {data: 'departement', name: 'departement'},
+                {data: 'phone', name: 'phone'},
+                {data: 'action', name: 'action', orderable: false, searchable: false},
+            ]
+        });
 
 });
 </script>

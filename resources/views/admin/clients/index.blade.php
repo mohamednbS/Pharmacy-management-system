@@ -39,6 +39,14 @@
 							</tr>
 						</thead>
 						<tbody>
+                            <!-- Add a spinner/loader-->
+                            <div id="spinner" class="spinner-border text-primary" role="status"
+                                style="display: none;
+                                position: absolute;
+                                inset-block-start: 50%;
+                                inset-inline-start: 50%;">
+                                <span class="sr-only">en cours...</span>
+                            </div>
 							{{-- @foreach ($clients as $client)
 							<tr>
 								<td>
@@ -81,6 +89,15 @@
 
 @push('page-js')
 <script>
+    // Show spinner when DataTable is processing
+    $('#client-table').on('processing.dt', function(e, settings, processing) {
+      if (processing) {
+        $('#spinner').show();
+        } else {
+        $('#spinner').hide();
+        }
+    });
+
     $(document).ready(function() {
         var table = $('#client-table').DataTable({
             processing: false,

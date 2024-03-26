@@ -16,7 +16,7 @@
     </form>
 	{{-- <a href="#add_categories" data-toggle="modal" class="btn btn-primary float-right mt-2">Add Category</a> --}}
 </div>
-
+ 
 @endpush
 
 @section('content')

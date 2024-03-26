@@ -97,8 +97,8 @@
                                     <tr>
                                         <td>{{$contrat->equipement->modele}}</td>
                                         <td>{{$contrat->type_contrat}}</td>
-                                        <td>{{$contrat->date_debut}}</td>
-                                        <td>{{$contrat->date_fin}}</td>
+                                        <td>{{date('d-m-Y', strtotime($contrat->date_debut))}}</td>
+                                        <td>{{date('d-m-Y', strtotime($contrat->date_))}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -132,7 +132,7 @@
                                     <tr>
                                         <td>{{$intervention->equipement->modele}}</td>
                                         <td>{{$intervention->description_panne}}</td>
-                                        <td>{{$intervention->appel_client}}</td>
+                                        <td>{{date('d-m-Y h:m', strtotime($intervention->appel_client))}}</td>
                                         <td>{{$intervention->etat}}</td>
                                         <td class="text-center">
                                             <a href="{{route('interventions.show', $intervention->id)}}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>

@@ -23,11 +23,7 @@
                                 @if($intervention->sousequipement)
                                 {{$intervention->sousequipement->designation}}@endif
                     </h5>
-<<<<<<< HEAD
 					<h6 class="user-name mb-3">Etat : {{$intervention->etat}}</h6>
-=======
-                    <h6 class="user-name mb-3">Etat : {{$intervention->etat}}</h6>
->>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
 				</div>
 
 
@@ -37,13 +33,6 @@
 				<li class="nav-item">
 					<a class="nav-link active" data-toggle="tab" href="#per_details_tab">Aperçu</a>
 				</li>
-<<<<<<< HEAD
-
-=======
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="tab" href="#password_tab">Historiques</a>
-				</li>
->>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
 			</ul>
 		</div>
 
@@ -66,11 +55,7 @@
 								</h5>
 
 
-<<<<<<< HEAD
                                 <div class="row">
-=======
-								<div class="row">
->>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
 									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">État initial d'équipement</p>
 									<p class="col-sm-10">	{{$intervention->etat_initial}}</p>
 								</div>
@@ -82,7 +67,7 @@
 
                                 <div class="row">
 									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Heure/Date d'appel client</p>
-									<p class="col-sm-10">	{{$intervention->appel_client}}</p>
+									<p class="col-sm-10">{{date('d-m-Y h:m', strtotime($intervention->appel_client))}}</p>
 								</div>
 
                                 <div class="row">
@@ -109,12 +94,12 @@
 
                                 <div class="row">
 									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date/Heure de début</p>
-									<p class="col-sm-10">	{{$intervention->date_debut}}</p>
+									<p class="col-sm-10">{{date('d-m-Y h:m', strtotime($intervention->date_debut))}}</p>
 								</div>
 
                                 <div class="row">
 									<p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Date/Heure de fin</p>
-									<p class="col-sm-10">	{{$intervention->date_fin}}</p>
+									<p class="col-sm-10">{{date('d-m-Y h:m', strtotime($intervention->date_fin))}}</p>
 								</div>
 
                                 <div class="row">
@@ -127,13 +112,9 @@
 									<p class="col-sm-10">	{{$intervention->etat_final}}</p>
 								</div>
 
-<<<<<<< HEAD
 
 
 							</div>
-=======
-						</div>
->>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
                         <!-- Edit Details Modal -->
 						<div class="modal fade" id="edit_intervention_details" aria-hidden="true" role="dialog">
 							<div class="modal-dialog modal-dialog-centered" role="document">
@@ -200,15 +181,9 @@
 								</div>
 							</div>
 						</div>
-<<<<<<< HEAD
 						<!-- /Edit Details Modal -->
 
 						<!-- Ajout sous intervention -->
-=======
-						<!-- /Edit Details intervention -->
-
-                        <!-- Ajout sous intervention -->
->>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
 						<div class="modal fade" id="ajout_sousintervention" aria-hidden="true" role="dialog">
 							<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
@@ -425,11 +400,33 @@
 											<div class="form-group">
 												<label>Equipement après visite</label>
 												<select  class="select2 form-select form-control" name="etat_initial">
-                                                    <option value="" selected disabled>Selectionner l'etat initial</option>
-													<option value="Fonctionnel" {{ $sousintervention->etat_initial == "Fonctionnel" ? 'selected' : '' }}>Fonctionnel</option>
-                                                    <option value="Partiellement Fonctionnel" {{ $sousintervention->etat_initial == "Partiellement Fonctionnel" ? 'selected' : '' }}>Partiellement Fonctionnel</option>
-                                                    <option value="Panne Intermittente" {{ $sousintervention->etat_initial == "Panne Intermittente" ? 'selected' : '' }}>Panne Intermittente</option>
-                                                    <option value="A l'arrêt" {{ $sousintervention->etat_initial == "A l'arrêt" ? 'selected' : '' }}>A l'arrêt</option>
+                                                @if ( $sousintervention->etat_final == "Fonctionnel")
+                                                    <option selected value="Fonctionnel">Fonctionnel</option>
+                                                    <option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+                                                    <option value="Panne Intermittente">Panne Intermittente</option>
+                                                    <option value="A l'arrêt">A l'arrêt</option>
+										        @elseif ($sousintervention->etat_final == "Partiellement Fonctionnel")
+                                                    <option selected value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+                                                    <option value="Fonctionnel">Fonctionnel</option>
+                                                    <option value="Panne Intermittente">Panne Intermittente</option>
+                                                    <option value="A l'arrêt">A l'arrêt</option>
+										        @elseif ($sousintervention->etat_final == "Panne Intermittente")
+                                                    <option selected value="Panne Intermittente">Panne Intermittente</option>
+                                                    <option value="Fonctionnel">Fonctionnel</option>
+                                                    <option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+                                                    <option value="A l'arrêt">A l'arrêt</option>
+										        @elseif ($sousintervention->etat_final == "A l'arrêt")
+                                                    <option selected value="A l'arrêt">A l'arrêt</option>
+                                                    <option value="Fonctionnel">Fonctionnel</option>
+                                                    <option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+                                                    <option value="Panne Intermittente">Panne Intermittente</option>
+										        @else
+                                                    <option> Sélectionner l'etat final de l'equipement</option>
+                                                    <option value="Fonctionnel">Fonctionnel</option>
+                                                    <option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+                                                    <option value="Panne Intermittente">Panne Intermittente</option>
+                                                    <option value="A l'arrêt">A l'arrêt</option>
+										        @endif
 												</select>
 											</div>
 										</div>

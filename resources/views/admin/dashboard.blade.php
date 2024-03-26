@@ -30,7 +30,7 @@
                 </div>
                 <div class="dash-widget-info">
                     <a href= "/contrats">
-                        <h6 class="text-muted">Contrat Maintenance</h6>
+                        <h6 class="text-muted">Contrat Maintenance &rarr;</h6>
                     </a>
                     <div class="progress progress-sm">
                         <div class="progress-bar bg-primary w-50"></div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="dash-widget-info">
                     <a href= "/clients">
-                        <h6 class="text-muted">Clients</h6>
+                        <h6 class="text-muted">Clients &rarr;</h6>
                     </a>
                     <div class="progress progress-sm">
                         <div class="progress-bar bg-success w-50"></div>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="dash-widget-info">
                     <a href= "/equipements">
-                        <h6 class="text-muted">Equipements</h6>
+                        <h6 class="text-muted">Equipements &rarr;</h6>
                     </a>
                     <div class="progress progress-sm">
                         <div class="progress-bar bg-danger w-50"></div>
@@ -96,7 +96,7 @@
                 </div>
                 <div class="dash-widget-info">
                     <a href= "/users">
-                        <h6 class="text-muted">Personnel</h6>
+                        <h6 class="text-muted">Personnel &rarr;</h6>
                     </a>
                     <div class="progress progress-sm">
                         <div class="progress-bar bg-warning w-50"></div>

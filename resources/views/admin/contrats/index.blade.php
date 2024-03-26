@@ -41,6 +41,14 @@
 							</tr>
 						</thead>
 						<tbody>
+                            <!-- Add a spinner/loader-->
+                            <div id="spinner" class="spinner-border text-primary" role="status"
+                                style="display: none;
+                                position: absolute;
+                                inset-block-start: 50%;
+                                inset-inline-start: 50%;">
+                                <span class="sr-only">en cours...</span>
+                            </div>
 
 						</tbody>
 					</table>
@@ -55,16 +63,54 @@
 
 @push('page-js')
 <script>
+    // Show spinner when DataTable is processing
+    $('#contrat-table').on('processing.dt', function(e, settings, processing) {
+      if (processing) {
+        $('#spinner').show();
+        } else {
+        $('#spinner').hide();
+        }
+    });
+
     $(document).ready(function() {
         var table = $('#contrat-table').DataTable({
-            processing: true,
+            processing: false,
             serverSide: false,
             ajax: "{{route('contrats.index')}}",
             columns: [
                 {data: 'client', name: 'client'},
                 {data: 'equipement', name: 'equipement'},
-                {data: 'date_debut', name: 'date_debut'},
-                {data: 'date_fin', name: 'date_fin'},
+                {
+                    data: 'date_debut',
+                    name: 'date_debut',
+
+                    render: function(data, type, row)
+                    { if (data)
+
+                    { const date = new Date(data);
+
+                    return date.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    }
+
+                    return '';
+
+                    }
+                },
+                {   data: 'date_fin',
+                    name: 'date_fin',
+
+                    render: function(data, type, row)
+                    { if (data)
+
+                        { const date = new Date(data);
+
+                        return date.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                        }
+
+                    return '';
+
+                    }
+                },
                 {data: 'type_contrat', name: 'type_contrat'},
                 {data: 'status', name: 'status'},
 				{data: 'note', name: 'note'},

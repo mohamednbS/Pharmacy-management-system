@@ -42,6 +42,14 @@
 							</tr>
 						</thead>
 						<tbody>
+                            <!-- Add a spinner/loader-->
+                            <div id="spinner" class="spinner-border text-primary" role="status"
+                            style="display: none;
+                            position: absolute;
+                            inset-block-start: 50%;
+                            inset-inline-start: 50%;">
+                                <span class="sr-only">en cours...</span>
+                            </div>
 
 						</tbody>
 					</table>
@@ -56,26 +64,45 @@
 
 @push('page-js')
 <script>
+    // Show spinner when DataTable is processing
+       $('#equipement-table').on('processing.dt', function(e, settings, processing) {
+      if (processing) {
+        $('#spinner').show();
+      } else {
+        $('#spinner').hide();
+      }
+    });
+
     $(document).ready(function() {
         var table = $('#equipement-table').DataTable({
             processing: false,
-            serverside: false,
-            ajax: "{{route('equipements.index')}}",
-          
+            serverSide: false,
+            ajax: "{{ route('equipements.index') }}",
+
             columns: [
-                {data: 'code', name: 'code'},
-                {data: 'designation', name: 'designation'},
-                {data: 'modele', name: 'modele'},
-                {data: 'numserie', name: 'numserie'},
-                {data: 'client', name: 'client'},
-                {data: 'date_installation', name: 'date_installation'},
-                {data: 'software', name: 'software'},
+                { data: 'code', name: 'code' },
+                { data: 'designation', name: 'designation' },
+                { data: 'modele', name: 'modele' },
+                { data: 'numserie', name: 'numserie' },
+                { data: 'client', name: 'client' },
+                { 	data: 'date_installation',
+					name: 'date_installation',
 
-                {data: 'action', name: 'action', orderable: false, searchable: false},
+				render: function(data, type, row) { if (data)
+
+					{ const date = new Date(data);
+
+					return date.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+				  	}
+					return '';
+
+				}
+				},
+                { data: 'software', name: 'software' },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
-
         });
-
     });
 </script>
+
 @endpush

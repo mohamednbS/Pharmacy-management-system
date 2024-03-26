@@ -264,7 +264,7 @@ class InterventionController extends Controller
 
     public function archive(Request $request)
     {
-        $title = 'interventions';
+        $title = 'interventions Clôturées';
         if($request->ajax()){
             $interventions = Intervention::whereIn('etat',['Cloturé','Cloturé par téléphone','Cloturé à distance'])->get();
             return DataTables::of($interventions)
@@ -333,7 +333,7 @@ class InterventionController extends Controller
 
     public function unclosed(Request $request)
     {
-        $title = 'interventions';
+        $title = 'interventions Non Clôturés';
         if($request->ajax()){
             $interventions = Intervention::whereNotIn('etat', ['Cloturé', 'Cloturé par téléphone', 'Cloturé à distance'])->get();
             return DataTables::of($interventions)

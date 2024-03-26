@@ -141,16 +141,11 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/getClientName', [InterventionController::class, 'getClientName']);
     Route::get('interventions.archive', [InterventionController::class, 'archive'])->name('interventions.archive');
     Route::get('interventions.unclosed', [InterventionController::class, 'unclosed'])->name('interventions.unclosed');
-<<<<<<< HEAD
 
 
     /*sous interventions routes*/
     Route::post('sousinterventions/{intervention_id}/store', [SousinterventionController::class,'store'])->name('sousinterventions.store');
     Route::resource('sousinterventions',SousinterventionController::class)->except('create','store','show');
-=======
-    Route::post('sousinterventions/{intervention_id}/store', [SousinterventionController::class,'store'])->name('sousinterventions.store');
-
->>>>>>> 816b1807b58c6fc01cc6ab3d882d09137fb29973
 });
 
     Route::middleware(['guest'])->group(function () {

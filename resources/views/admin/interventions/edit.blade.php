@@ -220,11 +220,33 @@
 								<div class="form-group">
 									<label>Equipement après visite<span class="text-danger">*</span></label>
 										<select  class="select2 form-select form-control" name="etat_final">
-											<option >Sélectionner l'etat final</option>
+                                        @if ( $intervention->etat_final == "Fonctionnel")
+                                            <option selected value="Fonctionnel">Fonctionnel</option>
+											<option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+											<option value="Panne Intermittente">Panne Intermittente</option>
+											<option value="A l'arrêt">A l'arrêt</option>
+										@elseif ($intervention->etat_final == "Partiellement Fonctionnel")
+                                            <option selected value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+											<option value="Fonctionnel">Fonctionnel</option>
+											<option value="Panne Intermittente">Panne Intermittente</option>
+											<option value="A l'arrêt">A l'arrêt</option>
+										@elseif ($intervention->etat_final == "Panne Intermittente")
+                                            <option selected value="Panne Intermittente">Panne Intermittente</option>
+											<option value="Fonctionnel">Fonctionnel</option>
+											<option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+											<option value="A l'arrêt">A l'arrêt</option>
+										@elseif ($intervention->etat_final == "A l'arrêt")
+                                            <option selected value="A l'arrêt">A l'arrêt</option>
+											<option value="Fonctionnel">Fonctionnel</option>
+											<option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
+											<option value="Panne Intermittente">Panne Intermittente</option>
+										@else
+											<option> Sélectionner l'etat final de l'equipement</option>
 											<option value="Fonctionnel">Fonctionnel</option>
 											<option value="Partiellement Fonctionnel">Partiellement Fonctionnel</option>
 											<option value="Panne Intermittente">Panne Intermittente</option>
 											<option value="A l'arrêt">A l'arrêt</option>
+										@endif
 										</select>
 								</div>
 							</div>
@@ -246,7 +268,7 @@
 						    </div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label>Priorité<span class="text-danger">*</span></label>
+									<label>Priorité</label>
 									<select  class="select2 form-select form-control" name="priorite">
 
 									@if ( $intervention->priorite == "Tres urgent")
@@ -256,17 +278,19 @@
 										<option value="Normale">Normale</option>
 
 									@elseif ($intervention->priorite == "Urgent")
-										<option>-- Sélectionner une priorité--</option>
 										<option selected value='Urgent'>Urgent</option>
 										<option value='Normale'>Normale</option>
 										<option value='Tres urgent'>Tres urgent</option>
 
-									@else
-										<option>-- Sélectionner une priorité --</option>
+									@elseif ($intervention->priorite == "Normale")
 										<option selected value='Normale'>Normale</option>
 										<option value='Tres urgent'>Tres urgent</option>
 										<option value='Urgent'>Urgent</option>
-										@endif
+                                    @else
+                                        <option value='Normale'>Normale</option>
+										<option value='Tres urgent'>Tres urgent</option>
+										<option value='Urgent'>Urgent</option>
+									@endif
 									</select>
 							    </div>
 						    </div>
